@@ -1,0 +1,44 @@
+name: oanda-research-lab
+
+# Autonomous self-improvement loop (paper track only). Weekly: fetch fresh daily
+# data, evaluate the champion + a small pre-registered challenger set, confirm
+# the best pick on a permanent holdout, and auto-promote after a 3-week streak.
+# Persists research/champion.json + research_log.md and posts a Slack digest.
+# NEVER trades real capital.
+
+on:
+  schedule:
+    - cron: "0 4 * * 0"        # Sunday 04:00 UTC — weekly research cycle
+  workflow_dispatch: {}
+
+permissions:
+  contents: write
+
+jobs:
+  research:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+      - name: Fetch daily gold + real yields
+        env:
+          OANDA_API_KEY: ${{ secrets.OANDA_API_KEY }}
+          OANDA_ENV: practice
+        run: python data/fetch_daily.py --days 2500
+      - name: Run one research cycle + post digest
+        env:
+          SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
+          SLACK_CHANNEL_ID: ${{ secrets.SLACK_CHANNEL_ID }}
+        run: python research_lab.py
+      - name: Commit research state
+        run: |
+          git config user.name  "oanda-backtest-bot"
+          git config user.email "bot@users.noreply.github.com"
+          git add research reports memory || true
+          git commit -m "research: $(date -u '+%Y-%m-%d %H:%M') UTC" || echo "nothing to commit"
+          git push || echo "push skipped"
