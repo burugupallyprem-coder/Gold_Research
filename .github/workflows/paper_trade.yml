@@ -1,0 +1,51 @@
+name: oanda-paper-trader
+
+# Daily PAPER execution of the validated Macro-Trend champion on the OANDA
+# PRACTICE account. Computes the target position and reconciles it via a market
+# order. Locked to research/champion.json; never trades the research lab's
+# unconfirmed challengers. Practice account only — no real capital.
+#
+# Requires GitHub Secret OANDA_ACCOUNT_ID (the practice account to trade).
+# To forward-test without placing orders first, set repo variable DRY_RUN=true.
+
+on:
+  schedule:
+    - cron: "30 21 * * 1-5"     # Mon–Fri 21:30 UTC, after the daily bar forms
+  workflow_dispatch: {}
+
+permissions:
+  contents: write
+
+jobs:
+  paper:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+      - name: Fetch daily gold + real yields
+        env:
+          OANDA_API_KEY: ${{ secrets.OANDA_API_KEY }}
+          OANDA_ENV: practice
+        run: python data/fetch_daily.py --days 800
+      - name: Reconcile paper position
+        env:
+          OANDA_API_KEY: ${{ secrets.OANDA_API_KEY }}
+          OANDA_ACCOUNT_ID: ${{ secrets.OANDA_ACCOUNT_ID }}
+          OANDA_ENV: practice
+          SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
+          SLACK_CHANNEL_ID: ${{ secrets.SLACK_CHANNEL_ID }}
+          DRY_RUN: ${{ vars.DRY_RUN }}      # set repo variable DRY_RUN=true to simulate only
+          PAPER_MAX_LEVERAGE: "1.0"
+        run: python paper_trader.py
+      - name: Commit paper log
+        run: |
+          git config user.name  "oanda-backtest-bot"
+          git config user.email "bot@users.noreply.github.com"
+          git add reports || true
+          git commit -m "paper: $(date -u '+%Y-%m-%d %H:%M') UTC" || echo "nothing to commit"
+          git push || echo "push skipped"
