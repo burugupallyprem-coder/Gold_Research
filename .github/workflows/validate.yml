@@ -16,7 +16,7 @@ permissions:
 jobs:
   validate:
     runs-on: ubuntu-latest
-    timeout-minutes: 45
+    timeout-minutes: 90
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
@@ -24,16 +24,19 @@ jobs:
           python-version: "3.11"
       - name: Install dependencies
         run: pip install -r requirements.txt
-      - name: Fetch latest XAU/USD candles
+      - name: Fetch 5 years of XAU/USD candles
         env:
           OANDA_API_KEY: ${{ secrets.OANDA_API_KEY }}
           OANDA_ENV: practice
-        run: python data/fetch_oanda.py --days 730
+        run: python data/fetch_oanda.py --days 1825
       - name: Run validation pack + post verdict to Slack
         env:
           SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
           SLACK_CHANNEL_ID: ${{ secrets.SLACK_CHANNEL_ID }}
           CONFIDENCE_THRESHOLD: "60"
+          WF_FOLDS: "10"
+          WF_TRAIN: "12000"
+          WF_TEST: "8000"
         run: python validate_run.py
       - name: Commit verdict
         run: |

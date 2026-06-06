@@ -5,6 +5,10 @@ Cloud entrypoint for the validation pack. Runs the honest tests (regime + event
 gates + partial profits, cost-stress, walk-forward OOS, long/short), posts the
 verdict to Slack, and writes reports/validation.json + memory/validation.json.
 
+Walk-forward sizing is env-tunable so we can grow the out-of-sample sample as
+more history becomes available:
+    WF_FOLDS (default 10)   WF_TRAIN (default 12000)   WF_TEST (default 8000)
+
     python validate_run.py
     python validate_run.py --commit     # git add/commit/push reports + memory
 """
@@ -13,6 +17,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import os
 import subprocess
 import sys
 from datetime import datetime, timezone
@@ -27,6 +32,10 @@ from execution import notifier                 # noqa: E402
 MEMORY = ROOT / "memory"
 STOP_FILE = ROOT / "STOP"
 
+WF_FOLDS = int(os.getenv("WF_FOLDS", "10"))
+WF_TRAIN = int(os.getenv("WF_TRAIN", "12000"))
+WF_TEST = int(os.getenv("WF_TEST", "8000"))
+
 
 def main():
     ap = argparse.ArgumentParser()
@@ -39,7 +48,7 @@ def main():
 
     notifier.start("validate")
     try:
-        out = validate.run()
+        out = validate.run(folds=WF_FOLDS, train=WF_TRAIN, test=WF_TEST)
     except Exception as e:  # noqa: BLE001
         notifier.error(f"validate failed: {e}")
         raise
@@ -51,7 +60,8 @@ def main():
     MEMORY.mkdir(exist_ok=True)
     snap = {"updated": datetime.now(timezone.utc).isoformat(),
             "decision": out.get("decision"), "period": out.get("period"),
-            "bars": out.get("bars")}
+            "bars": out.get("bars"),
+            "walk_forward_sizing": {"folds": WF_FOLDS, "train": WF_TRAIN, "test": WF_TEST}}
     (MEMORY / "validation.json").write_text(json.dumps(snap, indent=2, default=str))
 
     if args.commit:
