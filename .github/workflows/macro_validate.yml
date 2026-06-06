@@ -1,0 +1,43 @@
+name: oanda-macro-trend
+
+# Gold Macro-Trend validation: daily time-series momentum + real-yield (TIPS)
+# filter + volatility targeting. Fetches OANDA daily gold + FRED DFII10, runs
+# the backtest with in/out-of-sample split and cost-stress, posts the verdict
+# to Slack, and commits reports/macro_validation.json.
+
+on:
+  schedule:
+    - cron: "0 3 * * 6"        # Saturday 03:00 UTC — weekly macro verdict
+  workflow_dispatch: {}
+
+permissions:
+  contents: write
+
+jobs:
+  macro:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+      - name: Fetch daily gold + real yields
+        env:
+          OANDA_API_KEY: ${{ secrets.OANDA_API_KEY }}
+          OANDA_ENV: practice
+        run: python data/fetch_daily.py --days 2500
+      - name: Run macro-trend validation + post verdict
+        env:
+          SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
+          SLACK_CHANNEL_ID: ${{ secrets.SLACK_CHANNEL_ID }}
+        run: python macro_run.py
+      - name: Commit verdict
+        run: |
+          git config user.name  "oanda-backtest-bot"
+          git config user.email "bot@users.noreply.github.com"
+          git add memory reports || true
+          git commit -m "macro: $(date -u '+%Y-%m-%d %H:%M') UTC" || echo "nothing to commit"
+          git push || echo "push skipped"
