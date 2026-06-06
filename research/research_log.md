@@ -1,0 +1,15 @@
+# Research log — autonomous cycles
+
+## Research cycle — 2026-06-06 18:04 UTC
+- Champion: **baseline** (sel 0.191 / holdout 1.63, 5x-cost Sharpe)
+- Best challenger: **fast_trend** (sel 0.541 / holdout 1.816)
+- Decision: challenger 'fast_trend' confirming (1/3)
+- All candidates (selection / holdout Sharpe):
+    - baseline: 0.191 / 1.63
+    - fast_trend: 0.541 / 1.816
+    - slow_trend: 0.476 / 1.63
+    - vol_15: 0.191 / 1.63
+    - vol_07: 0.191 / 1.63
+    - ry_120: 0.191 / 1.63
+    - mom_126: 0.386 / 1.63
+    - no_macro: 0.191 / 1.63
