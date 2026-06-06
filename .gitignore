@@ -1,0 +1,27 @@
+# ─── Secrets — NEVER commit ───────────────────────────────
+.env
+*.key
+secrets.json
+
+# ─── Data & caches (large, regenerable) ───────────────────
+data/candles/
+data/*.csv
+*.parquet
+reports/*.png
+reports/*.html
+reports/*.csv
+
+# ─── Kill switch (local only) ─────────────────────────────
+STOP
+
+# ─── Python ───────────────────────────────────────────────
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.pytest_cache/
+.ipynb_checkpoints/
+
+# ─── OS ───────────────────────────────────────────────────
+.DS_Store
+Thumbs.db
