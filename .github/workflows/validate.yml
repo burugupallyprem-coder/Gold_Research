@@ -1,0 +1,44 @@
+name: oanda-validate
+
+# The honest verdict job: regime + event gates + partial profits, cost-stress,
+# walk-forward out-of-sample, and long/short split. Posts the verdict to Slack
+# and commits reports/validation.json + memory/validation.json. Run it weekly
+# and on demand (Actions tab -> Run workflow, or: gh workflow run validate.yml).
+
+on:
+  schedule:
+    - cron: "0 2 * * 6"        # Saturday 02:00 UTC — weekly validation verdict
+  workflow_dispatch: {}
+
+permissions:
+  contents: write
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+      - name: Fetch latest XAU/USD candles
+        env:
+          OANDA_API_KEY: ${{ secrets.OANDA_API_KEY }}
+          OANDA_ENV: practice
+        run: python data/fetch_oanda.py --days 730
+      - name: Run validation pack + post verdict to Slack
+        env:
+          SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
+          SLACK_CHANNEL_ID: ${{ secrets.SLACK_CHANNEL_ID }}
+          CONFIDENCE_THRESHOLD: "60"
+        run: python validate_run.py
+      - name: Commit verdict
+        run: |
+          git config user.name  "oanda-backtest-bot"
+          git config user.email "bot@users.noreply.github.com"
+          git add memory reports || true
+          git commit -m "validate: $(date -u '+%Y-%m-%d %H:%M') UTC" || echo "nothing to commit"
+          git push || echo "push skipped"
