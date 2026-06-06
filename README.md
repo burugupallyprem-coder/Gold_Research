@@ -1,38 +1,56 @@
 <div align="center">
 
-# 🪙 Gold Quant Lab — Honest Strategy Research & Validation Engine
+# 🪙 Gold Quant Lab
 
-**A cloud-native quant research system for spot gold (XAU/USD) that designs strategies, then tries its hardest to *disprove* them — using realistic costs, out-of-sample testing, and cost-stress. It has already falsified one strategy and surfaced one with a genuine, documented edge.**
+### An autonomous, self-validating quantitative research system for spot gold — built to *disprove* its own ideas before trusting them.
+
+*A case study in honest quant research: I took a popular retail strategy, proved with rigorous out-of-sample testing that it has no edge, pivoted to a strategy with real academic support, found a modest genuine edge, and wrapped the whole thing in a guardrailed loop that improves itself without fooling itself.*
 
 ![Python](https://img.shields.io/badge/Python-3.11-3776AB?logo=python&logoColor=white)
-![GitHub Actions](https://img.shields.io/badge/CI-GitHub%20Actions-2088FF?logo=githubactions&logoColor=white)
-![Backtester](https://img.shields.io/badge/Backtester-event--driven%20%2B%20vectorized-success)
-![Integrity](https://img.shields.io/badge/integrity-no%20look--ahead-brightgreen)
+![GitHub Actions](https://img.shields.io/badge/automation-GitHub%20Actions-2088FF?logo=githubactions&logoColor=white)
+![Backtester](https://img.shields.io/badge/backtester-event--driven%20%2B%20vectorized-success)
+![Integrity](https://img.shields.io/badge/integrity-no%20look--ahead%20%C2%B7%20cost--aware-brightgreen)
 ![Data](https://img.shields.io/badge/data-OANDA%20%2B%20FRED-orange)
-![Status](https://img.shields.io/badge/status-research%20preview-orange)
+![Tests](https://img.shields.io/badge/tests-unit%20%2B%20parity%20proof-blue)
 
 </div>
 
 ---
 
-## What this is
+## TL;DR for a reviewer
 
-A fully autonomous, serverless research lab that runs on **GitHub Actions** — fetching market data, running gold strategies through rigorous backtests, validating them out-of-sample, committing results to the repo, and posting verdicts to **Slack** — with no local infrastructure.
+This repository is an end-to-end quantitative trading research platform that runs entirely in the cloud (GitHub Actions), unattended. It demonstrates the full lifecycle a quant desk actually follows:
 
-Its defining feature is **intellectual honesty**. Most retail backtests are optimistic fiction. This engine is engineered to do the opposite: subject every strategy to the same gauntlet a quant desk would — realistic transaction costs, strict no-look-ahead accounting, walk-forward / out-of-sample testing, cost-stress analysis, and long-vs-short attribution to separate genuine alpha from market beta.
+**hypothesis → faithful implementation → cost-aware event-driven backtest → out-of-sample / walk-forward validation → honest verdict → autonomous, guardrailed iteration.**
 
-> **The system's credibility comes from what it rejects, not what it promises.**
+Its most important feature is **what it rejects.** It conclusively falsified an intraday Smart-Money-Concepts strategy (no edge after costs), then surfaced a genuinely positive — if modest — edge from a documented risk premium. Every number is produced under strict no-look-ahead accounting and realistic transaction costs, and the system is engineered specifically to resist the overfitting that makes most retail backtests worthless.
 
 ---
 
-## Two strategies. One honest verdict each.
+## What this project demonstrates (skills)
 
-| Strategy | Style | Verdict | Evidence |
-|---|---|---|---|
-| **Gold SMC v8** | Intraday (M15) Smart-Money-Concepts — displacement / FVG / NY-open | ❌ **No edge after costs** | 534 out-of-sample trades, expectancy **−0.016R**, cost-stress PF **0.984** (loses under realistic spreads) |
-| **Gold Macro-Trend** | Daily time-series momentum + real-yield (TIPS) filter + volatility targeting | ✅ **Real (modest) edge** | Out-of-sample Sharpe **1.74**, survives **5× costs** (1.69); full-sample Sharpe **0.53**, max drawdown **−36%** |
+- **Quant research methodology** — walk-forward optimization, in/out-of-sample separation, cost-stress testing, long/short attribution, permanent holdouts, multiple-testing discipline.
+- **Backtesting engineering** — an event-driven engine with provable no-look-ahead behavior, realistic spread/slippage modeling, pessimistic intrabar fills, partial profit-taking and ATR trailing; plus a fast vectorized path **proven bar-for-bar equivalent** to the reference implementation.
+- **Software engineering** — modular package design, unit tests, a parity test suite, environment-driven config, secret hygiene, CI/CD via GitHub Actions.
+- **Data engineering** — OANDA v20 and FRED ingestion, caching, validation, time-zone-correct session logic.
+- **Autonomy & MLOps** — a self-improving champion/challenger loop with persistent state, anti-overfitting guardrails, and Slack observability.
+- **Intellectual honesty** — the willingness to kill my own strategy when the data said so. (This is the part that matters most.)
 
-**Read the second row honestly.** The out-of-sample Sharpe of 1.74 is strong *and survives cost-stress* — a real, documented-style premium (time-series momentum + the gold/real-rate relationship). But the **full-sample** numbers tell the sober truth: a **~0.5 Sharpe with a 36% drawdown**, and the recent out-of-sample window coincides with gold's 2023–2026 bull run, which flatters it. The realistic expectation is a *modest, slow, occasionally-painful* edge — not a money machine. It is, however, the genuine article where SMC was not.
+---
+
+## The story (why this is worth reading)
+
+**1. The hypothesis.** A TradingView "Gold SMC v8" strategy (displacement candles, fair-value gaps, NY-opening play) looked great on a chart. I ported it faithfully to Python, decoupled from any broker.
+
+**2. The honest test.** Run through an event-driven backtester with realistic costs and strict no-look-ahead accounting, then walk-forward validated on 5 years and 534 out-of-sample trades:
+
+> **Verdict: NO EDGE AFTER COSTS.** Out-of-sample expectancy −0.016R; under a 5× cost-stress the profit factor fell *below 1.0*. The apparent profitability was long-side gold beta plus unrealistically cheap fills — exactly the illusions that kill retail traders.
+
+**3. The pivot.** Instead of curve-fitting the dead strategy, I replaced it with a hypothesis that has decades of academic support: **time-series momentum + a real-yield (TIPS) macro filter + volatility targeting**, on daily bars.
+
+> **Verdict: REAL (MODEST) EDGE.** Out-of-sample Sharpe ≈ 1.7 that **survives 5× costs** — but, reported honestly, the full-sample Sharpe is ≈ 0.5 with a ~36% max drawdown, and recent performance is flattered by gold's 2023–2026 bull run. A real, documented premium — *not* a money machine.
+
+**4. The autonomy.** A weekly research loop now evaluates the champion against pre-registered challengers, confirms any winner on a **permanent holdout it is forbidden to optimize on**, and only promotes after a **3-week confirmation streak** — on the paper track only, never real capital.
 
 ---
 
@@ -40,43 +58,42 @@ Its defining feature is **intellectual honesty**. Most retail backtests are opti
 
 ```mermaid
 flowchart LR
-    subgraph Cloud["☁️ GitHub Actions — scheduled, serverless"]
+    subgraph Cloud["☁️ GitHub Actions — scheduled, serverless, unattended"]
         direction LR
-        D1["OANDA v20<br/>XAU/USD candles"] --> P["Data pipeline"]
-        D2["FRED DFII10<br/>10y real yield"] --> P
-        P --> S["Strategies<br/>SMC (intraday)<br/>Macro-Trend (daily)"]
+        D1["OANDA v20<br/>XAU/USD"] --> P["Data pipeline"]
+        D2["FRED<br/>real yields"] --> P
+        P --> S["Strategies<br/>• SMC (intraday) — falsified<br/>• Macro-Trend (daily) — modest edge"]
         S --> B["Backtesters<br/>event-driven · vectorized<br/>realistic costs · no look-ahead"]
-        B --> V["Validation<br/>walk-forward · OOS split<br/>cost-stress · long/short"]
-        V --> R["Automated verdict"]
+        B --> V["Validation gauntlet<br/>walk-forward · OOS · cost-stress · long/short"]
+        V --> RL["Research lab<br/>champion/challenger + holdout"]
+        RL --> R["Verdicts & promotions"]
     end
-    R --> G[("📂 Git repo<br/>reports + memory")]
-    R --> H["💬 Slack"]
+    R --> G[("📂 Git repo<br/>state · logs · reports")]
+    R --> H["💬 Slack digests"]
 ```
 
----
-
-## The validated strategy — Gold Macro-Trend
-
-Three ingredients, each with real published support:
-
-1. **Time-series momentum** — long when the 50-day EMA > 200-day EMA *and* 12-month momentum is positive; short when both point down. *(Moskowitz–Ooi–Pedersen, 2012.)*
-2. **Real-yield filter** — gold's strongest fundamental driver is the 10-year real yield (FRED `DFII10`); bias long when real yields are flat/falling, short when rising.
-3. **Volatility targeting** — size to a fixed ~10% annualized volatility, rebalanced as conditions change. *(Moreira–Muir, 2017.)*
-
-Low turnover (~10 trades/year) means transaction costs are negligible — the opposite of the intraday strategy's fatal flaw.
+The backtest and any future live path share **one** signal implementation, so what is tested is exactly what would trade.
 
 ---
 
-## Validation methodology
+## Results, reported honestly
 
-Every result must clear four independent honesty checks before the engine will call it an edge:
+| Strategy | Style | Out-of-sample | Cost-stress (5×) | Verdict |
+|---|---|---|---|---|
+| Gold SMC v8 | Intraday M15 | expectancy −0.016R (534 trades) | PF 0.98 (loses) | ❌ **No edge** |
+| Gold Macro-Trend | Daily, TSMOM + real-yield + vol-target | Sharpe ≈ 1.7 | Sharpe ≈ 1.7 (survives) | ✅ **Modest edge** |
 
-1. **Walk-forward / out-of-sample** — judged on unseen data; a large in-sample/OOS gap exposes curve-fitting.
-2. **Cost-stress** — re-run with 5× costs; if the edge dies, it was never real.
-3. **Long/short attribution** — a real edge shows on both sides, not just the bull-market direction.
-4. **Sample-size gate** — no verdict on too few trades/days.
+*Caveat stated plainly:* the Macro-Trend's full-sample Sharpe is ≈ 0.5 with a ~36% drawdown; its strong out-of-sample window overlaps gold's recent bull market. The honest expectation is a slow, volatile, modest edge that still needs cross-asset confirmation and forward testing.
 
-Verdicts resolve to: **No edge after costs · Marginal · Real (modest) edge · Insufficient data.**
+---
+
+## Engineering highlights
+
+- **No look-ahead, by construction:** signals computed only on closed bars; fills on the *next* bar's open. Verified by a unit-test suite.
+- **Parity proof:** the fast vectorized signal path reproduces the reference implementation **bar-for-bar (0 mismatches)**, including indicator warmup edge cases.
+- **Realistic costs:** half-spread + adverse slippage on every fill; if a bar touches both stop and target, the **stop** fills first (pessimistic).
+- **Anti-overfitting guardrails:** permanent holdout, selection/confirmation separation, multiple-testing penalty, and a multi-week promotion streak.
+- **Self-documenting:** every research cycle appends to a version-controlled `research_log.md` and posts a Slack digest.
 
 ---
 
@@ -85,67 +102,56 @@ Verdicts resolve to: **No edge after costs · Marginal · Real (modest) edge · 
 ```
 config.py                      Env-driven settings (no secrets committed)
 data/
-  fetch_oanda.py               OANDA intraday candles (M15/H4)
-  fetch_daily.py               OANDA daily candles + FRED real yields
+  fetch_oanda.py               Intraday candles (M15/H4)
+  fetch_daily.py               Daily candles + FRED real yields
 strategy/
-  strategy.py · signals.py     SMC reference logic + parity-proven fast path
+  strategy.py · signals.py     SMC reference + parity-proven fast path
   signals_v2.py                + ADX regime filter & event stand-down
   calendar_events.py           FOMC / CPI / NFP calendar
   risk.py · confidence.py      Sizing/stops/targets · 0–100 gate
-  macro_trend.py               ✅ Gold Macro-Trend signal (TSMOM + real-yield + vol target)
+  macro_trend.py               ✅ Validated Macro-Trend signal
 backtest/
-  core.py · engine_final.py    Event-driven engine (unit-tested) + production wrapper
+  core.py · engine_final.py    Event-driven engine (unit-tested) + wrapper
   engine_v2.py                 + partial profits & ATR trailing
   metrics.py · metrics2.py     Metrics + long/short attribution
   wf.py · validate.py          Walk-forward · full validation pack
-  macro_backtest.py            ✅ Daily vectorized backtest + verdict
-main.py                        Intraday orchestrator (backtest / weekly review)
-validate_run.py                Intraday validation pack entrypoint
-macro_run.py                   ✅ Macro-Trend validation entrypoint
-execution/notifier.py          Slack Web API client
-.github/workflows/             backtest.yml · validate.yml · macro_validate.yml
+  macro_backtest.py            Daily vectorized backtest + verdict
+research_lab.py                ✅ Autonomous champion/challenger loop
+main.py · validate_run.py · macro_run.py   Orchestrators
+execution/notifier.py          Slack client
+.github/workflows/             backtest · validate · macro_validate · research
 tests/                         Engine unit tests + signal parity proof
-memory/ · reports/             Version-controlled state & verdicts
+research/ · memory/ · reports/ Version-controlled state, logs & verdicts
 ```
 
 ---
 
-## Quickstart (the cloud does this automatically)
+## Run it
 
 ```bash
 pip install -r requirements.txt
 cp .env.example .env                 # add OANDA_API_KEY
 python data/fetch_daily.py           # daily gold + real yields
-python macro_run.py                  # run the validated strategy + verdict
+python macro_run.py                  # validated strategy + verdict
+python research_lab.py               # one autonomous research cycle
 ```
 
-Trigger in the cloud on demand:
-
-```bash
-gh workflow run macro_validate.yml && gh run watch
-```
+Cloud (unattended): four scheduled GitHub Actions workflows handle data refresh, backtests, the validation verdict, and the weekly self-improvement cycle — committing results and posting to Slack with no machine left running.
 
 ---
 
-## Roadmap
+## What I'd do next
 
-- [ ] **Rolling** walk-forward for Macro-Trend (replace the single 60/40 split)
-- [ ] Cross-asset confirmation (silver, broad commodities) to prove it's a premium, not gold-luck
-- [ ] Forward (paper) test on new data before any capital
-- [ ] Monte-Carlo / bootstrap significance on the equity curve
-- [ ] Regime overlay (trend vs mean-reversion) and a small live paper loop *only if* it keeps proving out
-
----
-
-## Tech stack
-
-**Python** · **pandas / numpy** · **OANDA v20 REST** · **FRED** · **GitHub Actions** · **Slack Web API** · **Git-as-database**.
+- Replace the single in/out split with a **rolling** walk-forward for the macro strategy.
+- **Cross-asset** confirmation (silver, broad commodities) to prove the premium isn't gold-specific luck.
+- Forward (paper) test on new data before any capital is ever considered.
+- Monte-Carlo / bootstrap significance testing on the equity curve.
 
 ---
 
 ## Disclaimer
 
-Educational research on a **paper** account. **Not financial advice.** No strategy here is guaranteed to be profitable; markets are adversarial and most apparent edges are noise. This system exists precisely to test that claim honestly — and it does, even when the answer is "no."
+Educational research on a **paper** account. **Not financial advice.** No strategy here is guaranteed to be profitable. This system exists to test that claim honestly — and it does, even when the answer is *no*.
 
 <div align="center">
 
