@@ -20,7 +20,7 @@ How it avoids fooling itself (this is the whole point):
 
 State persists in research/champion.json (committed to git), so the loop has
 memory across stateless cloud runs. Every run appends to research/research_log.md
-and posts a digest to Slack.
+and posts a full, plain-English digest to Slack.
 
     python research_lab.py            # one weekly cycle (dry Slack if no token)
     python research_lab.py --commit   # + git push state
@@ -69,6 +69,18 @@ CHALLENGERS = {
     "ry_120":        {"ry_mom_lookback": 120},
     "mom_126":       {"mom_lookback": 126},
     "no_macro":      {"use_macro": False},
+}
+
+# Human-readable descriptions for the Slack digest
+DESCRIPTIONS = {
+    "baseline":   "50/200 EMA trend + real-yield filter + 10% vol target (the validated default)",
+    "fast_trend": "faster 20/100 EMA trend (reacts quicker, trades more, more cost-sensitive)",
+    "slow_trend": "slower 100/300 EMA trend (fewer, longer-held trades)",
+    "vol_15":     "higher 15% volatility target (more aggressive sizing)",
+    "vol_07":     "lower 7% volatility target (more conservative sizing)",
+    "ry_120":     "longer 120-day real-yield lookback",
+    "mom_126":    "6-month momentum confirmation instead of 12-month",
+    "no_macro":   "trend only, real-yield filter switched OFF (ablation check)",
 }
 
 
@@ -124,7 +136,6 @@ def run_cycle():
     champ_name = state["champion"]["name"]
     champ_params = state["champion"]["params"]
 
-    # Evaluate every candidate: compute full causal pnl, then slice.
     rows = {}
     for name, params in CHALLENGERS.items():
         r = _pnl(prices, ry, _cfg(params), COST_BPS)
@@ -132,12 +143,10 @@ def run_cycle():
         hold = r.iloc[-HOLDOUT_DAYS:]
         rows[name] = {"selection_sharpe": _sharpe(sel), "holdout_sharpe": _sharpe(hold)}
 
-    # Champion's own scores (champion may be a named challenger or custom params)
     champ_r = _pnl(prices, ry, _cfg(champ_params), COST_BPS)
     champ_sel = _sharpe(champ_r.iloc[:-HOLDOUT_DAYS])
     champ_hold = _sharpe(champ_r.iloc[-HOLDOUT_DAYS:])
 
-    # SELECTION: pick the best challenger by selection-slice Sharpe (NOT holdout)
     best = max(rows.items(), key=lambda kv: kv[1]["selection_sharpe"])
     best_name, best_scores = best
 
@@ -150,7 +159,6 @@ def run_cycle():
                         and best_scores["holdout_sharpe"] > champ_hold)
 
     if best_name != champ_name and selection_wins and holdout_confirms:
-        # maintain / start the confirmation streak for this specific challenger
         if pending and pending.get("name") == best_name:
             pending["streak"] += 1
         else:
@@ -166,9 +174,8 @@ def run_cycle():
             promoted = True
             decision = f"PROMOTED '{best_name}' -> champion (paper track)"
     else:
-        # streak broken — reset
         if pending:
-            decision = f"streak reset (no qualifying challenger this week)"
+            decision = "streak reset (no qualifying challenger this week)"
         pending = None
 
     state["pending"] = pending
@@ -184,6 +191,7 @@ def run_cycle():
         "best_holdout_sharpe": best_scores["holdout_sharpe"],
         "decision": decision,
         "promoted": promoted,
+        "streak": (pending["streak"] if pending else 0),
         "candidates": rows,
         "period": f"{prices.index[0].date()}..{prices.index[-1].date()}",
         "holdout_days": HOLDOUT_DAYS,
@@ -209,18 +217,61 @@ def _append_log(out):
 
 
 def slack_text(out):
+    """Full, plain-English weekly digest — not a one-liner."""
     if out.get("error"):
-        return f"[RESEARCH] {out['error']}"
-    head = "🏆 PROMOTION" if out["promoted"] else "🔬 research cycle"
-    return "\n".join([
-        f"[RESEARCH] {head} — champion: *{out['champion']}*  ({out['period']})",
-        f"Champion holdout Sharpe (5x cost): {out['champion_holdout_sharpe']}",
-        f"Best challenger: {out['best_challenger']} "
-        f"(sel {out['best_selection_sharpe']} / holdout {out['best_holdout_sharpe']})",
-        f"Decision: {out['decision']}",
-        "_Paper track only — no real capital is ever traded. Holdout-confirmed, "
-        f"{CONSEC_WEEKS}-week streak required to promote._",
-    ])
+        return f"[RESEARCH] Could not run this week: {out['error']}"
+
+    champ = out["champion"]
+    champ_desc = DESCRIPTIONS.get(champ, "current champion")
+    bc = out["best_challenger"]
+    bc_desc = DESCRIPTIONS.get(bc, "")
+    L = []
+
+    L.append("[RESEARCH] 🔬 *Weekly self-improvement cycle* — Gold Macro-Trend")
+    L.append(f"Data window analysed: {out['period']}  |  held-out test = last "
+             f"{out['holdout_days']} trading days the optimizer is NOT allowed to tune on.")
+    L.append("")
+    L.append(f"*Current champion:* `{champ}` — {champ_desc}.")
+    L.append(f"This is the strategy that would be paper-traded today. On the held-out "
+             f"year it scored a 5×-cost Sharpe of {out['champion_holdout_sharpe']} "
+             f"(selection-period Sharpe {out['champion_selection_sharpe']}).")
+    L.append("")
+    L.append(f"*This week the lab tested {len(out['candidates'])} variants.* The strongest "
+             f"was `{bc}` — {bc_desc}.")
+    L.append(f"  • Selection Sharpe (the honest, representative number): {out['best_selection_sharpe']}")
+    L.append(f"  • Holdout Sharpe (recent year, likely flattered by gold's bull run): "
+             f"{out['best_holdout_sharpe']}")
+    L.append("")
+
+    if out["promoted"]:
+        L.append(f"*Decision: 🏆 PROMOTED `{bc}` to champion (paper track only).* "
+                 f"It beat the incumbent on the selection data AND confirmed on the "
+                 f"holdout for {CONSEC_WEEKS} weeks straight, so the lab now trusts it "
+                 f"enough to make it the default. No real money is involved.")
+    elif out["streak"] > 0:
+        left = CONSEC_WEEKS - out["streak"]
+        L.append(f"*Decision: hold champion; `{bc}` is on probation "
+                 f"({out['streak']}/{CONSEC_WEEKS}).* It looks better this week, but the "
+                 f"lab will NOT switch on one good week — it needs {left} more consecutive "
+                 f"weekly win(s) before promotion. This is the guardrail against "
+                 f"overfitting to a lucky week.")
+    else:
+        L.append("*Decision: hold champion — no challenger cleared the bar this week.* "
+                 "Any prior probation streak has been reset. The validated default stays "
+                 "in charge.")
+
+    L.append("")
+    L.append("Candidate scoreboard (selection / holdout Sharpe, 5× costs):")
+    for n, s in out["candidates"].items():
+        mark = "⭐" if n == bc else ("•")
+        L.append(f"  {mark} {n}: {s['selection_sharpe']} / {s['holdout_sharpe']}")
+
+    L.append("")
+    L.append("ℹ️ _Reality check: the high holdout Sharpes (>1) are almost certainly "
+             "inflated by gold's 2023–2026 bull market. Treat the selection-period "
+             "Sharpe (~0.5) as the honest expectation. Paper/backtest track only — this "
+             "loop never trades real capital; a human approves anything that would._")
+    return "\n".join(L)
 
 
 def main():
