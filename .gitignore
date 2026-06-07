@@ -5,6 +5,7 @@ secrets.json
 
 # ─── Data & caches (large, regenerable) ───────────────────
 data/candles/
+data/daily/
 data/*.csv
 *.parquet
 reports/*.png
