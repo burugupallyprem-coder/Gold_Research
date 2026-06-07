@@ -1,0 +1,26 @@
+2026-06-07 01:01:41,977 INFO Quant Coach | Hour=1 | Session=1
+2026-06-07 01:01:42,031 WARNING Slack not configured — set SLACK_BOT_TOKEN and QUANT_COACH_CHANNEL_ID in .env
+2026-06-06 23:24:46,446 INFO Quant Coach | Hour=23 | Day topic #1 | Session=2
+2026-06-06 23:24:46,812 ERROR Slack error: not_in_channel
+2026-06-06 23:27:16,645 INFO Quant Coach | Hour=23 | Day topic #2 | Session=3
+2026-06-06 23:27:16,971 ERROR Slack error: not_in_channel
+2026-06-06 23:28:07,893 INFO Quant Coach | Hour=23 | Day topic #3 | Session=4
+2026-06-06 23:28:10,235 ERROR Slack error: not_in_channel
+2026-06-06 23:33:22,316 INFO Quant Coach | Hour=23 | Day topic #1 | Session=1
+2026-06-06 23:33:22,591 ERROR Slack error: not_in_channel
+2026-06-06 23:54:15,710 INFO Quant Coach | Hour=23 | Day topic #2 | Session=2
+2026-06-06 23:54:16,380 ERROR Slack error: not_in_channel
+2026-06-07 01:17:42,412 INFO Quant Coach | Hour=1 | Day topic #3 | Session=3
+2026-06-07 01:17:42,656 ERROR Slack error: not_in_channel
+2026-06-07 01:18:26,806 INFO Quant Coach | Hour=1 | Day topic #3 | Session=4
+2026-06-07 01:18:27,045 ERROR Slack error: not_in_channel
+2026-06-07 01:34:37,196 INFO Quant Coach | Hour=1 | Day topic #1 | Session=1
+2026-06-07 01:34:37,533 ERROR Slack error: channel_not_found
+2026-06-07 01:40:35,557 INFO Quant Coach | Hour=1 | Day topic #1 | Session=1
+2026-06-07 01:40:35,822 ERROR Slack error: channel_not_found
+2026-06-07 01:43:15,513 INFO Quant Coach | Hour=1 | Day topic #1 | Session=2
+2026-06-07 01:43:15,770 ERROR Slack error: channel_not_found
+2026-06-07 01:45:09,980 INFO Quant Coach | Hour=1 | Day topic #1 | Session=1
+2026-06-07 01:45:10,261 ERROR Slack error: not_in_channel
+2026-06-07 01:48:11,763 INFO Quant Coach | Hour=1 | Day topic #1 | Session=2
+2026-06-07 01:48:12,039 ERROR Slack error: not_in_channel

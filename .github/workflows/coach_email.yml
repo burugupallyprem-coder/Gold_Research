@@ -1,0 +1,40 @@
+name: quant-coach-email
+
+# Emails one detailed Quant Coach lesson each morning and the matching interview
+# drill each evening — fully in the cloud, so it works with your laptop closed.
+# No Slack. Requires three GitHub Secrets: GMAIL_ADDRESS, GMAIL_APP_PASSWORD,
+# and (optional) COACH_TO_EMAIL.
+
+on:
+  schedule:
+    - cron: "0 12 * * *"     # 12:00 UTC  ~ 8:00 AM US Eastern (EDT): the lesson
+    - cron: "0 0 * * *"      # 00:00 UTC  ~ 8:00 PM US Eastern (EDT): the drill
+  workflow_dispatch: {}       # lets you trigger a test run from the Actions tab
+
+permissions:
+  contents: write             # so it can commit the advancing day counter
+
+jobs:
+  coach:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install dependencies
+        run: pip install -r quant_coach/requirements.txt
+      - name: Send today's lesson / drill by email
+        env:
+          GMAIL_ADDRESS: ${{ secrets.GMAIL_ADDRESS }}
+          GMAIL_APP_PASSWORD: ${{ secrets.GMAIL_APP_PASSWORD }}
+          COACH_TO_EMAIL: ${{ secrets.COACH_TO_EMAIL }}
+        run: python quant_coach/coach_email.py
+      - name: Save progress (day counter)
+        run: |
+          git config user.name  "quant-coach"
+          git config user.email "bot@users.noreply.github.com"
+          git add quant_coach/memory/coach_state.json || true
+          git commit -m "coach: $(date -u '+%Y-%m-%d %H:%M') UTC" || echo "nothing to commit"
+          git push || echo "push skipped"
