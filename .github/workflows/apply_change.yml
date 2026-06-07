@@ -1,0 +1,47 @@
+name: oanda-apply-change
+
+# HUMAN-IN-THE-LOOP. Run this MANUALLY to apply whatever the self-learning loop
+# has proposed (promote a strategy, de-risk, or halt). Nothing changes the
+# strategy without you triggering this workflow yourself.
+
+on:
+  workflow_dispatch:
+    inputs:
+      action:
+        description: "apply = apply all pending proposals; dismiss = discard them"
+        required: true
+        default: "apply"
+        type: choice
+        options: [apply, dismiss]
+
+permissions:
+  contents: write
+
+jobs:
+  apply:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+      - name: Apply or dismiss pending proposals
+        env:
+          SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
+          SLACK_CHANNEL_ID: ${{ secrets.SLACK_CHANNEL_ID }}
+        run: |
+          if [ "${{ github.event.inputs.action }}" = "dismiss" ]; then
+            python apply_change.py --dismiss
+          else
+            python apply_change.py
+          fi
+      - name: Commit applied state
+        run: |
+          git config user.name  "oanda-apply-bot"
+          git config user.email "bot@users.noreply.github.com"
+          git add memory research || true
+          git commit -m "apply-change: $(date -u '+%Y-%m-%d %H:%M') UTC" || echo "nothing to commit"
+          git push || echo "push skipped"

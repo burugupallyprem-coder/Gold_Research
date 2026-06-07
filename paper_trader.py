@@ -5,7 +5,7 @@ PAPER trading loop for the validated Gold Macro-Trend champion. Runs once per
 session: compute the champion's target position, reconcile it against the
 current OANDA practice position, and submit the difference as a market order.
 
-This is the ONLY component that places orders — and only on the OANDA *practice*
+This is the ONLY component that places orders -- and only on the OANDA *practice*
 account. It is locked to the validated champion in research/champion.json; it
 will never trade the research lab's unconfirmed challengers.
 
@@ -14,7 +14,8 @@ Safety rails (all enforced before any order):
   * Stale data guard        -> if the latest daily bar is older than
                                MAX_BAR_AGE_DAYS, stand down (no trading on stale data).
   * Notional cap            -> position notional capped at PAPER_MAX_LEVERAGE x NAV
-                               (default 1x — no leverage on paper).
+                               (default 1x -- no leverage on paper).
+  * Halt guard              -> human-approved guards.json can pause trading.
   * DRY_RUN / missing creds -> simulate and log instead of placing orders.
   * Any broker/API error    -> caught, posted to Slack, no action taken.
 
@@ -40,11 +41,13 @@ from config import SETTINGS                                  # noqa: E402
 from strategy.macro_trend import MacroConfig, compute_weights  # noqa: E402
 from execution import notifier                               # noqa: E402
 from execution.oanda_broker import OandaBroker               # noqa: E402
+from learning import ledger                                  # noqa: E402
 
 DAILY = ROOT / "data" / "daily"
 RESEARCH = ROOT / "research"
 REPORTS = ROOT / "reports"
 STOP_FILE = ROOT / "STOP"
+GUARDS_FILE = ROOT / "memory" / "guards.json"
 
 MAX_BAR_AGE_DAYS = int(os.getenv("MAX_BAR_AGE_DAYS", "5"))
 PAPER_MAX_LEVERAGE = float(os.getenv("PAPER_MAX_LEVERAGE", "1.0"))
@@ -67,6 +70,16 @@ def decide_order(weight: float, price: float, nav: float, current_units: float,
     if abs(delta) < min_trade:
         return {"target_units": target_units, "delta": 0, "reason": "within tolerance"}
     return {"target_units": target_units, "delta": delta, "reason": "rebalance"}
+
+
+def _load_guards() -> dict:
+    """Human-approved guards (written ONLY by apply_change.py). Missing = no guards."""
+    if GUARDS_FILE.exists():
+        try:
+            return json.loads(GUARDS_FILE.read_text())
+        except Exception:  # noqa: BLE001
+            pass
+    return {"target_vol_override": None, "halt": False}
 
 
 def _champion_cfg():
@@ -96,23 +109,35 @@ def _load_data():
 
 def run():
     if STOP_FILE.exists():
-        notifier.info("Paper trader: STOP file present — standing down.")
+        notifier.info("Paper trader: STOP file present -- standing down.")
         return {"status": "stopped"}
 
     prices, ry = _load_data()
     if prices is None or len(prices) < 300:
-        notifier.info("Paper trader: no daily data — run data/fetch_daily.py.")
+        notifier.info("Paper trader: no daily data -- run data/fetch_daily.py.")
         return {"status": "no_data"}
 
     last_bar = prices.index[-1].to_pydatetime().replace(tzinfo=timezone.utc)
     age = (datetime.now(timezone.utc) - last_bar).days
     if age > MAX_BAR_AGE_DAYS:
         notifier.info(f"Paper trader: latest bar is {age}d old (>{MAX_BAR_AGE_DAYS}) "
-                      f"— standing down on stale data.")
+                      f"-- standing down on stale data.")
         return {"status": "stale"}
 
     champ_name, cfg = _champion_cfg()
-    weight = float(compute_weights(prices, ry, cfg)["weight"].iloc[-1])
+
+    # Human-approved guards (written only by apply_change.py). The bot never
+    # changes its own risk -- it only obeys guards a human has approved.
+    guards = _load_guards()
+    if guards.get("halt"):
+        notifier.info("Paper trader: halt guard engaged (human-approved) -- standing down.")
+        return {"status": "halted"}
+    if guards.get("target_vol_override"):
+        cfg.target_vol = float(guards["target_vol_override"])
+
+    fw = compute_weights(prices, ry, cfg)
+    wrow = fw.iloc[-1]
+    weight = float(wrow["weight"])
     price = float(prices["close"].iloc[-1])
 
     broker = OandaBroker()
@@ -122,21 +147,33 @@ def run():
         order = decide_order(weight, price, nav, current, PAPER_MAX_LEVERAGE, MIN_TRADE_UNITS)
         result = broker.market_order(SETTINGS.instrument, order["delta"]) if order["delta"] else {"status": "no change"}
     except Exception as e:  # noqa: BLE001
-        notifier.error(f"Paper trader broker error: {e} — no action taken.")
+        notifier.error(f"Paper trader broker error: {e} -- no action taken.")
         return {"status": "broker_error", "error": str(e)}
 
     mode = "DRY" if broker.dry else "LIVE-paper"
     msg = "\n".join([
-        f"[PAPER] {mode} — champion `{champ_name}` on {SETTINGS.instrument}",
+        f"[PAPER] {mode} -- champion `{champ_name}` on {SETTINGS.instrument}",
         f"Target weight {weight:+.2f} | price {price:.2f} | NAV {nav:.0f}",
         f"Current units {current:+.0f} -> target {order['target_units']:+.0f} "
         f"(order {order['delta']:+d}, {order['reason']})",
-        f"Cap: {PAPER_MAX_LEVERAGE:g}x NAV. _Practice account only — no real capital._",
+        f"Cap: {PAPER_MAX_LEVERAGE:g}x NAV. _Practice account only -- no real capital._",
     ])
     notifier.post(msg)
     print(msg)
     if broker.actions:
         print("\n".join(broker.actions))
+
+    # Record this day's position + decision features so the self-learning loop
+    # can later judge how the live paper account actually performed.
+    try:
+        ledger.append_entry(
+            instrument=SETTINGS.instrument, price=price, nav=nav, weight=weight,
+            prev_units=current, delta=order["delta"],
+            held_units=current + order["delta"], champion=champ_name, mode=mode,
+            features={"direction": wrow.get("direction"), "pos_dir": wrow.get("pos_dir"),
+                      "ry_mom": wrow.get("ry_mom"), "realized_vol": wrow.get("realized_vol")})
+    except Exception as e:  # noqa: BLE001
+        print(f"[ledger:warn] {e}")
 
     REPORTS.mkdir(exist_ok=True)
     (REPORTS / "paper_last.json").write_text(json.dumps({

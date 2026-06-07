@@ -1,22 +1,23 @@
 """
 research_lab.py
 ---------------
-Autonomous, self-improving research loop for the Gold Macro-Trend strategy —
+Autonomous, self-improving research loop for the Gold Macro-Trend strategy --
 with hard anti-overfitting guardrails. It runs weekly with no human input and
-can promote a better strategy ON THE PAPER TRACK ONLY. It never touches real
-money.
+PROPOSES a better strategy ON THE PAPER TRACK ONLY. It never touches real money,
+and (since the self-learning upgrade) it never promotes on its own -- a human
+approves every strategy change via apply_change.py.
 
 How it avoids fooling itself (this is the whole point):
 
-  1. PERMANENT HOLDOUT — the most recent `HOLDOUT_DAYS` of data are reserved.
+  1. PERMANENT HOLDOUT -- the most recent `HOLDOUT_DAYS` of data are reserved.
      Challengers are *selected* using only the data BEFORE the holdout. The
-     holdout is used ONLY to confirm the single chosen pick — never to search.
+     holdout is used ONLY to confirm the single chosen pick -- never to search.
   2. SELECTION vs CONFIRMATION are separated, so the multiple-testing happens on
      the selection slice and the holdout sees just one comparison.
-  3. CONFIRMATION STREAK — a challenger must beat the champion on the holdout for
-     `CONSEC_WEEKS` consecutive weekly runs before it is promoted.
+  3. CONFIRMATION STREAK -- a challenger must beat the champion on the holdout for
+     `CONSEC_WEEKS` consecutive weekly runs before it is proposed for promotion.
   4. COST-STRESSED metrics (5x costs) are used for every decision.
-  5. SMALL, PRE-REGISTERED challenger set — no open-ended data mining.
+  5. SMALL, PRE-REGISTERED challenger set -- no open-ended data mining.
 
 State persists in research/champion.json (committed to git), so the loop has
 memory across stateless cloud runs. Every run appends to research/research_log.md
@@ -50,14 +51,14 @@ RESEARCH = ROOT / "research"
 CHAMPION_FILE = RESEARCH / "champion.json"
 LOG_FILE = RESEARCH / "research_log.md"
 
-# ── Guardrails ────────────────────────────────────────────────────────────
+# -- Guardrails --------------------------------------------------------------
 HOLDOUT_DAYS = 252          # ~1 year held out, never used for selection
 CONSEC_WEEKS = 3            # weekly holdout wins required before promotion
-COST_BPS = 10.0            # stressed cost for all decisions
+COST_BPS = 10.0             # stressed cost for all decisions
 MIN_HOLDOUT_SHARPE = 0.30   # challenger must clear this on the holdout
 SELECT_BEAT_MARGIN = 0.10   # and beat champion by this on the selection slice
 
-# ── Pre-registered challenger set (small on purpose) ────────────────────────
+# -- Pre-registered challenger set (small on purpose) ------------------------
 BASELINE = {"ema_fast": 50, "ema_slow": 200, "mom_lookback": 252,
             "ry_mom_lookback": 60, "target_vol": 0.10, "use_macro": True}
 CHALLENGERS = {
@@ -130,7 +131,7 @@ def _save_state(state):
 def run_cycle():
     prices, ry = _load_data()
     if prices is None or len(prices) < HOLDOUT_DAYS + 400:
-        return {"error": "insufficient daily data — run data/fetch_daily.py"}
+        return {"error": "insufficient daily data -- run data/fetch_daily.py"}
 
     state = _load_state()
     champ_name = state["champion"]["name"]
@@ -165,14 +166,21 @@ def run_cycle():
             pending = {"name": best_name, "params": CHALLENGERS[best_name], "streak": 1}
         decision = f"challenger '{best_name}' confirming ({pending['streak']}/{CONSEC_WEEKS})"
         if pending["streak"] >= CONSEC_WEEKS:
-            state["champion"] = {"name": best_name, "params": CHALLENGERS[best_name]}
-            state["history"].append({
-                "date": datetime.now(timezone.utc).strftime("%Y-%m-%d"),
-                "action": "promote", "from": champ_name, "to": best_name,
-                "holdout_sharpe": best_scores["holdout_sharpe"]})
-            pending = None
-            promoted = True
-            decision = f"PROMOTED '{best_name}' -> champion (paper track)"
+            # HUMAN-IN-THE-LOOP: do NOT auto-promote. Flag ready and file a
+            # proposal for the owner to approve via apply_change.py. The champion
+            # is left untouched until a human approves.
+            pending["ready"] = True
+            try:
+                from learning import proposals as _proposals
+                _proposals.add_proposal(
+                    "research_lab", "promote",
+                    f"Challenger '{best_name}' beat the champion and confirmed on the "
+                    f"holdout for {CONSEC_WEEKS} weeks straight. Awaiting your approval.",
+                    {"name": best_name, "params": CHALLENGERS[best_name]})
+            except Exception:  # noqa: BLE001
+                pass
+            decision = (f"READY: '{best_name}' passed all gates -- AWAITING HUMAN APPROVAL "
+                        f"(nothing changed).")
     else:
         if pending:
             decision = "streak reset (no qualifying challenger this week)"
@@ -203,7 +211,7 @@ def run_cycle():
 def _append_log(out):
     RESEARCH.mkdir(exist_ok=True)
     stamp = datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M UTC")
-    lines = [f"\n## Research cycle — {stamp}",
+    lines = [f"\n## Research cycle -- {stamp}",
              f"- Champion: **{out['champion']}** (sel {out['champion_selection_sharpe']} / "
              f"holdout {out['champion_holdout_sharpe']}, 5x-cost Sharpe)",
              f"- Best challenger: **{out['best_challenger']}** (sel {out['best_selection_sharpe']} / "
@@ -212,12 +220,12 @@ def _append_log(out):
              "- All candidates (selection / holdout Sharpe):"]
     for n, s in out["candidates"].items():
         lines.append(f"    - {n}: {s['selection_sharpe']} / {s['holdout_sharpe']}")
-    prev = LOG_FILE.read_text() if LOG_FILE.exists() else "# Research log — autonomous cycles\n"
+    prev = LOG_FILE.read_text() if LOG_FILE.exists() else "# Research log -- autonomous cycles\n"
     LOG_FILE.write_text(prev + "\n".join(lines) + "\n")
 
 
 def slack_text(out):
-    """Full, plain-English weekly digest — not a one-liner."""
+    """Full, plain-English weekly digest -- not a one-liner."""
     if out.get("error"):
         return f"[RESEARCH] Could not run this week: {out['error']}"
 
@@ -227,50 +235,55 @@ def slack_text(out):
     bc_desc = DESCRIPTIONS.get(bc, "")
     L = []
 
-    L.append("[RESEARCH] 🔬 *Weekly self-improvement cycle* — Gold Macro-Trend")
+    L.append("[RESEARCH] *Weekly self-improvement cycle* -- Gold Macro-Trend")
     L.append(f"Data window analysed: {out['period']}  |  held-out test = last "
              f"{out['holdout_days']} trading days the optimizer is NOT allowed to tune on.")
     L.append("")
-    L.append(f"*Current champion:* `{champ}` — {champ_desc}.")
+    L.append(f"*Current champion:* `{champ}` -- {champ_desc}.")
     L.append(f"This is the strategy that would be paper-traded today. On the held-out "
-             f"year it scored a 5×-cost Sharpe of {out['champion_holdout_sharpe']} "
+             f"year it scored a 5x-cost Sharpe of {out['champion_holdout_sharpe']} "
              f"(selection-period Sharpe {out['champion_selection_sharpe']}).")
     L.append("")
     L.append(f"*This week the lab tested {len(out['candidates'])} variants.* The strongest "
-             f"was `{bc}` — {bc_desc}.")
-    L.append(f"  • Selection Sharpe (the honest, representative number): {out['best_selection_sharpe']}")
-    L.append(f"  • Holdout Sharpe (recent year, likely flattered by gold's bull run): "
+             f"was `{bc}` -- {bc_desc}.")
+    L.append(f"  - Selection Sharpe (the honest, representative number): {out['best_selection_sharpe']}")
+    L.append(f"  - Holdout Sharpe (recent year, likely flattered by gold's bull run): "
              f"{out['best_holdout_sharpe']}")
     L.append("")
 
     if out["promoted"]:
-        L.append(f"*Decision: 🏆 PROMOTED `{bc}` to champion (paper track only).* "
+        L.append(f"*Decision: PROMOTED `{bc}` to champion (paper track only).* "
                  f"It beat the incumbent on the selection data AND confirmed on the "
-                 f"holdout for {CONSEC_WEEKS} weeks straight, so the lab now trusts it "
-                 f"enough to make it the default. No real money is involved.")
+                 f"holdout for {CONSEC_WEEKS} weeks straight.")
     elif out["streak"] > 0:
         left = CONSEC_WEEKS - out["streak"]
-        L.append(f"*Decision: hold champion; `{bc}` is on probation "
-                 f"({out['streak']}/{CONSEC_WEEKS}).* It looks better this week, but the "
-                 f"lab will NOT switch on one good week — it needs {left} more consecutive "
-                 f"weekly win(s) before promotion. This is the guardrail against "
-                 f"overfitting to a lucky week.")
+        if left <= 0:
+            L.append(f"*Decision: `{bc}` PASSED all gates and is AWAITING YOUR APPROVAL.* "
+                     f"The lab will NOT switch on its own -- a proposal has been filed. "
+                     f"Apply it via the 'oanda-apply-change' workflow if you approve. "
+                     f"Nothing has changed.")
+        else:
+            L.append(f"*Decision: hold champion; `{bc}` is on probation "
+                     f"({out['streak']}/{CONSEC_WEEKS}).* It looks better this week, but the "
+                     f"lab will NOT switch on one good week -- it needs {left} more consecutive "
+                     f"weekly win(s) before promotion. This is the guardrail against "
+                     f"overfitting to a lucky week.")
     else:
-        L.append("*Decision: hold champion — no challenger cleared the bar this week.* "
+        L.append("*Decision: hold champion -- no challenger cleared the bar this week.* "
                  "Any prior probation streak has been reset. The validated default stays "
                  "in charge.")
 
     L.append("")
-    L.append("Candidate scoreboard (selection / holdout Sharpe, 5× costs):")
+    L.append("Candidate scoreboard (selection / holdout Sharpe, 5x costs):")
     for n, s in out["candidates"].items():
-        mark = "⭐" if n == bc else ("•")
+        mark = "*" if n == bc else "-"
         L.append(f"  {mark} {n}: {s['selection_sharpe']} / {s['holdout_sharpe']}")
 
     L.append("")
-    L.append("ℹ️ _Reality check: the high holdout Sharpes (>1) are almost certainly "
-             "inflated by gold's 2023–2026 bull market. Treat the selection-period "
-             "Sharpe (~0.5) as the honest expectation. Paper/backtest track only — this "
-             "loop never trades real capital; a human approves anything that would._")
+    L.append("Note: the high holdout Sharpes (>1) are almost certainly inflated by "
+             "gold's 2023-2026 bull market. Treat the selection-period Sharpe (~0.5) "
+             "as the honest expectation. Paper/backtest track only -- this loop never "
+             "trades real capital; a human approves anything that would.")
     return "\n".join(L)
 
 

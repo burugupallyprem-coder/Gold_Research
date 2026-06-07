@@ -1,0 +1,51 @@
+name: oanda-learn
+
+# Weekly SELF-REVIEW. Reads the bot's own trade ledger, measures how the live
+# paper account actually performed, and PROPOSES changes for human approval —
+# it never applies them. Emails a warning if a change is proposed.
+# Laptop-off, cloud-only.
+
+on:
+  schedule:
+    - cron: "0 5 * * 0"        # Sunday 05:00 UTC — right after the research cycle
+  workflow_dispatch: {}
+
+permissions:
+  contents: write
+
+jobs:
+  learn:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+      - name: Fetch daily gold + real yields
+        env:
+          OANDA_API_KEY: ${{ secrets.OANDA_API_KEY }}
+          OANDA_ENV: practice
+        run: python data/fetch_daily.py --days 800
+      - name: Self-review (propose only — never applies a change)
+        env:
+          OANDA_API_KEY: ${{ secrets.OANDA_API_KEY }}
+          OANDA_ACCOUNT_ID: ${{ secrets.OANDA_ACCOUNT_ID }}
+          OANDA_ENV: practice
+          SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
+          SLACK_CHANNEL_ID: ${{ secrets.SLACK_CHANNEL_ID }}
+          GMAIL_ADDRESS: ${{ secrets.GMAIL_ADDRESS }}
+          GMAIL_APP_PASSWORD: ${{ secrets.GMAIL_APP_PASSWORD }}
+          COACH_TO_EMAIL: ${{ secrets.COACH_TO_EMAIL }}
+          MIN_DAYS_TO_LEARN: ${{ vars.MIN_DAYS_TO_LEARN }}
+          MAX_LIVE_DD: ${{ vars.MAX_LIVE_DD }}
+        run: python -m learning.monitor
+      - name: Commit stats + proposals
+        run: |
+          git config user.name  "oanda-learn-bot"
+          git config user.email "bot@users.noreply.github.com"
+          git add memory reports || true
+          git commit -m "learn: $(date -u '+%Y-%m-%d %H:%M') UTC" || echo "nothing to commit"
+          git push || echo "push skipped"
