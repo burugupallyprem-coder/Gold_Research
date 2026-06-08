@@ -71,3 +71,5 @@ def score_intent(intent, bias: MacroBias | None = None) -> Confidence:
 
     score = max(0.0, min(100.0, score))
     return Confidence(score=score, factors=factors)
+
+# H4 REGIME FILTER HOOK ADDED
