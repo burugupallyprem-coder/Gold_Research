@@ -1,5 +1,5 @@
 {
-  "updated": "2026-06-06T07:48:08.675965+00:00",
+  "updated": "2026-06-10T07:02:51.898279+00:00",
   "config": {
     "engine": "engine_final",
     "signal": "precomputed",
@@ -14,47 +14,47 @@
     "ny_opening_rr": 3.0
   },
   "metrics": {
-    "trades": 502,
-    "win_rate": 0.2809,
-    "profit_factor": 1.28,
-    "expectancy_R": 0.1515,
-    "avg_win": 10.59,
-    "avg_loss": -3.23,
-    "total_pnl": 326.23,
-    "total_return_pct": 0.33,
-    "final_equity": 100326.23,
+    "trades": 1267,
+    "win_rate": 0.2833,
+    "profit_factor": 1.27,
+    "expectancy_R": 0.1285,
+    "avg_win": 9.22,
+    "avg_loss": -2.87,
+    "total_pnl": 703.25,
+    "total_return_pct": 0.7,
+    "final_equity": 100703.25,
     "max_drawdown_pct": -0.09,
-    "sharpe_annual_est": 1.62,
-    "max_losing_streak": 13,
+    "sharpe_annual_est": 1.59,
+    "max_losing_streak": 17,
     "exit_breakdown": {
-      "be_stop": 87,
-      "stop": 274,
-      "target": 141
+      "target": 359,
+      "stop": 685,
+      "be_stop": 223
     },
     "by_setup": {
-      "Displacement": {
-        "n": 218,
-        "wins": 55,
-        "pnl": -34.19,
-        "r": 0.8550624681410812,
-        "win_rate": 0.252,
-        "avg_r": 0.004
-      },
       "NY Opening": {
-        "n": 181,
-        "wins": 48,
-        "pnl": 214.89,
-        "r": 35.53642627733437,
-        "win_rate": 0.265,
-        "avg_r": 0.196
+        "n": 481,
+        "wins": 114,
+        "pnl": 294.81,
+        "r": 29.971687188719507,
+        "win_rate": 0.237,
+        "avg_r": 0.062
       },
       "FVG": {
-        "n": 103,
-        "wins": 38,
-        "pnl": 145.53,
-        "r": 39.67361486719582,
-        "win_rate": 0.369,
-        "avg_r": 0.385
+        "n": 234,
+        "wins": 84,
+        "pnl": 291.25,
+        "r": 75.04579836883954,
+        "win_rate": 0.359,
+        "avg_r": 0.321
+      },
+      "Displacement": {
+        "n": 552,
+        "wins": 161,
+        "pnl": 117.19,
+        "r": 57.83002525717606,
+        "win_rate": 0.292,
+        "avg_r": 0.105
       }
     }
   }
