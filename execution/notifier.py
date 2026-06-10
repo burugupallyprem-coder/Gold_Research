@@ -1,22 +1,25 @@
 """
 execution/notifier.py
 ---------------------
-Slack notifier (Web API, bot token) — same pattern as the Alpaca bot's
-notifier so the cloud workflow can post autonomously. Errors are swallowed as
-warnings so a slow/failed Slack call never kills a backtest run. If no token is
-configured it prints to stdout instead (handy for local/dry runs).
+Slack notifier (Web API, bot token). Errors are swallowed as warnings so a
+slow/failed Slack call never kills a run. If no token is configured it prints
+to stdout instead (handy for local/dry runs).
 
-Event tags (mirrors the Alpaca bot):
-  [START]   routine kickoff
+Event tags that DO post to Slack:
   [BACKTEST] metrics summary
-  [WALKFWD] walk-forward summary
-  [ROUTINE] weekly review
-  [INFO]    non-fatal info
-  [ERROR]   exception caught
+  [WALKFWD]  walk-forward summary
+  [ROUTINE]  weekly review
+  [INFO]     non-fatal info
+  [ERROR]    exception caught
+  (plus [MACRO]/[VALIDATE]/[RESEARCH]/[PAPER]/[LEARN] posted by their modules)
+
+NOTE: [START] kickoff messages are intentionally NOT posted to Slack anymore --
+they were pure noise (one per routine run). start() now only logs locally.
 """
 
 from __future__ import annotations
 
+import os
 import sys
 from pathlib import Path
 
@@ -25,8 +28,6 @@ import requests
 ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT))
 from config import SETTINGS  # noqa: E402
-
-import os  # noqa: E402
 
 SLACK_TOKEN = os.getenv("SLACK_BOT_TOKEN", "")
 SLACK_CHANNEL = os.getenv("SLACK_CHANNEL_ID", "C0B88CUAZPD")
@@ -55,7 +56,8 @@ def post(text: str) -> bool:
 
 
 def start(routine: str):
-    post(f"[START] {SETTINGS.instrument} backtest bot — routine: {routine}")
+    # [START] messages were Slack noise (one per routine run). Log locally only.
+    print(f"[start] {SETTINGS.instrument} routine: {routine}")
 
 
 def backtest_summary(metrics: dict, tag: str):
