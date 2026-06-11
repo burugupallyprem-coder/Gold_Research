@@ -19,8 +19,15 @@ Safety rails (all enforced before any order):
   * DRY_RUN / missing creds -> simulate and log instead of placing orders.
   * Any broker/API error    -> caught, posted to Slack, no action taken.
 
+Broker modes:
+  * PAPER_BROKER=sim -> SimBroker: real OANDA prices, simulated fills, state
+    in memory/sim_account.json. Used because US-division OANDA accounts
+    cannot trade metals (all XAU_USD orders are rejected with HTTP 400).
+  * default          -> real OANDA practice account orders.
+
     python paper_trader.py
     DRY_RUN=true python paper_trader.py
+    PAPER_BROKER=sim python paper_trader.py
 """
 
 from __future__ import annotations
@@ -41,6 +48,7 @@ from config import SETTINGS                                  # noqa: E402
 from strategy.macro_trend import MacroConfig, compute_weights  # noqa: E402
 from execution import notifier                               # noqa: E402
 from execution.oanda_broker import OandaBroker               # noqa: E402
+from execution.sim_broker import SimBroker                    # noqa: E402
 from learning import ledger                                  # noqa: E402
 
 DAILY = ROOT / "data" / "daily"
@@ -140,7 +148,20 @@ def run():
     weight = float(wrow["weight"])
     price = float(prices["close"].iloc[-1])
 
-    broker = OandaBroker()
+    # Broker selection:
+    #   DRY_RUN=true        -> simulate-and-log only, no state changes
+    #   PAPER_BROKER=sim    -> SimBroker: real prices, simulated fills
+    #                          (required for XAU_USD on US-division OANDA
+    #                          accounts, which reject all metals orders)
+    #   otherwise           -> real OANDA practice account
+    dry_env = os.getenv("DRY_RUN", "").strip().lower() in ("1", "true", "yes")
+    use_sim = os.getenv("PAPER_BROKER", "").strip().lower() == "sim"
+    if dry_env:
+        broker = OandaBroker(dry=True)
+    elif use_sim:
+        broker = SimBroker(price=price, instrument=SETTINGS.instrument)
+    else:
+        broker = OandaBroker()
     try:
         nav = broker.nav()
         current = broker.position_units(SETTINGS.instrument)
@@ -150,7 +171,7 @@ def run():
         notifier.error(f"Paper trader broker error: {e} -- no action taken.")
         return {"status": "broker_error", "error": str(e)}
 
-    mode = "DRY" if broker.dry else "LIVE-paper"
+    mode = "DRY" if broker.dry else ("SIM-paper" if use_sim else "LIVE-paper")
     msg = "\n".join([
         f"[PAPER] {mode} -- champion `{champ_name}` on {SETTINGS.instrument}",
         f"Target weight {weight:+.2f} | price {price:.2f} | NAV {nav:.0f}",

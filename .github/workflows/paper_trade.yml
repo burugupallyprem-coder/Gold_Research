@@ -10,7 +10,10 @@ name: oanda-paper-trader
 
 on:
   schedule:
-    - cron: "30 21 * * 1-5"     # Mon–Fri 21:30 UTC, after the daily bar forms
+    # Gold halts daily 5–6pm New York (21:00–22:00 UTC summer, 22:00–23:00 UTC
+    # winter). 23:15 UTC is after the reopen year-round, and after the daily
+    # bar (5pm NY close) has formed.
+    - cron: "15 23 * * 1-5"     # Mon–Fri 23:15 UTC
   workflow_dispatch: {}
 
 permissions:
@@ -40,6 +43,10 @@ jobs:
           SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
           SLACK_CHANNEL_ID: ${{ secrets.SLACK_CHANNEL_ID }}
           DRY_RUN: ${{ vars.DRY_RUN }}      # set repo variable DRY_RUN=true to simulate only
+          # SimBroker: real OANDA prices, simulated fills. Required because
+          # US-division OANDA accounts reject all XAU_USD orders (HTTP 400).
+          # State persists in memory/sim_account.json (committed below).
+          PAPER_BROKER: "sim"
           PAPER_MAX_LEVERAGE: "1.0"
         run: python paper_trader.py
       - name: Commit paper log

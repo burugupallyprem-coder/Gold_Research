@@ -75,5 +75,15 @@ class OandaBroker:
                           "timeInForce": "FOK", "positionFill": "DEFAULT"}}
         r = self.session.post(self._url("/orders"), headers=self._headers,
                               json=body, timeout=30)
-        r.raise_for_status()
+        if not r.ok:
+            # Surface OANDA's reject reason instead of a bare "400 Bad Request".
+            try:
+                detail = r.json()
+                reason = (detail.get("orderRejectTransaction", {}).get("rejectReason")
+                          or detail.get("errorMessage") or r.text[:300])
+            except Exception:  # noqa: BLE001
+                reason = r.text[:300]
+            raise RuntimeError(
+                f"OANDA order rejected (HTTP {r.status_code}): {reason} "
+                f"[{instrument} {units:+d} units]")
         return r.json()
