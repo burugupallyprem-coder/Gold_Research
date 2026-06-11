@@ -1,5 +1,5 @@
 {
-  "updated": "2026-06-10T11:48:55.875682+00:00",
+  "updated": "2026-06-11T12:33:41.003847+00:00",
   "config": {
     "engine": "engine_final",
     "signal": "precomputed",
@@ -14,45 +14,45 @@
     "ny_opening_rr": 3.0
   },
   "metrics": {
-    "trades": 1266,
-    "win_rate": 0.2828,
-    "profit_factor": 1.268,
-    "expectancy_R": 0.1266,
-    "avg_win": 9.23,
+    "trades": 1268,
+    "win_rate": 0.2831,
+    "profit_factor": 1.267,
+    "expectancy_R": 0.1273,
+    "avg_win": 9.21,
     "avg_loss": -2.87,
-    "total_pnl": 699.28,
+    "total_pnl": 697.71,
     "total_return_pct": 0.7,
-    "final_equity": 100699.28,
+    "final_equity": 100697.71,
     "max_drawdown_pct": -0.09,
     "sharpe_annual_est": 1.58,
     "max_losing_streak": 17,
     "exit_breakdown": {
-      "stop": 685,
-      "target": 358,
+      "stop": 686,
+      "target": 359,
       "be_stop": 223
     },
     "by_setup": {
       "FVG": {
-        "n": 234,
+        "n": 235,
         "wins": 84,
-        "pnl": 291.25,
-        "r": 75.04579836883954,
-        "win_rate": 0.359,
-        "avg_r": 0.321
+        "pnl": 288.2,
+        "r": 73.9980806396581,
+        "win_rate": 0.357,
+        "avg_r": 0.315
       },
       "Displacement": {
-        "n": 552,
-        "wins": 161,
-        "pnl": 117.19,
-        "r": 57.83002525717606,
-        "win_rate": 0.292,
-        "avg_r": 0.105
+        "n": 553,
+        "wins": 162,
+        "pnl": 121.66,
+        "r": 59.98579596269748,
+        "win_rate": 0.293,
+        "avg_r": 0.108
       },
       "NY Opening": {
         "n": 480,
         "wins": 113,
-        "pnl": 290.84,
-        "r": 27.45931816547487,
+        "pnl": 287.85,
+        "r": 27.476948711275284,
         "win_rate": 0.235,
         "avg_r": 0.057
       }
