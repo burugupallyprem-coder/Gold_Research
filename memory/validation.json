@@ -1,20 +1,20 @@
 {
-  "updated": "2026-06-06T08:42:39.197034+00:00",
+  "updated": "2026-06-13T11:03:33.628648+00:00",
   "decision": {
     "branch": "NO EDGE AFTER COSTS",
     "verdict": "Out-of-sample performance is at or below break-even after costs. This is the most common and honest outcome. The project's value is the rigor, not the P&L. Do not risk money on it.",
-    "oos_PF": 1.057,
-    "oos_expectancy_R": -0.0161,
-    "oos_trades": 534,
-    "stress_PF": 0.984,
-    "long_PF": 1.233,
-    "short_PF": 1.014,
+    "oos_PF": 1.062,
+    "oos_expectancy_R": -0.0142,
+    "oos_trades": 536,
+    "stress_PF": 0.981,
+    "long_PF": 1.237,
+    "short_PF": 1.009,
     "both_sides_positive": true
   },
-  "period": "2021-06-07..2026-06-05",
+  "period": "2021-06-14..2026-06-12",
   "bars": {
-    "M15": 118264,
-    "H4": 7740
+    "M15": 118254,
+    "H4": 7739
   },
   "walk_forward_sizing": {
     "folds": 10,
