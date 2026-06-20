@@ -1,0 +1,116 @@
+[
+  {
+    "ts": "2026-06-12T12:02:59.270323+00:00",
+    "date": "2026-06-12",
+    "instrument": "XAU_USD",
+    "price": 4211.695,
+    "nav": 100000.0,
+    "weight": 0.3472789194537639,
+    "prev_units": 0.0,
+    "delta": 8.0,
+    "held_units": 8.0,
+    "champion": "baseline",
+    "mode": "SIM-paper",
+    "features": {
+      "direction": 1.0,
+      "pos_dir": 1.0,
+      "ry_mom": null,
+      "realized_vol": 0.2879529807259546
+    }
+  },
+  {
+    "ts": "2026-06-13T10:09:56.969193+00:00",
+    "date": "2026-06-13",
+    "instrument": "XAU_USD",
+    "price": 4218.56,
+    "nav": 100052.92000000001,
+    "weight": 0.3576960289430814,
+    "prev_units": 8.0,
+    "delta": 0.0,
+    "held_units": 8.0,
+    "champion": "baseline",
+    "mode": "SIM-paper",
+    "features": {
+      "direction": 1.0,
+      "pos_dir": 1.0,
+      "ry_mom": null,
+      "realized_vol": 0.2795669839988986
+    }
+  },
+  {
+    "ts": "2026-06-16T16:15:35.387769+00:00",
+    "date": "2026-06-16",
+    "instrument": "XAU_USD",
+    "price": 4308.85,
+    "nav": 100775.24,
+    "weight": 0.342745852381505,
+    "prev_units": 8.0,
+    "delta": 0.0,
+    "held_units": 8.0,
+    "champion": "baseline",
+    "mode": "SIM-paper",
+    "features": {
+      "direction": 1.0,
+      "pos_dir": 1.0,
+      "ry_mom": null,
+      "realized_vol": 0.2917613715969685
+    }
+  },
+  {
+    "ts": "2026-06-17T12:59:59.057380+00:00",
+    "date": "2026-06-17",
+    "instrument": "XAU_USD",
+    "price": 4331.28,
+    "nav": 100954.68,
+    "weight": 0.0,
+    "prev_units": 8.0,
+    "delta": -8.0,
+    "held_units": 0.0,
+    "champion": "baseline",
+    "mode": "SIM-paper",
+    "features": {
+      "direction": 1.0,
+      "pos_dir": 0.0,
+      "ry_mom": 0.27,
+      "realized_vol": 0.286938500871132
+    }
+  },
+  {
+    "ts": "2026-06-18T12:15:16.273106+00:00",
+    "date": "2026-06-18",
+    "instrument": "XAU_USD",
+    "price": 4257.7,
+    "nav": 100952.68,
+    "weight": 0.0,
+    "prev_units": 0.0,
+    "delta": 0.0,
+    "held_units": 0.0,
+    "champion": "baseline",
+    "mode": "SIM-paper",
+    "features": {
+      "direction": 1.0,
+      "pos_dir": 0.0,
+      "ry_mom": 0.13000000000000034,
+      "realized_vol": 0.2859443577093576
+    }
+  },
+  {
+    "ts": "2026-06-19T12:56:23.339436+00:00",
+    "date": "2026-06-19",
+    "instrument": "XAU_USD",
+    "price": 4209.005,
+    "nav": 100952.68,
+    "weight": 0.0,
+    "prev_units": 0.0,
+    "delta": 0.0,
+    "held_units": 0.0,
+    "champion": "baseline",
+    "mode": "SIM-paper",
+    "features": {
+      "direction": 1.0,
+      "pos_dir": 0.0,
+      "ry_mom": 0.16999999999999993,
+      "realized_vol": 0.28719452342419954
+    }
+  }
+]
