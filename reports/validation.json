@@ -1,131 +1,131 @@
 {
   "instrument": "XAU_USD",
   "bars": {
-    "M15": 118254,
-    "H4": 7739
+    "M15": 118238,
+    "H4": 7738
   },
-  "period": "2021-06-14..2026-06-12",
+  "period": "2021-06-21..2026-06-19",
   "base": {
-    "trades": 1022,
-    "win_rate": 0.5391,
-    "profit_factor": 1.12,
-    "expectancy_R": 0.0377,
-    "avg_win": 3.62,
+    "trades": 1026,
+    "win_rate": 0.539,
+    "profit_factor": 1.114,
+    "expectancy_R": 0.0371,
+    "avg_win": 3.6,
     "avg_loss": -3.78,
-    "total_pnl": 214.36,
-    "total_return_pct": 0.21,
-    "final_equity": 100214.36,
+    "total_pnl": 204.11,
+    "total_return_pct": 0.2,
+    "final_equity": 100204.11,
     "max_drawdown_pct": -0.1,
-    "sharpe_annual_est": 0.78,
+    "sharpe_annual_est": 0.75,
     "max_losing_streak": 7,
     "exit_breakdown": {
-      "target": 100,
-      "stop": 471,
-      "trail_stop": 377,
-      "be_stop": 74
+      "be_stop": 74,
+      "stop": 473,
+      "trail_stop": 379,
+      "target": 100
     },
     "by_setup": {
-      "FVG": {
-        "n": 166,
-        "wins": 101,
-        "pnl": 148.05,
-        "r": 29.731061251646437,
-        "win_rate": 0.608,
-        "avg_r": 0.179
-      },
       "Displacement": {
         "n": 387,
         "wins": 204,
-        "pnl": -24.7,
-        "r": 10.830763441888108,
+        "pnl": -22.23,
+        "r": 10.825615906594608,
         "win_rate": 0.527,
         "avg_r": 0.028
       },
       "NY Opening": {
-        "n": 469,
-        "wins": 246,
-        "pnl": 91.01,
-        "r": -1.9822950917531155,
-        "win_rate": 0.525,
-        "avg_r": -0.004
+        "n": 468,
+        "wins": 244,
+        "pnl": 75.01,
+        "r": -4.599655131405399,
+        "win_rate": 0.521,
+        "avg_r": -0.01
+      },
+      "FVG": {
+        "n": 171,
+        "wins": 105,
+        "pnl": 151.33,
+        "r": 31.820023790623814,
+        "win_rate": 0.614,
+        "avg_r": 0.186
       }
     },
     "by_direction": {
       "long": {
-        "trades": 570,
-        "win_rate": 0.5474,
-        "profit_factor": 1.237,
-        "expectancy_R": 0.0566,
-        "pnl": 206.54
+        "trades": 573,
+        "win_rate": 0.5462,
+        "profit_factor": 1.226,
+        "expectancy_R": 0.0541,
+        "pnl": 199.3
       },
       "short": {
-        "trades": 452,
-        "win_rate": 0.5288,
-        "profit_factor": 1.009,
-        "expectancy_R": 0.014,
-        "pnl": 7.83
+        "trades": 453,
+        "win_rate": 0.5298,
+        "profit_factor": 1.005,
+        "expectancy_R": 0.0155,
+        "pnl": 4.81
       }
     }
   },
   "cost_stress": {
-    "trades": 993,
-    "win_rate": 0.5156,
-    "profit_factor": 0.981,
-    "expectancy_R": -0.0543,
-    "avg_win": 3.73,
-    "avg_loss": -4.05,
-    "total_pnl": -37.36,
-    "total_return_pct": -0.04,
-    "final_equity": 99962.64,
-    "max_drawdown_pct": -0.18,
-    "sharpe_annual_est": -0.13,
+    "trades": 1000,
+    "win_rate": 0.514,
+    "profit_factor": 0.967,
+    "expectancy_R": -0.0581,
+    "avg_win": 3.71,
+    "avg_loss": -4.06,
+    "total_pnl": -65.3,
+    "total_return_pct": -0.07,
+    "final_equity": 99934.7,
+    "max_drawdown_pct": -0.19,
+    "sharpe_annual_est": -0.24,
     "max_losing_streak": 7,
     "exit_breakdown": {
+      "stop": 486,
+      "trail_stop": 347,
       "target": 108,
-      "stop": 481,
-      "trail_stop": 345,
       "be_stop": 59
     },
     "by_setup": {
-      "FVG": {
-        "n": 168,
-        "wins": 98,
-        "pnl": 112.41,
-        "r": 14.5567041240281,
-        "win_rate": 0.583,
-        "avg_r": 0.087
-      },
       "Displacement": {
-        "n": 373,
+        "n": 376,
         "wins": 187,
-        "pnl": -139.31,
-        "r": -26.9368870891765,
-        "win_rate": 0.501,
-        "avg_r": -0.072
+        "pnl": -151.35,
+        "r": -30.16853500357702,
+        "win_rate": 0.497,
+        "avg_r": -0.08
       },
       "NY Opening": {
-        "n": 452,
-        "wins": 227,
-        "pnl": -10.45,
-        "r": -41.50010467992384,
-        "win_rate": 0.502,
-        "avg_r": -0.092
+        "n": 451,
+        "wins": 225,
+        "pnl": -29.02,
+        "r": -44.27173052746997,
+        "win_rate": 0.499,
+        "avg_r": -0.098
+      },
+      "FVG": {
+        "n": 173,
+        "wins": 102,
+        "pnl": 115.07,
+        "r": 16.2994676195217,
+        "win_rate": 0.59,
+        "avg_r": 0.094
       }
     },
     "by_direction": {
       "long": {
-        "trades": 560,
-        "win_rate": 0.5196,
-        "profit_factor": 1.06,
-        "expectancy_R": -0.0429,
-        "pnl": 58.82
+        "trades": 564,
+        "win_rate": 0.5177,
+        "profit_factor": 1.046,
+        "expectancy_R": -0.0469,
+        "pnl": 45.55
       },
       "short": {
-        "trades": 433,
-        "win_rate": 0.5104,
-        "profit_factor": 0.901,
-        "expectancy_R": -0.069,
-        "pnl": -96.18
+        "trades": 436,
+        "win_rate": 0.5092,
+        "profit_factor": 0.887,
+        "expectancy_R": -0.0727,
+        "pnl": -110.85
       }
     }
   },
@@ -135,142 +135,142 @@
         "fold": 1,
         "disp": 1.4,
         "thresh": 60.0,
-        "oos_PF": 0.696,
-        "oos_trades": 66,
-        "oos_expectancy_R": -0.1615
+        "oos_PF": 0.691,
+        "oos_trades": 69,
+        "oos_expectancy_R": -0.1709
       },
       {
         "fold": 2,
         "disp": 1.2,
         "thresh": 60.0,
-        "oos_PF": 0.828,
-        "oos_trades": 81,
-        "oos_expectancy_R": -0.1655
+        "oos_PF": 0.757,
+        "oos_trades": 84,
+        "oos_expectancy_R": -0.1452
       },
       {
         "fold": 3,
         "disp": 1.4,
         "thresh": 60.0,
-        "oos_PF": 1.183,
-        "oos_trades": 86,
-        "oos_expectancy_R": 0.0144
+        "oos_PF": 1.246,
+        "oos_trades": 84,
+        "oos_expectancy_R": 0.0195
       },
       {
         "fold": 4,
         "disp": 1.4,
         "thresh": 60.0,
-        "oos_PF": 1.089,
-        "oos_trades": 75,
-        "oos_expectancy_R": 0.0249
+        "oos_PF": 1.002,
+        "oos_trades": 79,
+        "oos_expectancy_R": -0.0016
       },
       {
         "fold": 5,
         "disp": 1.2,
         "thresh": 60.0,
-        "oos_PF": 1.036,
-        "oos_trades": 63,
-        "oos_expectancy_R": -0.0583
+        "oos_PF": 0.886,
+        "oos_trades": 60,
+        "oos_expectancy_R": -0.1034
       },
       {
         "fold": 6,
         "disp": 1.2,
         "thresh": 70.0,
-        "oos_PF": 3.251,
-        "oos_trades": 32,
-        "oos_expectancy_R": 0.4673
+        "oos_PF": 3.366,
+        "oos_trades": 34,
+        "oos_expectancy_R": 0.4856
       },
       {
         "fold": 7,
         "disp": 1.2,
         "thresh": 70.0,
-        "oos_PF": 0.824,
-        "oos_trades": 26,
-        "oos_expectancy_R": -0.2477
+        "oos_PF": 0.8,
+        "oos_trades": 25,
+        "oos_expectancy_R": -0.2951
       },
       {
         "fold": 8,
         "disp": 1.2,
         "thresh": 70.0,
-        "oos_PF": 1.964,
-        "oos_trades": 37,
-        "oos_expectancy_R": 0.2137
+        "oos_PF": 1.925,
+        "oos_trades": 36,
+        "oos_expectancy_R": 0.1963
       },
       {
         "fold": 9,
         "disp": 1.2,
         "thresh": 70.0,
-        "oos_PF": 1.132,
-        "oos_trades": 49,
-        "oos_expectancy_R": 0.1075
+        "oos_PF": 1.103,
+        "oos_trades": 50,
+        "oos_expectancy_R": 0.0842
       },
       {
         "fold": 10,
         "disp": 1.2,
         "thresh": 70.0,
-        "oos_PF": 0.743,
-        "oos_trades": 21,
-        "oos_expectancy_R": -0.2222
+        "oos_PF": 0.675,
+        "oos_trades": 24,
+        "oos_expectancy_R": -0.2229
       }
     ],
     "aggregate": {
-      "trades": 536,
-      "win_rate": 0.5168,
-      "profit_factor": 1.062,
-      "expectancy_R": -0.0142,
-      "avg_win": 3.46,
-      "avg_loss": -3.48,
-      "total_pnl": 55.8,
-      "total_return_pct": 0.06,
-      "final_equity": 100055.8,
+      "trades": 545,
+      "win_rate": 0.5119,
+      "profit_factor": 1.016,
+      "expectancy_R": -0.025,
+      "avg_win": 3.41,
+      "avg_loss": -3.52,
+      "total_pnl": 15.06,
+      "total_return_pct": 0.02,
+      "final_equity": 100015.06,
       "max_drawdown_pct": -0.11,
-      "sharpe_annual_est": 4.38,
+      "sharpe_annual_est": 1.0,
       "max_losing_streak": 7,
       "exit_breakdown": {
-        "trail_stop": 197,
-        "stop": 259,
         "target": 44,
+        "stop": 266,
+        "trail_stop": 199,
         "be_stop": 36
       },
       "by_setup": {
-        "FVG": {
-          "n": 57,
-          "wins": 35,
-          "pnl": 47.3,
-          "r": 9.359320734761774,
-          "win_rate": 0.614,
-          "avg_r": 0.164
+        "Displacement": {
+          "n": 117,
+          "wins": 53,
+          "pnl": -63.98,
+          "r": -15.016082444458851,
+          "win_rate": 0.453,
+          "avg_r": -0.128
         },
         "NY Opening": {
-          "n": 369,
-          "wins": 191,
-          "pnl": 54.3,
-          "r": -5.810117718167797,
+          "n": 371,
+          "wins": 192,
+          "pnl": 40.33,
+          "r": -6.04171323559811,
           "win_rate": 0.518,
           "avg_r": -0.016
         },
-        "Displacement": {
-          "n": 110,
-          "wins": 51,
-          "pnl": -45.8,
-          "r": -11.14976314753852,
-          "win_rate": 0.464,
-          "avg_r": -0.101
+        "FVG": {
+          "n": 57,
+          "wins": 34,
+          "pnl": 38.71,
+          "r": 7.436081988711976,
+          "win_rate": 0.596,
+          "avg_r": 0.13
         }
       },
       "by_direction": {
         "long": {
-          "trades": 287,
-          "win_rate": 0.5679,
-          "profit_factor": 1.278,
-          "expectancy_R": 0.0861,
-          "pnl": 120.9
+          "trades": 292,
+          "win_rate": 0.5582,
+          "profit_factor": 1.21,
+          "expectancy_R": 0.0638,
+          "pnl": 95.48
         },
         "short": {
-          "trades": 249,
-          "win_rate": 0.4578,
-          "profit_factor": 0.861,
-          "expectancy_R": -0.1298,
-          "pnl": -65.1
+          "trades": 253,
+          "win_rate": 0.4585,
+          "profit_factor": 0.833,
+          "expectancy_R": -0.1275,
+          "pnl": -80.42
         }
       }
     }
@@ -278,12 +278,12 @@
   "decision": {
     "branch": "NO EDGE AFTER COSTS",
     "verdict": "Out-of-sample performance is at or below break-even after costs. This is the most common and honest outcome. The project's value is the rigor, not the P&L. Do not risk money on it.",
-    "oos_PF": 1.062,
-    "oos_expectancy_R": -0.0142,
-    "oos_trades": 536,
-    "stress_PF": 0.981,
-    "long_PF": 1.237,
-    "short_PF": 1.009,
+    "oos_PF": 1.016,
+    "oos_expectancy_R": -0.025,
+    "oos_trades": 545,
+    "stress_PF": 0.967,
+    "long_PF": 1.226,
+    "short_PF": 1.005,
     "both_sides_positive": true
   }
 }
