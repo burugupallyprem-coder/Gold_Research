@@ -65,11 +65,36 @@ def backtest_summary(metrics: dict, tag: str):
     if m.get("trades", 0) == 0:
         post(f"[BACKTEST] ({tag}) no trades generated.")
         return
+
+    pf = float(m.get("profit_factor", 0))
+    sharpe = float(m.get("sharpe_annual_est", 0))
+    win = float(m.get("win_rate", 0)) * 100
+
+    # Plain-English verdict
+    if pf >= 1.3 and sharpe >= 1.0:
+        verdict = "✅ Edge is solid — strategy is performing well"
+    elif pf >= 1.1:
+        verdict = "⚠️ Edge is modest but positive — keep monitoring"
+    else:
+        verdict = "🔴 Edge is weak or gone — human review needed"
+
+    explanation = "\n".join([
+        "─" * 40,
+        "📊 *What this means in plain English:*",
+        f"• Win rate {win:.1f}% — that's normal for trend-following (big wins, small losses)",
+        f"• Profit factor {pf:.3f} — for every $1 lost, strategy makes ${pf:.2f}  (need >1.0 to profit)",
+        f"• Sharpe {sharpe:.2f} — risk-adjusted return  (>1.0 is good, >1.5 is strong)",
+        f"• {verdict}",
+        "─" * 40,
+    ])
+
     post(
-        f"[BACKTEST] ({tag}) trades={m['trades']} | win={m['win_rate']*100:.1f}% | "
-        f"PF={m['profit_factor']} | exp={m['expectancy_R']}R | "
+        f"[BACKTEST] ({tag}) trades={m['trades']} | win={win:.1f}% | "
+        f"PF={pf} | exp={m['expectancy_R']}R | "
         f"DD={m['max_drawdown_pct']}% | ret={m['total_return_pct']}% | "
-        f"Sharpe~{m['sharpe_annual_est']}")
+        f"Sharpe~{sharpe}"
+        f"\n\n{explanation}"
+    )
 
 
 def walkforward_summary(text: str):

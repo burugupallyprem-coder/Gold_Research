@@ -172,12 +172,59 @@ def run():
         return {"status": "broker_error", "error": str(e)}
 
     mode = "DRY" if broker.dry else ("SIM-paper" if use_sim else "LIVE-paper")
+
+    # ── plain-English explanation ──────────────────────────────────────────
+    start_nav = float(SETTINGS.starting_equity)
+    pnl = nav - start_nav
+    pnl_sign = "+" if pnl >= 0 else ""
+
+    # Position narrative
+    if order["delta"] > 0:
+        action_line = (f"▶ ACTION: Bought {order['delta']:+d} units of gold "
+                       f"(now holding {order['target_units']} units)")
+    elif order["delta"] < 0:
+        action_line = (f"▶ ACTION: Sold {abs(order['delta'])} units of gold "
+                       f"(now holding {order['target_units']} units)")
+    else:
+        if order["target_units"] == 0:
+            action_line = "▶ ACTION: No trade — strategy says stay flat (no position)"
+        else:
+            action_line = (f"▶ ACTION: No trade — already at target "
+                           f"({order['target_units']} units, within tolerance)")
+
+    # Signal strength
+    if abs(weight) < 0.05:
+        signal_desc = "Signal is flat/neutral — trend not strong enough to hold a position"
+    elif abs(weight) < 0.25:
+        signal_desc = f"Signal is weak ({'bullish' if weight > 0 else 'bearish'}) — small position"
+    elif abs(weight) < 0.60:
+        signal_desc = f"Signal is moderate ({'bullish' if weight > 0 else 'bearish'}) — medium position"
+    else:
+        signal_desc = f"Signal is strong ({'bullish' if weight > 0 else 'bearish'}) — full position"
+
+    # How much of NAV is deployed
+    deployed_pct = abs(order['target_units'] * price / nav * 100) if nav > 0 else 0
+
+    explanation = "\n".join([
+        "─" * 40,
+        "📊 *What this means in plain English:*",
+        f"• Gold price yesterday's close: *${price:,.2f}*",
+        f"• Paper account value (NAV): *${nav:,.0f}*  ({pnl_sign}${pnl:,.0f} vs starting $100k)",
+        f"• {signal_desc}",
+        f"• Strategy is deploying *{deployed_pct:.0f}% of NAV* into gold right now",
+        f"• {action_line}",
+        "─" * 40,
+        "_Simulated fills at real OANDA prices. No real money involved._",
+    ])
+
     msg = "\n".join([
         f"[PAPER] {mode} -- champion `{champ_name}` on {SETTINGS.instrument}",
         f"Target weight {weight:+.2f} | price {price:.2f} | NAV {nav:.0f}",
         f"Current units {current:+.0f} -> target {order['target_units']:+.0f} "
         f"(order {order['delta']:+d}, {order['reason']})",
         f"Cap: {PAPER_MAX_LEVERAGE:g}x NAV. _Practice account only -- no real capital._",
+        "",
+        explanation,
     ])
     notifier.post(msg)
     print(msg)
