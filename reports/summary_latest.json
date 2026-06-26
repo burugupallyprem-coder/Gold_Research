@@ -1,5 +1,5 @@
 {
-  "updated": "2026-06-25T09:59:11.527323+00:00",
+  "updated": "2026-06-26T10:29:46.953015+00:00",
   "config": {
     "engine": "engine_final",
     "signal": "precomputed",
@@ -24,7 +24,7 @@
     "total_return_pct": 0.69,
     "final_equity": 100686.69,
     "max_drawdown_pct": -0.09,
-    "sharpe_annual_est": 1.55,
+    "sharpe_annual_est": 1.54,
     "max_losing_streak": 17,
     "exit_breakdown": {
       "target": 361,
