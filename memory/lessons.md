@@ -45,3 +45,11 @@ to cheer for good weeks.
     - NY Opening: n=481 win=0.239 avgR=0.074 pnl=304.63
     - Displacement: n=556 win=0.288 avgR=0.091 pnl=94.19
     - FVG: n=238 win=0.361 avgR=0.337 pnl=314.28
+
+## Weekly review — 2026-07-03 23:36 UTC
+- Trades: 1275, win rate 0.2831, PF 1.27, expectancy 0.1307R
+- Max drawdown -0.09%, longest losing streak 17
+- By setup:
+    - NY Opening: n=481 win=0.239 avgR=0.074 pnl=304.63
+    - Displacement: n=556 win=0.288 avgR=0.091 pnl=94.19
+    - FVG: n=238 win=0.361 avgR=0.337 pnl=314.28
