@@ -1,22 +1,22 @@
 {
   "base": {
     "full": {
-      "days": 1772,
-      "sharpe": 0.37,
-      "cagr": 2.27,
+      "days": 1771,
+      "sharpe": 0.364,
+      "cagr": 2.22,
       "max_dd": -24.6,
-      "exposure": 0.258,
+      "exposure": 0.257,
       "ann_turnover": 11.0,
-      "hit": 0.191
+      "hit": 0.19
     },
     "in_sample": {
-      "days": 1063,
-      "sharpe": -0.873,
-      "cagr": -5.25,
+      "days": 1062,
+      "sharpe": -0.889,
+      "cagr": -5.33,
       "max_dd": -22.63,
-      "exposure": 0.217,
+      "exposure": 0.216,
       "ann_turnover": 11.1,
-      "hit": 0.149
+      "hit": 0.147
     },
     "out_of_sample": {
       "days": 709,
@@ -27,28 +27,28 @@
       "ann_turnover": 10.9,
       "hit": 0.255
     },
-    "equity_final": 1.1709,
+    "equity_final": 1.1672,
     "cost_bps": 2.0,
-    "period": "2019-09-05..2026-07-09"
+    "period": "2019-09-12..2026-07-16"
   },
   "cost_stress": {
     "full": {
-      "days": 1772,
-      "sharpe": 0.238,
-      "cagr": 1.37,
+      "days": 1771,
+      "sharpe": 0.231,
+      "cagr": 1.33,
       "max_dd": -27.29,
-      "exposure": 0.258,
+      "exposure": 0.257,
       "ann_turnover": 11.0,
-      "hit": 0.189
+      "hit": 0.188
     },
     "in_sample": {
-      "days": 1063,
-      "sharpe": -1.021,
-      "cagr": -6.09,
+      "days": 1062,
+      "sharpe": -1.037,
+      "cagr": -6.16,
       "max_dd": -25.29,
-      "exposure": 0.217,
+      "exposure": 0.216,
       "ann_turnover": 11.1,
-      "hit": 0.148
+      "hit": 0.146
     },
     "out_of_sample": {
       "days": 709,
@@ -59,14 +59,14 @@
       "ann_turnover": 10.9,
       "hit": 0.251
     },
-    "equity_final": 1.1006,
+    "equity_final": 1.097,
     "cost_bps": 10.0,
-    "period": "2019-09-05..2026-07-09"
+    "period": "2019-09-12..2026-07-16"
   },
   "verdict": {
     "branch": "REAL (MODEST) EDGE",
     "oos_sharpe": 1.86,
-    "full_sharpe": 0.37,
+    "full_sharpe": 0.364,
     "stress_oos_sharpe": 1.744,
     "message": "Out-of-sample risk-adjusted return is positive AND survives 5x costs. This is a genuine, documented-style premium. Expect long flat stretches; size small and keep validating on new data."
   },
