@@ -1,5 +1,5 @@
 {
-  "updated": "2026-07-17T23:25:07.731253+00:00",
+  "updated": "2026-07-20T22:48:18.094135+00:00",
   "config": {
     "engine": "engine_final",
     "signal": "precomputed",
@@ -14,47 +14,47 @@
     "ny_opening_rr": 3.0
   },
   "metrics": {
-    "trades": 1274,
-    "win_rate": 0.2826,
-    "profit_factor": 1.267,
-    "expectancy_R": 0.1303,
-    "avg_win": 9.29,
-    "avg_loss": -2.89,
-    "total_pnl": 705.37,
-    "total_return_pct": 0.71,
-    "final_equity": 100705.37,
+    "trades": 1272,
+    "win_rate": 0.2838,
+    "profit_factor": 1.262,
+    "expectancy_R": 0.1332,
+    "avg_win": 9.25,
+    "avg_loss": -2.9,
+    "total_pnl": 694.15,
+    "total_return_pct": 0.69,
+    "final_equity": 100694.15,
     "max_drawdown_pct": -0.09,
-    "sharpe_annual_est": 1.58,
+    "sharpe_annual_est": 1.56,
     "max_losing_streak": 17,
     "exit_breakdown": {
-      "stop": 686,
-      "be_stop": 228,
-      "target": 360
+      "stop": 685,
+      "target": 361,
+      "be_stop": 226
     },
     "by_setup": {
-      "NY Opening": {
-        "n": 476,
-        "wins": 113,
-        "pnl": 301.04,
-        "r": 34.526484801500125,
-        "win_rate": 0.237,
-        "avg_r": 0.073
-      },
       "Displacement": {
-        "n": 558,
-        "wins": 161,
-        "pnl": 92.7,
-        "r": 52.87476674263362,
-        "win_rate": 0.289,
-        "avg_r": 0.095
+        "n": 559,
+        "wins": 162,
+        "pnl": 96.59,
+        "r": 54.152834247131246,
+        "win_rate": 0.29,
+        "avg_r": 0.097
+      },
+      "NY Opening": {
+        "n": 472,
+        "wins": 113,
+        "pnl": 297.76,
+        "r": 37.616131890549035,
+        "win_rate": 0.239,
+        "avg_r": 0.08
       },
       "FVG": {
-        "n": 240,
+        "n": 241,
         "wins": 86,
-        "pnl": 311.62,
-        "r": 78.605761977874,
-        "win_rate": 0.358,
-        "avg_r": 0.328
+        "pnl": 299.8,
+        "r": 77.6004347287665,
+        "win_rate": 0.357,
+        "avg_r": 0.322
       }
     }
   }
