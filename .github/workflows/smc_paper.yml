@@ -1,0 +1,53 @@
+name: oanda-smc-paper
+
+# FORWARD PAPER TRIAL of the SMC swing strategy (pre-registered 2026-07-21).
+# Simulation only -- this job fetches candles and simulates; it can NOT place
+# orders (there is no broker order code in smc_paper.py). Fully isolated from
+# the champion: touches only memory/smc_paper_state.json and reports/.
+
+on:
+  schedule:
+    - cron: "17 1,5,9,13,17,21 * * 1-5"   # every 4h, weekdays (UTC)
+  workflow_dispatch: {}
+
+permissions:
+  contents: write
+
+concurrency:
+  group: smc-paper
+  cancel-in-progress: false
+
+jobs:
+  smc-paper:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Integrity check
+        run: python -m py_compile smc_paper.py
+
+      - name: Run SMC paper step
+        env:
+          OANDA_API_KEY: ${{ secrets.OANDA_API_KEY }}
+          OANDA_ENV: practice
+          SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
+          SLACK_CHANNEL_ID: ${{ secrets.SLACK_CHANNEL_ID }}
+        run: python smc_paper.py
+
+      - name: Commit state
+        run: |
+          git config user.name  "smc-paper-bot"
+          git config user.email "bot@users.noreply.github.com"
+          git add memory/smc_paper_state.json reports/smc_paper_trades.csv 2>/dev/null || true
+          git commit -m "smc-paper: $(date -u '+%Y-%m-%d %H:%M') UTC" || echo "nothing to commit"
+          git pull --rebase origin main || true
+          git push || echo "push skipped"
