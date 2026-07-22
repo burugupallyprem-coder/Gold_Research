@@ -253,3 +253,719 @@ Traceback (most recent call last):
   File "C:\Users\Prem\anaconda3\Lib\site-packages\requests\adapters.py", line 622, in send
     raise ConnectionError(e, request=request)
 requests.exceptions.ConnectionError: HTTPSConnectionPool(host='slack.com', port=443): Max retries exceeded with url: /api/chat.postMessage (Caused by NameResolutionError("<urllib3.connection.HTTPSConnection object at 0x000001F2C418EAE0>: Failed to resolve 'slack.com' ([Errno 11001] getaddrinfo failed)"))
+2026-06-20 08:00:07,793 INFO Quant Coach | Hour=8 | Day topic #13 | Session=28
+2026-06-20 08:00:08,274 ERROR Slack error: not_in_channel
+2026-06-20 20:41:57,887 INFO Quant Coach | Hour=20 | Day topic #13 | Session=29
+2026-06-20 20:41:57,910 ERROR Slack post failed: HTTPSConnectionPool(host='slack.com', port=443): Max retries exceeded with url: /api/chat.postMessage (Caused by NameResolutionError("<urllib3.connection.HTTPSConnection object at 0x0000027B443BA000>: Failed to resolve 'slack.com' ([Errno 11001] getaddrinfo failed)"))
+Traceback (most recent call last):
+  File "C:\Users\Prem\anaconda3\Lib\site-packages\urllib3\connection.py", line 196, in _new_conn
+    sock = connection.create_connection(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Prem\anaconda3\Lib\site-packages\urllib3\util\connection.py", line 60, in create_connection
+    for res in socket.getaddrinfo(host, port, family, socket.SOCK_STREAM):
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Prem\anaconda3\Lib\socket.py", line 964, in getaddrinfo
+    for res in _socket.getaddrinfo(host, port, family, type, proto, flags):
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+socket.gaierror: [Errno 11001] getaddrinfo failed
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\Prem\anaconda3\Lib\site-packages\urllib3\connectionpool.py", line 789, in urlopen
+    response = self._make_request(
+               ^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Prem\anaconda3\Lib\site-packages\urllib3\connectionpool.py", line 490, in _make_request
+    raise new_e
+  File "C:\Users\Prem\anaconda3\Lib\site-packages\urllib3\connectionpool.py", line 466, in _make_request
+    self._validate_conn(conn)
+  File "C:\Users\Prem\anaconda3\Lib\site-packages\urllib3\connectionpool.py", line 1095, in _validate_conn
+    conn.connect()
+  File "C:\Users\Prem\anaconda3\Lib\site-packages\urllib3\connection.py", line 615, in connect
+    self.sock = sock = self._new_conn()
+                       ^^^^^^^^^^^^^^^^
+  File "C:\Users\Prem\anaconda3\Lib\site-packages\urllib3\connection.py", line 203, in _new_conn
+    raise NameResolutionError(self.host, self, e) from e
+urllib3.exceptions.NameResolutionError: <urllib3.connection.HTTPSConnection object at 0x0000027B443BA000>: Failed to resolve 'slack.com' ([Errno 11001] getaddrinfo failed)
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\Prem\anaconda3\Lib\site-packages\requests\adapters.py", line 589, in send
+    resp = conn.urlopen(
+           ^^^^^^^^^^^^^
+  File "C:\Users\Prem\anaconda3\Lib\site-packages\urllib3\connectionpool.py", line 843, in urlopen
+    retries = retries.increment(
+              ^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Prem\anaconda3\Lib\site-packages\urllib3\util\retry.py", line 519, in increment
+    raise MaxRetryError(_pool, url, reason) from reason  # type: ignore[arg-type]
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+urllib3.exceptions.MaxRetryError: HTTPSConnectionPool(host='slack.com', port=443): Max retries exceeded with url: /api/chat.postMessage (Caused by NameResolutionError("<urllib3.connection.HTTPSConnection object at 0x0000027B443BA000>: Failed to resolve 'slack.com' ([Errno 11001] getaddrinfo failed)"))
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\Prem\Desktop\prem\OANDA\quant_coach\quant_coach.py", line 514, in post_to_slack
+    resp = requests.post(
+           ^^^^^^^^^^^^^^
+  File "C:\Users\Prem\anaconda3\Lib\site-packages\requests\api.py", line 115, in post
+    return request("post", url, data=data, json=json, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Prem\anaconda3\Lib\site-packages\requests\api.py", line 59, in request
+    return session.request(method=method, url=url, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Prem\anaconda3\Lib\site-packages\requests\sessions.py", line 589, in request
+    resp = self.send(prep, **send_kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Prem\anaconda3\Lib\site-packages\requests\sessions.py", line 703, in send
+    r = adapter.send(request, **kwargs)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Prem\anaconda3\Lib\site-packages\requests\adapters.py", line 622, in send
+    raise ConnectionError(e, request=request)
+requests.exceptions.ConnectionError: HTTPSConnectionPool(host='slack.com', port=443): Max retries exceeded with url: /api/chat.postMessage (Caused by NameResolutionError("<urllib3.connection.HTTPSConnection object at 0x0000027B443BA000>: Failed to resolve 'slack.com' ([Errno 11001] getaddrinfo failed)"))
+2026-06-21 20:58:50,864 INFO Quant Coach | Hour=20 | Day topic #14 | Session=30
+2026-06-21 20:58:50,864 INFO Quant Coach | Hour=20 | Day topic #14 | Session=30
+2026-06-21 20:58:52,543 ERROR Slack error: not_in_channel
+2026-06-21 20:58:52,543 ERROR Slack error: not_in_channel
+2026-06-24 21:55:05,607 INFO Quant Coach | Hour=21 | Day topic #15 | Session=31
+2026-06-24 21:55:06,030 INFO Quant Coach | Hour=21 | Day topic #1 | Session=32
+2026-06-24 21:55:06,355 ERROR Slack error: not_in_channel
+2026-06-24 21:55:06,530 ERROR Slack error: not_in_channel
+2026-06-26 09:26:16,737 INFO Quant Coach | Hour=9 | Day topic #2 | Session=33
+2026-06-26 09:26:16,795 INFO Quant Coach | Hour=9 | Day topic #2 | Session=34
+2026-06-26 09:26:16,758 ERROR Slack post failed: HTTPSConnectionPool(host='slack.com', port=443): Max retries exceeded with url: /api/chat.postMessage (Caused by NameResolutionError("<urllib3.connection.HTTPSConnection object at 0x0000028584BEA000>: Failed to resolve 'slack.com' ([Errno 11001] getaddrinfo failed)"))
+Traceback (most recent call last):
+  File "C:\Users\Prem\anaconda3\Lib\site-packages\urllib3\connection.py", line 196, in _new_conn
+    sock = connection.create_connection(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Prem\anaconda3\Lib\site-packages\urllib3\util\connection.py", line 60, in create_connection
+    for res in socket.getaddrinfo(host, port, family, socket.SOCK_STREAM):
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Prem\anaconda3\Lib\socket.py", line 964, in getaddrinfo
+    for res in _socket.getaddrinfo(host, port, family, type, proto, flags):
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+socket.gaierror: [Errno 11001] getaddrinfo failed
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\Prem\anaconda3\Lib\site-packages\urllib3\connectionpool.py", line 789, in urlopen
+    response = self._make_request(
+               ^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Prem\anaconda3\Lib\site-packages\urllib3\connectionpool.py", line 490, in _make_request
+    raise new_e
+  File "C:\Users\Prem\anaconda3\Lib\site-packages\urllib3\connectionpool.py", line 466, in _make_request
+    self._validate_conn(conn)
+  File "C:\Users\Prem\anaconda3\Lib\site-packages\urllib3\connectionpool.py", line 1095, in _validate_conn
+    conn.connect()
+  File "C:\Users\Prem\anaconda3\Lib\site-packages\urllib3\connection.py", line 615, in connect
+    self.sock = sock = self._new_conn()
+                       ^^^^^^^^^^^^^^^^
+  File "C:\Users\Prem\anaconda3\Lib\site-packages\urllib3\connection.py", line 203, in _new_conn
+    raise NameResolutionError(self.host, self, e) from e
+urllib3.exceptions.NameResolutionError: <urllib3.connection.HTTPSConnection object at 0x0000028584BEA000>: Failed to resolve 'slack.com' ([Errno 11001] getaddrinfo failed)
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\Prem\anaconda3\Lib\site-packages\requests\adapters.py", line 589, in send
+    resp = conn.urlopen(
+           ^^^^^^^^^^^^^
+  File "C:\Users\Prem\anaconda3\Lib\site-packages\urllib3\connectionpool.py", line 843, in urlopen
+    retries = retries.increment(
+              ^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Prem\anaconda3\Lib\site-packages\urllib3\util\retry.py", line 519, in increment
+    raise MaxRetryError(_pool, url, reason) from reason  # type: ignore[arg-type]
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+urllib3.exceptions.MaxRetryError: HTTPSConnectionPool(host='slack.com', port=443): Max retries exceeded with url: /api/chat.postMessage (Caused by NameResolutionError("<urllib3.connection.HTTPSConnection object at 0x0000028584BEA000>: Failed to resolve 'slack.com' ([Errno 11001] getaddrinfo failed)"))
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\Prem\Desktop\prem\OANDA\quant_coach\quant_coach.py", line 514, in post_to_slack
+    resp = requests.post(
+           ^^^^^^^^^^^^^^
+  File "C:\Users\Prem\anaconda3\Lib\site-packages\requests\api.py", line 115, in post
+    return request("post", url, data=data, json=json, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Prem\anaconda3\Lib\site-packages\requests\api.py", line 59, in request
+    return session.request(method=method, url=url, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Prem\anaconda3\Lib\site-packages\requests\sessions.py", line 589, in request
+    resp = self.send(prep, **send_kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Prem\anaconda3\Lib\site-packages\requests\sessions.py", line 703, in send
+    r = adapter.send(request, **kwargs)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Prem\anaconda3\Lib\site-packages\requests\adapters.py", line 622, in send
+    raise ConnectionError(e, request=request)
+requests.exceptions.ConnectionError: HTTPSConnectionPool(host='slack.com', port=443): Max retries exceeded with url: /api/chat.postMessage (Caused by NameResolutionError("<urllib3.connection.HTTPSConnection object at 0x0000028584BEA000>: Failed to resolve 'slack.com' ([Errno 11001] getaddrinfo failed)"))
+2026-06-26 09:26:16,819 ERROR Slack post failed: HTTPSConnectionPool(host='slack.com', port=443): Max retries exceeded with url: /api/chat.postMessage (Caused by NameResolutionError("<urllib3.connection.HTTPSConnection object at 0x0000021BBE74F4A0>: Failed to resolve 'slack.com' ([Errno 11001] getaddrinfo failed)"))
+Traceback (most recent call last):
+  File "C:\Users\Prem\anaconda3\Lib\site-packages\urllib3\connection.py", line 196, in _new_conn
+    sock = connection.create_connection(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Prem\anaconda3\Lib\site-packages\urllib3\util\connection.py", line 60, in create_connection
+    for res in socket.getaddrinfo(host, port, family, socket.SOCK_STREAM):
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Prem\anaconda3\Lib\socket.py", line 964, in getaddrinfo
+    for res in _socket.getaddrinfo(host, port, family, type, proto, flags):
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+socket.gaierror: [Errno 11001] getaddrinfo failed
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\Prem\anaconda3\Lib\site-packages\urllib3\connectionpool.py", line 789, in urlopen
+    response = self._make_request(
+               ^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Prem\anaconda3\Lib\site-packages\urllib3\connectionpool.py", line 490, in _make_request
+    raise new_e
+  File "C:\Users\Prem\anaconda3\Lib\site-packages\urllib3\connectionpool.py", line 466, in _make_request
+    self._validate_conn(conn)
+  File "C:\Users\Prem\anaconda3\Lib\site-packages\urllib3\connectionpool.py", line 1095, in _validate_conn
+    conn.connect()
+  File "C:\Users\Prem\anaconda3\Lib\site-packages\urllib3\connection.py", line 615, in connect
+    self.sock = sock = self._new_conn()
+                       ^^^^^^^^^^^^^^^^
+  File "C:\Users\Prem\anaconda3\Lib\site-packages\urllib3\connection.py", line 203, in _new_conn
+    raise NameResolutionError(self.host, self, e) from e
+urllib3.exceptions.NameResolutionError: <urllib3.connection.HTTPSConnection object at 0x0000021BBE74F4A0>: Failed to resolve 'slack.com' ([Errno 11001] getaddrinfo failed)
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\Prem\anaconda3\Lib\site-packages\requests\adapters.py", line 589, in send
+    resp = conn.urlopen(
+           ^^^^^^^^^^^^^
+  File "C:\Users\Prem\anaconda3\Lib\site-packages\urllib3\connectionpool.py", line 843, in urlopen
+    retries = retries.increment(
+              ^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Prem\anaconda3\Lib\site-packages\urllib3\util\retry.py", line 519, in increment
+    raise MaxRetryError(_pool, url, reason) from reason  # type: ignore[arg-type]
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+urllib3.exceptions.MaxRetryError: HTTPSConnectionPool(host='slack.com', port=443): Max retries exceeded with url: /api/chat.postMessage (Caused by NameResolutionError("<urllib3.connection.HTTPSConnection object at 0x0000021BBE74F4A0>: Failed to resolve 'slack.com' ([Errno 11001] getaddrinfo failed)"))
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\Prem\Desktop\prem\OANDA\quant_coach\quant_coach.py", line 514, in post_to_slack
+    resp = requests.post(
+           ^^^^^^^^^^^^^^
+  File "C:\Users\Prem\anaconda3\Lib\site-packages\requests\api.py", line 115, in post
+    return request("post", url, data=data, json=json, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Prem\anaconda3\Lib\site-packages\requests\api.py", line 59, in request
+    return session.request(method=method, url=url, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Prem\anaconda3\Lib\site-packages\requests\sessions.py", line 589, in request
+    resp = self.send(prep, **send_kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Prem\anaconda3\Lib\site-packages\requests\sessions.py", line 703, in send
+    r = adapter.send(request, **kwargs)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Prem\anaconda3\Lib\site-packages\requests\adapters.py", line 622, in send
+    raise ConnectionError(e, request=request)
+requests.exceptions.ConnectionError: HTTPSConnectionPool(host='slack.com', port=443): Max retries exceeded with url: /api/chat.postMessage (Caused by NameResolutionError("<urllib3.connection.HTTPSConnection object at 0x0000021BBE74F4A0>: Failed to resolve 'slack.com' ([Errno 11001] getaddrinfo failed)"))
+2026-06-27 02:18:25,988 INFO Quant Coach | Hour=2 | Day topic #2 | Session=35
+2026-06-27 02:18:26,020 ERROR Slack post failed: HTTPSConnectionPool(host='slack.com', port=443): Max retries exceeded with url: /api/chat.postMessage (Caused by NameResolutionError("<urllib3.connection.HTTPSConnection object at 0x000001AEB961F4A0>: Failed to resolve 'slack.com' ([Errno 11001] getaddrinfo failed)"))
+Traceback (most recent call last):
+  File "C:\Users\Prem\anaconda3\Lib\site-packages\urllib3\connection.py", line 196, in _new_conn
+    sock = connection.create_connection(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Prem\anaconda3\Lib\site-packages\urllib3\util\connection.py", line 60, in create_connection
+    for res in socket.getaddrinfo(host, port, family, socket.SOCK_STREAM):
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Prem\anaconda3\Lib\socket.py", line 964, in getaddrinfo
+    for res in _socket.getaddrinfo(host, port, family, type, proto, flags):
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+socket.gaierror: [Errno 11001] getaddrinfo failed
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\Prem\anaconda3\Lib\site-packages\urllib3\connectionpool.py", line 789, in urlopen
+    response = self._make_request(
+               ^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Prem\anaconda3\Lib\site-packages\urllib3\connectionpool.py", line 490, in _make_request
+    raise new_e
+  File "C:\Users\Prem\anaconda3\Lib\site-packages\urllib3\connectionpool.py", line 466, in _make_request
+    self._validate_conn(conn)
+  File "C:\Users\Prem\anaconda3\Lib\site-packages\urllib3\connectionpool.py", line 1095, in _validate_conn
+    conn.connect()
+  File "C:\Users\Prem\anaconda3\Lib\site-packages\urllib3\connection.py", line 615, in connect
+    self.sock = sock = self._new_conn()
+                       ^^^^^^^^^^^^^^^^
+  File "C:\Users\Prem\anaconda3\Lib\site-packages\urllib3\connection.py", line 203, in _new_conn
+    raise NameResolutionError(self.host, self, e) from e
+urllib3.exceptions.NameResolutionError: <urllib3.connection.HTTPSConnection object at 0x000001AEB961F4A0>: Failed to resolve 'slack.com' ([Errno 11001] getaddrinfo failed)
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\Prem\anaconda3\Lib\site-packages\requests\adapters.py", line 589, in send
+    resp = conn.urlopen(
+           ^^^^^^^^^^^^^
+  File "C:\Users\Prem\anaconda3\Lib\site-packages\urllib3\connectionpool.py", line 843, in urlopen
+    retries = retries.increment(
+              ^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Prem\anaconda3\Lib\site-packages\urllib3\util\retry.py", line 519, in increment
+    raise MaxRetryError(_pool, url, reason) from reason  # type: ignore[arg-type]
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+urllib3.exceptions.MaxRetryError: HTTPSConnectionPool(host='slack.com', port=443): Max retries exceeded with url: /api/chat.postMessage (Caused by NameResolutionError("<urllib3.connection.HTTPSConnection object at 0x000001AEB961F4A0>: Failed to resolve 'slack.com' ([Errno 11001] getaddrinfo failed)"))
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\Prem\Desktop\prem\OANDA\quant_coach\quant_coach.py", line 514, in post_to_slack
+    resp = requests.post(
+           ^^^^^^^^^^^^^^
+  File "C:\Users\Prem\anaconda3\Lib\site-packages\requests\api.py", line 115, in post
+    return request("post", url, data=data, json=json, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Prem\anaconda3\Lib\site-packages\requests\api.py", line 59, in request
+    return session.request(method=method, url=url, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Prem\anaconda3\Lib\site-packages\requests\sessions.py", line 589, in request
+    resp = self.send(prep, **send_kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Prem\anaconda3\Lib\site-packages\requests\sessions.py", line 703, in send
+    r = adapter.send(request, **kwargs)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Prem\anaconda3\Lib\site-packages\requests\adapters.py", line 622, in send
+    raise ConnectionError(e, request=request)
+requests.exceptions.ConnectionError: HTTPSConnectionPool(host='slack.com', port=443): Max retries exceeded with url: /api/chat.postMessage (Caused by NameResolutionError("<urllib3.connection.HTTPSConnection object at 0x000001AEB961F4A0>: Failed to resolve 'slack.com' ([Errno 11001] getaddrinfo failed)"))
+2026-06-29 08:00:03,346 INFO Quant Coach | Hour=8 | Day topic #2 | Session=36
+2026-06-29 08:00:03,816 ERROR Slack error: not_in_channel
+2026-06-29 20:40:45,066 INFO Quant Coach | Hour=20 | Day topic #2 | Session=37
+2026-06-29 20:40:45,104 ERROR Slack post failed: HTTPSConnectionPool(host='slack.com', port=443): Max retries exceeded with url: /api/chat.postMessage (Caused by NameResolutionError("<urllib3.connection.HTTPSConnection object at 0x000002251B92D640>: Failed to resolve 'slack.com' ([Errno 11001] getaddrinfo failed)"))
+Traceback (most recent call last):
+  File "C:\Users\Prem\anaconda3\Lib\site-packages\urllib3\connection.py", line 196, in _new_conn
+    sock = connection.create_connection(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Prem\anaconda3\Lib\site-packages\urllib3\util\connection.py", line 60, in create_connection
+    for res in socket.getaddrinfo(host, port, family, socket.SOCK_STREAM):
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Prem\anaconda3\Lib\socket.py", line 964, in getaddrinfo
+    for res in _socket.getaddrinfo(host, port, family, type, proto, flags):
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+socket.gaierror: [Errno 11001] getaddrinfo failed
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\Prem\anaconda3\Lib\site-packages\urllib3\connectionpool.py", line 789, in urlopen
+    response = self._make_request(
+               ^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Prem\anaconda3\Lib\site-packages\urllib3\connectionpool.py", line 490, in _make_request
+    raise new_e
+  File "C:\Users\Prem\anaconda3\Lib\site-packages\urllib3\connectionpool.py", line 466, in _make_request
+    self._validate_conn(conn)
+  File "C:\Users\Prem\anaconda3\Lib\site-packages\urllib3\connectionpool.py", line 1095, in _validate_conn
+    conn.connect()
+  File "C:\Users\Prem\anaconda3\Lib\site-packages\urllib3\connection.py", line 615, in connect
+    self.sock = sock = self._new_conn()
+                       ^^^^^^^^^^^^^^^^
+  File "C:\Users\Prem\anaconda3\Lib\site-packages\urllib3\connection.py", line 203, in _new_conn
+    raise NameResolutionError(self.host, self, e) from e
+urllib3.exceptions.NameResolutionError: <urllib3.connection.HTTPSConnection object at 0x000002251B92D640>: Failed to resolve 'slack.com' ([Errno 11001] getaddrinfo failed)
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\Prem\anaconda3\Lib\site-packages\requests\adapters.py", line 589, in send
+    resp = conn.urlopen(
+           ^^^^^^^^^^^^^
+  File "C:\Users\Prem\anaconda3\Lib\site-packages\urllib3\connectionpool.py", line 843, in urlopen
+    retries = retries.increment(
+              ^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Prem\anaconda3\Lib\site-packages\urllib3\util\retry.py", line 519, in increment
+    raise MaxRetryError(_pool, url, reason) from reason  # type: ignore[arg-type]
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+urllib3.exceptions.MaxRetryError: HTTPSConnectionPool(host='slack.com', port=443): Max retries exceeded with url: /api/chat.postMessage (Caused by NameResolutionError("<urllib3.connection.HTTPSConnection object at 0x000002251B92D640>: Failed to resolve 'slack.com' ([Errno 11001] getaddrinfo failed)"))
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\Prem\Desktop\prem\OANDA\quant_coach\quant_coach.py", line 514, in post_to_slack
+    resp = requests.post(
+           ^^^^^^^^^^^^^^
+  File "C:\Users\Prem\anaconda3\Lib\site-packages\requests\api.py", line 115, in post
+    return request("post", url, data=data, json=json, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Prem\anaconda3\Lib\site-packages\requests\api.py", line 59, in request
+    return session.request(method=method, url=url, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Prem\anaconda3\Lib\site-packages\requests\sessions.py", line 589, in request
+    resp = self.send(prep, **send_kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Prem\anaconda3\Lib\site-packages\requests\sessions.py", line 703, in send
+    r = adapter.send(request, **kwargs)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Prem\anaconda3\Lib\site-packages\requests\adapters.py", line 622, in send
+    raise ConnectionError(e, request=request)
+requests.exceptions.ConnectionError: HTTPSConnectionPool(host='slack.com', port=443): Max retries exceeded with url: /api/chat.postMessage (Caused by NameResolutionError("<urllib3.connection.HTTPSConnection object at 0x000002251B92D640>: Failed to resolve 'slack.com' ([Errno 11001] getaddrinfo failed)"))
+2026-06-30 20:00:07,015 INFO Quant Coach | Hour=20 | Day topic #3 | Session=38
+2026-06-30 20:00:07,220 ERROR Slack error: not_in_channel
+2026-07-01 08:00:03,407 INFO Quant Coach | Hour=8 | Day topic #4 | Session=39
+2026-07-01 08:00:05,480 ERROR Slack error: not_in_channel
+2026-07-02 08:00:02,001 INFO Quant Coach | Hour=8 | Day topic #4 | Session=40
+2026-07-02 08:00:02,522 ERROR Slack error: not_in_channel
+2026-07-06 22:05:37,236 INFO Quant Coach | Hour=22 | Day topic #4 | Session=41
+2026-07-06 22:05:38,215 INFO Quant Coach | Hour=22 | Day topic #5 | Session=42
+2026-07-06 22:05:43,083 ERROR Slack error: not_in_channel
+2026-07-06 22:05:43,147 ERROR Slack error: not_in_channel
+2026-07-09 13:55:58,139 INFO Quant Coach | Hour=13 | Day topic #6 | Session=43
+2026-07-09 13:55:58,161 ERROR Slack post failed: HTTPSConnectionPool(host='slack.com', port=443): Max retries exceeded with url: /api/chat.postMessage (Caused by NameResolutionError("<urllib3.connection.HTTPSConnection object at 0x00000166C2095C70>: Failed to resolve 'slack.com' ([Errno 11001] getaddrinfo failed)"))
+Traceback (most recent call last):
+  File "C:\Users\Prem\anaconda3\Lib\site-packages\urllib3\connection.py", line 196, in _new_conn
+    sock = connection.create_connection(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Prem\anaconda3\Lib\site-packages\urllib3\util\connection.py", line 60, in create_connection
+    for res in socket.getaddrinfo(host, port, family, socket.SOCK_STREAM):
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Prem\anaconda3\Lib\socket.py", line 964, in getaddrinfo
+    for res in _socket.getaddrinfo(host, port, family, type, proto, flags):
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+socket.gaierror: [Errno 11001] getaddrinfo failed
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\Prem\anaconda3\Lib\site-packages\urllib3\connectionpool.py", line 789, in urlopen
+    response = self._make_request(
+               ^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Prem\anaconda3\Lib\site-packages\urllib3\connectionpool.py", line 490, in _make_request
+    raise new_e
+  File "C:\Users\Prem\anaconda3\Lib\site-packages\urllib3\connectionpool.py", line 466, in _make_request
+    self._validate_conn(conn)
+  File "C:\Users\Prem\anaconda3\Lib\site-packages\urllib3\connectionpool.py", line 1095, in _validate_conn
+    conn.connect()
+  File "C:\Users\Prem\anaconda3\Lib\site-packages\urllib3\connection.py", line 615, in connect
+    self.sock = sock = self._new_conn()
+                       ^^^^^^^^^^^^^^^^
+  File "C:\Users\Prem\anaconda3\Lib\site-packages\urllib3\connection.py", line 203, in _new_conn
+    raise NameResolutionError(self.host, self, e) from e
+urllib3.exceptions.NameResolutionError: <urllib3.connection.HTTPSConnection object at 0x00000166C2095C70>: Failed to resolve 'slack.com' ([Errno 11001] getaddrinfo failed)
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\Prem\anaconda3\Lib\site-packages\requests\adapters.py", line 589, in send
+    resp = conn.urlopen(
+           ^^^^^^^^^^^^^
+  File "C:\Users\Prem\anaconda3\Lib\site-packages\urllib3\connectionpool.py", line 843, in urlopen
+    retries = retries.increment(
+              ^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Prem\anaconda3\Lib\site-packages\urllib3\util\retry.py", line 519, in increment
+    raise MaxRetryError(_pool, url, reason) from reason  # type: ignore[arg-type]
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+urllib3.exceptions.MaxRetryError: HTTPSConnectionPool(host='slack.com', port=443): Max retries exceeded with url: /api/chat.postMessage (Caused by NameResolutionError("<urllib3.connection.HTTPSConnection object at 0x00000166C2095C70>: Failed to resolve 'slack.com' ([Errno 11001] getaddrinfo failed)"))
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\Prem\Desktop\prem\OANDA\quant_coach\quant_coach.py", line 514, in post_to_slack
+    resp = requests.post(
+           ^^^^^^^^^^^^^^
+  File "C:\Users\Prem\anaconda3\Lib\site-packages\requests\api.py", line 115, in post
+    return request("post", url, data=data, json=json, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Prem\anaconda3\Lib\site-packages\requests\api.py", line 59, in request
+    return session.request(method=method, url=url, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Prem\anaconda3\Lib\site-packages\requests\sessions.py", line 589, in request
+    resp = self.send(prep, **send_kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Prem\anaconda3\Lib\site-packages\requests\sessions.py", line 703, in send
+    r = adapter.send(request, **kwargs)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Prem\anaconda3\Lib\site-packages\requests\adapters.py", line 622, in send
+    raise ConnectionError(e, request=request)
+requests.exceptions.ConnectionError: HTTPSConnectionPool(host='slack.com', port=443): Max retries exceeded with url: /api/chat.postMessage (Caused by NameResolutionError("<urllib3.connection.HTTPSConnection object at 0x00000166C2095C70>: Failed to resolve 'slack.com' ([Errno 11001] getaddrinfo failed)"))
+2026-07-11 10:55:51,969 INFO Quant Coach | Hour=10 | Day topic #6 | Session=44
+2026-07-11 10:55:56,813 ERROR Slack error: not_in_channel
+2026-07-13 13:14:46,185 INFO Quant Coach | Hour=13 | Day topic #6 | Session=45
+2026-07-13 13:14:46,197 ERROR Slack post failed: HTTPSConnectionPool(host='slack.com', port=443): Max retries exceeded with url: /api/chat.postMessage (Caused by NameResolutionError("<urllib3.connection.HTTPSConnection object at 0x000001CD60DDD880>: Failed to resolve 'slack.com' ([Errno 11001] getaddrinfo failed)"))
+Traceback (most recent call last):
+  File "C:\Users\Prem\anaconda3\Lib\site-packages\urllib3\connection.py", line 196, in _new_conn
+    sock = connection.create_connection(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Prem\anaconda3\Lib\site-packages\urllib3\util\connection.py", line 60, in create_connection
+    for res in socket.getaddrinfo(host, port, family, socket.SOCK_STREAM):
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Prem\anaconda3\Lib\socket.py", line 964, in getaddrinfo
+    for res in _socket.getaddrinfo(host, port, family, type, proto, flags):
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+socket.gaierror: [Errno 11001] getaddrinfo failed
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\Prem\anaconda3\Lib\site-packages\urllib3\connectionpool.py", line 789, in urlopen
+    response = self._make_request(
+               ^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Prem\anaconda3\Lib\site-packages\urllib3\connectionpool.py", line 490, in _make_request
+    raise new_e
+  File "C:\Users\Prem\anaconda3\Lib\site-packages\urllib3\connectionpool.py", line 466, in _make_request
+    self._validate_conn(conn)
+  File "C:\Users\Prem\anaconda3\Lib\site-packages\urllib3\connectionpool.py", line 1095, in _validate_conn
+    conn.connect()
+  File "C:\Users\Prem\anaconda3\Lib\site-packages\urllib3\connection.py", line 615, in connect
+    self.sock = sock = self._new_conn()
+                       ^^^^^^^^^^^^^^^^
+  File "C:\Users\Prem\anaconda3\Lib\site-packages\urllib3\connection.py", line 203, in _new_conn
+    raise NameResolutionError(self.host, self, e) from e
+urllib3.exceptions.NameResolutionError: <urllib3.connection.HTTPSConnection object at 0x000001CD60DDD880>: Failed to resolve 'slack.com' ([Errno 11001] getaddrinfo failed)
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\Prem\anaconda3\Lib\site-packages\requests\adapters.py", line 589, in send
+    resp = conn.urlopen(
+           ^^^^^^^^^^^^^
+  File "C:\Users\Prem\anaconda3\Lib\site-packages\urllib3\connectionpool.py", line 843, in urlopen
+    retries = retries.increment(
+              ^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Prem\anaconda3\Lib\site-packages\urllib3\util\retry.py", line 519, in increment
+    raise MaxRetryError(_pool, url, reason) from reason  # type: ignore[arg-type]
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+urllib3.exceptions.MaxRetryError: HTTPSConnectionPool(host='slack.com', port=443): Max retries exceeded with url: /api/chat.postMessage (Caused by NameResolutionError("<urllib3.connection.HTTPSConnection object at 0x000001CD60DDD880>: Failed to resolve 'slack.com' ([Errno 11001] getaddrinfo failed)"))
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\Prem\Desktop\prem\OANDA\quant_coach\quant_coach.py", line 514, in post_to_slack
+    resp = requests.post(
+           ^^^^^^^^^^^^^^
+  File "C:\Users\Prem\anaconda3\Lib\site-packages\requests\api.py", line 115, in post
+    return request("post", url, data=data, json=json, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Prem\anaconda3\Lib\site-packages\requests\api.py", line 59, in request
+    return session.request(method=method, url=url, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Prem\anaconda3\Lib\site-packages\requests\sessions.py", line 589, in request
+    resp = self.send(prep, **send_kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Prem\anaconda3\Lib\site-packages\requests\sessions.py", line 703, in send
+    r = adapter.send(request, **kwargs)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Prem\anaconda3\Lib\site-packages\requests\adapters.py", line 622, in send
+    raise ConnectionError(e, request=request)
+requests.exceptions.ConnectionError: HTTPSConnectionPool(host='slack.com', port=443): Max retries exceeded with url: /api/chat.postMessage (Caused by NameResolutionError("<urllib3.connection.HTTPSConnection object at 0x000001CD60DDD880>: Failed to resolve 'slack.com' ([Errno 11001] getaddrinfo failed)"))
+2026-07-13 13:14:46,197 ERROR Slack post failed: HTTPSConnectionPool(host='slack.com', port=443): Max retries exceeded with url: /api/chat.postMessage (Caused by NameResolutionError("<urllib3.connection.HTTPSConnection object at 0x000001B2AECDD640>: Failed to resolve 'slack.com' ([Errno 11001] getaddrinfo failed)"))
+Traceback (most recent call last):
+  File "C:\Users\Prem\anaconda3\Lib\site-packages\urllib3\connection.py", line 196, in _new_conn
+    sock = connection.create_connection(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Prem\anaconda3\Lib\site-packages\urllib3\util\connection.py", line 60, in create_connection
+    for res in socket.getaddrinfo(host, port, family, socket.SOCK_STREAM):
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Prem\anaconda3\Lib\socket.py", line 964, in getaddrinfo
+    for res in _socket.getaddrinfo(host, port, family, type, proto, flags):
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+socket.gaierror: [Errno 11001] getaddrinfo failed
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\Prem\anaconda3\Lib\site-packages\urllib3\connectionpool.py", line 789, in urlopen
+    response = self._make_request(
+               ^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Prem\anaconda3\Lib\site-packages\urllib3\connectionpool.py", line 490, in _make_request
+    raise new_e
+  File "C:\Users\Prem\anaconda3\Lib\site-packages\urllib3\connectionpool.py", line 466, in _make_request
+    self._validate_conn(conn)
+  File "C:\Users\Prem\anaconda3\Lib\site-packages\urllib3\connectionpool.py", line 1095, in _validate_conn
+    conn.connect()
+  File "C:\Users\Prem\anaconda3\Lib\site-packages\urllib3\connection.py", line 615, in connect
+    self.sock = sock = self._new_conn()
+                       ^^^^^^^^^^^^^^^^
+  File "C:\Users\Prem\anaconda3\Lib\site-packages\urllib3\connection.py", line 203, in _new_conn
+    raise NameResolutionError(self.host, self, e) from e
+urllib3.exceptions.NameResolutionError: <urllib3.connection.HTTPSConnection object at 0x000001B2AECDD640>: Failed to resolve 'slack.com' ([Errno 11001] getaddrinfo failed)
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\Prem\anaconda3\Lib\site-packages\requests\adapters.py", line 589, in send
+    resp = conn.urlopen(
+           ^^^^^^^^^^^^^
+  File "C:\Users\Prem\anaconda3\Lib\site-packages\urllib3\connectionpool.py", line 843, in urlopen
+    retries = retries.increment(
+              ^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Prem\anaconda3\Lib\site-packages\urllib3\util\retry.py", line 519, in increment
+    raise MaxRetryError(_pool, url, reason) from reason  # type: ignore[arg-type]
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+urllib3.exceptions.MaxRetryError: HTTPSConnectionPool(host='slack.com', port=443): Max retries exceeded with url: /api/chat.postMessage (Caused by NameResolutionError("<urllib3.connection.HTTPSConnection object at 0x000001B2AECDD640>: Failed to resolve 'slack.com' ([Errno 11001] getaddrinfo failed)"))
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\Prem\Desktop\prem\OANDA\quant_coach\quant_coach.py", line 514, in post_to_slack
+    resp = requests.post(
+           ^^^^^^^^^^^^^^
+  File "C:\Users\Prem\anaconda3\Lib\site-packages\requests\api.py", line 115, in post
+    return request("post", url, data=data, json=json, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Prem\anaconda3\Lib\site-packages\requests\api.py", line 59, in request
+    return session.request(method=method, url=url, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Prem\anaconda3\Lib\site-packages\requests\sessions.py", line 589, in request
+    resp = self.send(prep, **send_kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Prem\anaconda3\Lib\site-packages\requests\sessions.py", line 703, in send
+    r = adapter.send(request, **kwargs)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Prem\anaconda3\Lib\site-packages\requests\adapters.py", line 622, in send
+    raise ConnectionError(e, request=request)
+requests.exceptions.ConnectionError: HTTPSConnectionPool(host='slack.com', port=443): Max retries exceeded with url: /api/chat.postMessage (Caused by NameResolutionError("<urllib3.connection.HTTPSConnection object at 0x000001B2AECDD640>: Failed to resolve 'slack.com' ([Errno 11001] getaddrinfo failed)"))
+2026-07-15 09:32:19,435 INFO Quant Coach | Hour=9 | Day topic #6 | Session=46
+2026-07-15 09:32:38,864 ERROR Slack error: not_in_channel
+2026-07-17 08:00:04,218 INFO Quant Coach | Hour=8 | Day topic #6 | Session=47
+2026-07-17 08:00:04,645 ERROR Slack error: not_in_channel
+2026-07-18 01:07:14,739 INFO Quant Coach | Hour=1 | Day topic #6 | Session=48
+2026-07-18 01:07:18,476 ERROR Slack error: not_in_channel
+2026-07-18 08:00:07,564 INFO Quant Coach | Hour=8 | Day topic #6 | Session=49
+2026-07-18 08:00:07,813 ERROR Slack error: not_in_channel
+2026-07-20 09:31:35,319 INFO Quant Coach | Hour=9 | Day topic #6 | Session=50
+2026-07-20 09:31:41,402 ERROR Slack post failed: HTTPSConnectionPool(host='slack.com', port=443): Max retries exceeded with url: /api/chat.postMessage (Caused by SSLError(SSLEOFError(8, '[SSL: UNEXPECTED_EOF_WHILE_READING] EOF occurred in violation of protocol (_ssl.c:1000)')))
+Traceback (most recent call last):
+  File "C:\Users\Prem\anaconda3\Lib\site-packages\urllib3\connectionpool.py", line 466, in _make_request
+    self._validate_conn(conn)
+  File "C:\Users\Prem\anaconda3\Lib\site-packages\urllib3\connectionpool.py", line 1095, in _validate_conn
+    conn.connect()
+  File "C:\Users\Prem\anaconda3\Lib\site-packages\urllib3\connection.py", line 652, in connect
+    sock_and_verified = _ssl_wrap_socket_and_match_hostname(
+                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Prem\anaconda3\Lib\site-packages\urllib3\connection.py", line 805, in _ssl_wrap_socket_and_match_hostname
+    ssl_sock = ssl_wrap_socket(
+               ^^^^^^^^^^^^^^^^
+  File "C:\Users\Prem\anaconda3\Lib\site-packages\urllib3\util\ssl_.py", line 465, in ssl_wrap_socket
+    ssl_sock = _ssl_wrap_socket_impl(sock, context, tls_in_tls, server_hostname)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Prem\anaconda3\Lib\site-packages\urllib3\util\ssl_.py", line 509, in _ssl_wrap_socket_impl
+    return ssl_context.wrap_socket(sock, server_hostname=server_hostname)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Prem\anaconda3\Lib\ssl.py", line 455, in wrap_socket
+    return self.sslsocket_class._create(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Prem\anaconda3\Lib\ssl.py", line 1042, in _create
+    self.do_handshake()
+  File "C:\Users\Prem\anaconda3\Lib\ssl.py", line 1320, in do_handshake
+    self._sslobj.do_handshake()
+ssl.SSLEOFError: [SSL: UNEXPECTED_EOF_WHILE_READING] EOF occurred in violation of protocol (_ssl.c:1000)
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\Prem\anaconda3\Lib\site-packages\urllib3\connectionpool.py", line 789, in urlopen
+    response = self._make_request(
+               ^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Prem\anaconda3\Lib\site-packages\urllib3\connectionpool.py", line 490, in _make_request
+    raise new_e
+urllib3.exceptions.SSLError: [SSL: UNEXPECTED_EOF_WHILE_READING] EOF occurred in violation of protocol (_ssl.c:1000)
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\Prem\anaconda3\Lib\site-packages\requests\adapters.py", line 589, in send
+    resp = conn.urlopen(
+           ^^^^^^^^^^^^^
+  File "C:\Users\Prem\anaconda3\Lib\site-packages\urllib3\connectionpool.py", line 843, in urlopen
+    retries = retries.increment(
+              ^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Prem\anaconda3\Lib\site-packages\urllib3\util\retry.py", line 519, in increment
+    raise MaxRetryError(_pool, url, reason) from reason  # type: ignore[arg-type]
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+urllib3.exceptions.MaxRetryError: HTTPSConnectionPool(host='slack.com', port=443): Max retries exceeded with url: /api/chat.postMessage (Caused by SSLError(SSLEOFError(8, '[SSL: UNEXPECTED_EOF_WHILE_READING] EOF occurred in violation of protocol (_ssl.c:1000)')))
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\Prem\Desktop\prem\OANDA\quant_coach\quant_coach.py", line 514, in post_to_slack
+    resp = requests.post(
+           ^^^^^^^^^^^^^^
+  File "C:\Users\Prem\anaconda3\Lib\site-packages\requests\api.py", line 115, in post
+    return request("post", url, data=data, json=json, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Prem\anaconda3\Lib\site-packages\requests\api.py", line 59, in request
+    return session.request(method=method, url=url, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Prem\anaconda3\Lib\site-packages\requests\sessions.py", line 589, in request
+    resp = self.send(prep, **send_kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Prem\anaconda3\Lib\site-packages\requests\sessions.py", line 703, in send
+    r = adapter.send(request, **kwargs)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Prem\anaconda3\Lib\site-packages\requests\adapters.py", line 620, in send
+    raise SSLError(e, request=request)
+requests.exceptions.SSLError: HTTPSConnectionPool(host='slack.com', port=443): Max retries exceeded with url: /api/chat.postMessage (Caused by SSLError(SSLEOFError(8, '[SSL: UNEXPECTED_EOF_WHILE_READING] EOF occurred in violation of protocol (_ssl.c:1000)')))
+2026-07-21 08:00:04,066 INFO Quant Coach | Hour=8 | Day topic #6 | Session=51
+2026-07-21 08:00:04,081 ERROR Slack post failed: HTTPSConnectionPool(host='slack.com', port=443): Max retries exceeded with url: /api/chat.postMessage (Caused by NameResolutionError("<urllib3.connection.HTTPSConnection object at 0x00000247C5CFEC00>: Failed to resolve 'slack.com' ([Errno 11001] getaddrinfo failed)"))
+Traceback (most recent call last):
+  File "C:\Users\Prem\anaconda3\Lib\site-packages\urllib3\connection.py", line 196, in _new_conn
+    sock = connection.create_connection(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Prem\anaconda3\Lib\site-packages\urllib3\util\connection.py", line 60, in create_connection
+    for res in socket.getaddrinfo(host, port, family, socket.SOCK_STREAM):
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Prem\anaconda3\Lib\socket.py", line 964, in getaddrinfo
+    for res in _socket.getaddrinfo(host, port, family, type, proto, flags):
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+socket.gaierror: [Errno 11001] getaddrinfo failed
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\Prem\anaconda3\Lib\site-packages\urllib3\connectionpool.py", line 789, in urlopen
+    response = self._make_request(
+               ^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Prem\anaconda3\Lib\site-packages\urllib3\connectionpool.py", line 490, in _make_request
+    raise new_e
+  File "C:\Users\Prem\anaconda3\Lib\site-packages\urllib3\connectionpool.py", line 466, in _make_request
+    self._validate_conn(conn)
+  File "C:\Users\Prem\anaconda3\Lib\site-packages\urllib3\connectionpool.py", line 1095, in _validate_conn
+    conn.connect()
+  File "C:\Users\Prem\anaconda3\Lib\site-packages\urllib3\connection.py", line 615, in connect
+    self.sock = sock = self._new_conn()
+                       ^^^^^^^^^^^^^^^^
+  File "C:\Users\Prem\anaconda3\Lib\site-packages\urllib3\connection.py", line 203, in _new_conn
+    raise NameResolutionError(self.host, self, e) from e
+urllib3.exceptions.NameResolutionError: <urllib3.connection.HTTPSConnection object at 0x00000247C5CFEC00>: Failed to resolve 'slack.com' ([Errno 11001] getaddrinfo failed)
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\Prem\anaconda3\Lib\site-packages\requests\adapters.py", line 589, in send
+    resp = conn.urlopen(
+           ^^^^^^^^^^^^^
+  File "C:\Users\Prem\anaconda3\Lib\site-packages\urllib3\connectionpool.py", line 843, in urlopen
+    retries = retries.increment(
+              ^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Prem\anaconda3\Lib\site-packages\urllib3\util\retry.py", line 519, in increment
+    raise MaxRetryError(_pool, url, reason) from reason  # type: ignore[arg-type]
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+urllib3.exceptions.MaxRetryError: HTTPSConnectionPool(host='slack.com', port=443): Max retries exceeded with url: /api/chat.postMessage (Caused by NameResolutionError("<urllib3.connection.HTTPSConnection object at 0x00000247C5CFEC00>: Failed to resolve 'slack.com' ([Errno 11001] getaddrinfo failed)"))
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\Prem\Desktop\prem\OANDA\quant_coach\quant_coach.py", line 514, in post_to_slack
+    resp = requests.post(
+           ^^^^^^^^^^^^^^
+  File "C:\Users\Prem\anaconda3\Lib\site-packages\requests\api.py", line 115, in post
+    return request("post", url, data=data, json=json, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Prem\anaconda3\Lib\site-packages\requests\api.py", line 59, in request
+    return session.request(method=method, url=url, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Prem\anaconda3\Lib\site-packages\requests\sessions.py", line 589, in request
+    resp = self.send(prep, **send_kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Prem\anaconda3\Lib\site-packages\requests\sessions.py", line 703, in send
+    r = adapter.send(request, **kwargs)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Prem\anaconda3\Lib\site-packages\requests\adapters.py", line 622, in send
+    raise ConnectionError(e, request=request)
+requests.exceptions.ConnectionError: HTTPSConnectionPool(host='slack.com', port=443): Max retries exceeded with url: /api/chat.postMessage (Caused by NameResolutionError("<urllib3.connection.HTTPSConnection object at 0x00000247C5CFEC00>: Failed to resolve 'slack.com' ([Errno 11001] getaddrinfo failed)"))

@@ -1,0 +1,238 @@
+{
+  "period": "2016-06-09..2026-06-04",
+  "note": "real-yield filter INERT (no DFII10.csv); macro==trend-only",
+  "baseline": {
+    "cost_1x": {
+      "sharpe": 0.514,
+      "cagr": 0.0466,
+      "maxdd": -0.3676,
+      "total_ret": 0.5985,
+      "days": 2596
+    },
+    "cost_3x": {
+      "sharpe": 0.465,
+      "cagr": 0.0416,
+      "maxdd": -0.3807,
+      "total_ret": 0.5213,
+      "days": 2596
+    },
+    "cost_5x": {
+      "sharpe": 0.416,
+      "cagr": 0.0366,
+      "maxdd": -0.3936,
+      "total_ret": 0.4477,
+      "days": 2596
+    },
+    "selection": {
+      "sharpe": 0.248,
+      "cagr": 0.0192,
+      "maxdd": -0.3936,
+      "total_ret": 0.1934,
+      "days": 2344
+    },
+    "holdout": {
+      "sharpe": 1.63,
+      "cagr": 0.2131,
+      "maxdd": -0.106,
+      "total_ret": 0.2131,
+      "days": 252
+    },
+    "exposure": 0.758,
+    "per_year_5xcost": {
+      "2016": {
+        "sharpe": 0.0,
+        "cagr": 0.0,
+        "maxdd": 0.0,
+        "total_ret": 0.0,
+        "days": 145
+      },
+      "2017": {
+        "sharpe": -0.939,
+        "cagr": -0.0534,
+        "maxdd": -0.1033,
+        "total_ret": -0.0548,
+        "days": 259
+      },
+      "2018": {
+        "sharpe": -0.714,
+        "cagr": -0.0819,
+        "maxdd": -0.1277,
+        "total_ret": -0.0844,
+        "days": 260
+      },
+      "2019": {
+        "sharpe": 1.447,
+        "cagr": 0.1309,
+        "maxdd": -0.0566,
+        "total_ret": 0.1426,
+        "days": 273
+      },
+      "2020": {
+        "sharpe": 1.584,
+        "cagr": 0.2006,
+        "maxdd": -0.0954,
+        "total_ret": 0.2067,
+        "days": 259
+      },
+      "2021": {
+        "sharpe": -2.807,
+        "cagr": -0.217,
+        "maxdd": -0.2384,
+        "total_ret": -0.2216,
+        "days": 258
+      },
+      "2022": {
+        "sharpe": -0.507,
+        "cagr": -0.0543,
+        "maxdd": -0.1193,
+        "total_ret": -0.0555,
+        "days": 258
+      },
+      "2023": {
+        "sharpe": -0.695,
+        "cagr": -0.0667,
+        "maxdd": -0.1478,
+        "total_ret": -0.068,
+        "days": 257
+      },
+      "2024": {
+        "sharpe": 1.838,
+        "cagr": 0.2103,
+        "maxdd": -0.0582,
+        "total_ret": 0.2167,
+        "days": 259
+      },
+      "2025": {
+        "sharpe": 3.255,
+        "cagr": 0.4536,
+        "maxdd": -0.0428,
+        "total_ret": 0.4666,
+        "days": 258
+      },
+      "2026": {
+        "sharpe": -0.085,
+        "cagr": -0.0176,
+        "maxdd": -0.106,
+        "total_ret": -0.0077,
+        "days": 110
+      }
+    }
+  },
+  "fast_trend": {
+    "cost_1x": {
+      "sharpe": 0.732,
+      "cagr": 0.0665,
+      "maxdd": -0.2242,
+      "total_ret": 0.9407,
+      "days": 2596
+    },
+    "cost_3x": {
+      "sharpe": 0.678,
+      "cagr": 0.0611,
+      "maxdd": -0.2407,
+      "total_ret": 0.8423,
+      "days": 2596
+    },
+    "cost_5x": {
+      "sharpe": 0.624,
+      "cagr": 0.0558,
+      "maxdd": -0.2569,
+      "total_ret": 0.7488,
+      "days": 2596
+    },
+    "selection": {
+      "sharpe": 0.458,
+      "cagr": 0.0381,
+      "maxdd": -0.2569,
+      "total_ret": 0.4157,
+      "days": 2344
+    },
+    "holdout": {
+      "sharpe": 1.816,
+      "cagr": 0.2353,
+      "maxdd": -0.0897,
+      "total_ret": 0.2353,
+      "days": 252
+    },
+    "exposure": 0.702,
+    "per_year_5xcost": {
+      "2016": {
+        "sharpe": 0.0,
+        "cagr": 0.0,
+        "maxdd": 0.0,
+        "total_ret": 0.0,
+        "days": 145
+      },
+      "2017": {
+        "sharpe": -1.69,
+        "cagr": -0.0861,
+        "maxdd": -0.0884,
+        "total_ret": -0.0884,
+        "days": 259
+      },
+      "2018": {
+        "sharpe": -0.093,
+        "cagr": -0.0134,
+        "maxdd": -0.0591,
+        "total_ret": -0.0138,
+        "days": 260
+      },
+      "2019": {
+        "sharpe": 0.699,
+        "cagr": 0.0596,
+        "maxdd": -0.069,
+        "total_ret": 0.0648,
+        "days": 273
+      },
+      "2020": {
+        "sharpe": 1.402,
+        "cagr": 0.1713,
+        "maxdd": -0.0887,
+        "total_ret": 0.1764,
+        "days": 259
+      },
+      "2021": {
+        "sharpe": -1.166,
+        "cagr": -0.1034,
+        "maxdd": -0.1303,
+        "total_ret": -0.1057,
+        "days": 258
+      },
+      "2022": {
+        "sharpe": -0.242,
+        "cagr": -0.0269,
+        "maxdd": -0.1001,
+        "total_ret": -0.0276,
+        "days": 258
+      },
+      "2023": {
+        "sharpe": -0.079,
+        "cagr": -0.0093,
+        "maxdd": -0.1049,
+        "total_ret": -0.0095,
+        "days": 257
+      },
+      "2024": {
+        "sharpe": 1.838,
+        "cagr": 0.2103,
+        "maxdd": -0.0582,
+        "total_ret": 0.2167,
+        "days": 259
+      },
+      "2025": {
+        "sharpe": 3.255,
+        "cagr": 0.4536,
+        "maxdd": -0.0428,
+        "total_ret": 0.4666,
+        "days": 258
+      },
+      "2026": {
+        "sharpe": 0.263,
+        "cagr": 0.024,
+        "maxdd": -0.0897,
+        "total_ret": 0.0104,
+        "days": 110
+      }
+    }
+  }
+}

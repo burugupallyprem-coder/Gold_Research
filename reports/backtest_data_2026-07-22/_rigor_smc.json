@@ -1,0 +1,398 @@
+{
+  "cost_1x": {
+    "2019": {
+      "all": {
+        "trades": 98,
+        "win_rate": 0.347,
+        "expectancy_R": 0.248,
+        "profit_factor": 1.373,
+        "total_R": 24.3,
+        "ret_pct": 0.06,
+        "maxdd_pct": -0.04
+      },
+      "long": {
+        "trades": 98,
+        "win_rate": 0.347,
+        "expectancy_R": 0.248,
+        "profit_factor": 1.373,
+        "total_R": 24.3,
+        "ret_pct": 0.06,
+        "maxdd_pct": -0.04
+      },
+      "short": {
+        "trades": 0
+      }
+    },
+    "2020": {
+      "all": {
+        "trades": 139,
+        "win_rate": 0.252,
+        "expectancy_R": 0.046,
+        "profit_factor": 1.117,
+        "total_R": 6.4,
+        "ret_pct": 0.04,
+        "maxdd_pct": -0.071
+      },
+      "long": {
+        "trades": 139,
+        "win_rate": 0.252,
+        "expectancy_R": 0.046,
+        "profit_factor": 1.117,
+        "total_R": 6.4,
+        "ret_pct": 0.04,
+        "maxdd_pct": -0.071
+      },
+      "short": {
+        "trades": 0
+      }
+    },
+    "2021": {
+      "all": {
+        "trades": 49,
+        "win_rate": 0.265,
+        "expectancy_R": -0.066,
+        "profit_factor": 0.804,
+        "total_R": -3.2,
+        "ret_pct": -0.02,
+        "maxdd_pct": -0.043
+      },
+      "long": {
+        "trades": 25,
+        "win_rate": 0.12,
+        "expectancy_R": -0.561,
+        "profit_factor": 0.365,
+        "total_R": -14.0,
+        "ret_pct": -0.05,
+        "maxdd_pct": -0.047
+      },
+      "short": {
+        "trades": 24,
+        "win_rate": 0.417,
+        "expectancy_R": 0.45,
+        "profit_factor": 1.698,
+        "total_R": 10.8,
+        "ret_pct": 0.03,
+        "maxdd_pct": -0.014
+      }
+    },
+    "2022": {
+      "all": {
+        "trades": 90,
+        "win_rate": 0.267,
+        "expectancy_R": 0.138,
+        "profit_factor": 1.427,
+        "total_R": 12.4,
+        "ret_pct": 0.08,
+        "maxdd_pct": -0.044
+      },
+      "long": {
+        "trades": 30,
+        "win_rate": 0.267,
+        "expectancy_R": 0.226,
+        "profit_factor": 1.89,
+        "total_R": 6.8,
+        "ret_pct": 0.06,
+        "maxdd_pct": -0.032
+      },
+      "short": {
+        "trades": 60,
+        "win_rate": 0.267,
+        "expectancy_R": 0.094,
+        "profit_factor": 1.154,
+        "total_R": 5.6,
+        "ret_pct": 0.02,
+        "maxdd_pct": -0.044
+      }
+    },
+    "2023": {
+      "all": {
+        "trades": 104,
+        "win_rate": 0.26,
+        "expectancy_R": 0.02,
+        "profit_factor": 1.066,
+        "total_R": 2.1,
+        "ret_pct": 0.01,
+        "maxdd_pct": -0.067
+      },
+      "long": {
+        "trades": 104,
+        "win_rate": 0.26,
+        "expectancy_R": 0.02,
+        "profit_factor": 1.066,
+        "total_R": 2.1,
+        "ret_pct": 0.01,
+        "maxdd_pct": -0.067
+      },
+      "short": {
+        "trades": 0
+      }
+    },
+    "2024": {
+      "all": {
+        "trades": 133,
+        "win_rate": 0.241,
+        "expectancy_R": 0.043,
+        "profit_factor": 1.26,
+        "total_R": 5.7,
+        "ret_pct": 0.07,
+        "maxdd_pct": -0.035
+      },
+      "long": {
+        "trades": 133,
+        "win_rate": 0.241,
+        "expectancy_R": 0.043,
+        "profit_factor": 1.26,
+        "total_R": 5.7,
+        "ret_pct": 0.07,
+        "maxdd_pct": -0.035
+      },
+      "short": {
+        "trades": 0
+      }
+    },
+    "2025": {
+      "all": {
+        "trades": 161,
+        "win_rate": 0.317,
+        "expectancy_R": 0.248,
+        "profit_factor": 1.637,
+        "total_R": 40.0,
+        "ret_pct": 0.19,
+        "maxdd_pct": -0.045
+      },
+      "long": {
+        "trades": 161,
+        "win_rate": 0.317,
+        "expectancy_R": 0.248,
+        "profit_factor": 1.637,
+        "total_R": 40.0,
+        "ret_pct": 0.19,
+        "maxdd_pct": -0.045
+      },
+      "short": {
+        "trades": 0
+      }
+    },
+    "2026": {
+      "all": {
+        "trades": 37,
+        "win_rate": 0.405,
+        "expectancy_R": 0.656,
+        "profit_factor": 2.602,
+        "total_R": 24.3,
+        "ret_pct": 0.13,
+        "maxdd_pct": -0.018
+      },
+      "long": {
+        "trades": 37,
+        "win_rate": 0.405,
+        "expectancy_R": 0.656,
+        "profit_factor": 2.602,
+        "total_R": 24.3,
+        "ret_pct": 0.13,
+        "maxdd_pct": -0.018
+      },
+      "short": {
+        "trades": 0
+      }
+    }
+  },
+  "cost_3x": {
+    "2019": {
+      "all": {
+        "trades": 97,
+        "win_rate": 0.371,
+        "expectancy_R": -0.046,
+        "profit_factor": 0.971,
+        "total_R": -4.5,
+        "ret_pct": -0.01,
+        "maxdd_pct": -0.068
+      },
+      "long": {
+        "trades": 97,
+        "win_rate": 0.371,
+        "expectancy_R": -0.046,
+        "profit_factor": 0.971,
+        "total_R": -4.5,
+        "ret_pct": -0.01,
+        "maxdd_pct": -0.068
+      },
+      "short": {
+        "trades": 0
+      }
+    },
+    "2020": {
+      "all": {
+        "trades": 141,
+        "win_rate": 0.248,
+        "expectancy_R": -0.175,
+        "profit_factor": 0.711,
+        "total_R": -24.7,
+        "ret_pct": -0.12,
+        "maxdd_pct": -0.148
+      },
+      "long": {
+        "trades": 141,
+        "win_rate": 0.248,
+        "expectancy_R": -0.175,
+        "profit_factor": 0.711,
+        "total_R": -24.7,
+        "ret_pct": -0.12,
+        "maxdd_pct": -0.148
+      },
+      "short": {
+        "trades": 0
+      }
+    },
+    "2021": {
+      "all": {
+        "trades": 49,
+        "win_rate": 0.306,
+        "expectancy_R": -0.158,
+        "profit_factor": 0.738,
+        "total_R": -7.7,
+        "ret_pct": -0.03,
+        "maxdd_pct": -0.055
+      },
+      "long": {
+        "trades": 25,
+        "win_rate": 0.16,
+        "expectancy_R": -0.587,
+        "profit_factor": 0.388,
+        "total_R": -14.7,
+        "ret_pct": -0.05,
+        "maxdd_pct": -0.059
+      },
+      "short": {
+        "trades": 24,
+        "win_rate": 0.458,
+        "expectancy_R": 0.289,
+        "profit_factor": 1.431,
+        "total_R": 6.9,
+        "ret_pct": 0.02,
+        "maxdd_pct": -0.018
+      }
+    },
+    "2022": {
+      "all": {
+        "trades": 88,
+        "win_rate": 0.261,
+        "expectancy_R": -0.05,
+        "profit_factor": 1.154,
+        "total_R": -4.4,
+        "ret_pct": 0.03,
+        "maxdd_pct": -0.06
+      },
+      "long": {
+        "trades": 29,
+        "win_rate": 0.276,
+        "expectancy_R": 0.141,
+        "profit_factor": 1.681,
+        "total_R": 4.1,
+        "ret_pct": 0.05,
+        "maxdd_pct": -0.035
+      },
+      "short": {
+        "trades": 59,
+        "win_rate": 0.254,
+        "expectancy_R": -0.144,
+        "profit_factor": 0.872,
+        "total_R": -8.5,
+        "ret_pct": -0.02,
+        "maxdd_pct": -0.06
+      }
+    },
+    "2023": {
+      "all": {
+        "trades": 102,
+        "win_rate": 0.275,
+        "expectancy_R": -0.133,
+        "profit_factor": 0.852,
+        "total_R": -13.6,
+        "ret_pct": -0.04,
+        "maxdd_pct": -0.098
+      },
+      "long": {
+        "trades": 102,
+        "win_rate": 0.275,
+        "expectancy_R": -0.133,
+        "profit_factor": 0.852,
+        "total_R": -13.6,
+        "ret_pct": -0.04,
+        "maxdd_pct": -0.098
+      },
+      "short": {
+        "trades": 0
+      }
+    },
+    "2024": {
+      "all": {
+        "trades": 129,
+        "win_rate": 0.248,
+        "expectancy_R": -0.1,
+        "profit_factor": 1.062,
+        "total_R": -12.9,
+        "ret_pct": 0.02,
+        "maxdd_pct": -0.043
+      },
+      "long": {
+        "trades": 129,
+        "win_rate": 0.248,
+        "expectancy_R": -0.1,
+        "profit_factor": 1.062,
+        "total_R": -12.9,
+        "ret_pct": 0.02,
+        "maxdd_pct": -0.043
+      },
+      "short": {
+        "trades": 0
+      }
+    },
+    "2025": {
+      "all": {
+        "trades": 161,
+        "win_rate": 0.311,
+        "expectancy_R": 0.111,
+        "profit_factor": 1.381,
+        "total_R": 17.8,
+        "ret_pct": 0.13,
+        "maxdd_pct": -0.066
+      },
+      "long": {
+        "trades": 161,
+        "win_rate": 0.311,
+        "expectancy_R": 0.111,
+        "profit_factor": 1.381,
+        "total_R": 17.8,
+        "ret_pct": 0.13,
+        "maxdd_pct": -0.066
+      },
+      "short": {
+        "trades": 0
+      }
+    },
+    "2026": {
+      "all": {
+        "trades": 37,
+        "win_rate": 0.405,
+        "expectancy_R": 0.59,
+        "profit_factor": 2.388,
+        "total_R": 21.8,
+        "ret_pct": 0.12,
+        "maxdd_pct": -0.022
+      },
+      "long": {
+        "trades": 37,
+        "win_rate": 0.405,
+        "expectancy_R": 0.59,
+        "profit_factor": 2.388,
+        "total_R": 21.8,
+        "ret_pct": 0.12,
+        "maxdd_pct": -0.022
+      },
+      "short": {
+        "trades": 0
+      }
+    }
+  }
+}
