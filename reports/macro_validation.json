@@ -1,73 +1,73 @@
 {
   "base": {
     "full": {
-      "days": 1771,
-      "sharpe": 0.364,
-      "cagr": 2.22,
+      "days": 1770,
+      "sharpe": 0.378,
+      "cagr": 2.32,
       "max_dd": -24.6,
-      "exposure": 0.257,
+      "exposure": 0.256,
       "ann_turnover": 11.0,
-      "hit": 0.19
+      "hit": 0.189
     },
     "in_sample": {
       "days": 1062,
-      "sharpe": -0.889,
-      "cagr": -5.33,
+      "sharpe": -0.865,
+      "cagr": -5.18,
       "max_dd": -22.63,
-      "exposure": 0.216,
+      "exposure": 0.214,
       "ann_turnover": 11.1,
-      "hit": 0.147
+      "hit": 0.144
     },
     "out_of_sample": {
-      "days": 709,
-      "sharpe": 1.86,
-      "cagr": 14.68,
+      "days": 708,
+      "sharpe": 1.861,
+      "cagr": 14.7,
       "max_dd": -7.03,
-      "exposure": 0.318,
+      "exposure": 0.319,
       "ann_turnover": 10.9,
-      "hit": 0.255
+      "hit": 0.256
     },
-    "equity_final": 1.1672,
+    "equity_final": 1.1746,
     "cost_bps": 2.0,
-    "period": "2019-09-12..2026-07-16"
+    "period": "2019-09-19..2026-07-23"
   },
   "cost_stress": {
     "full": {
-      "days": 1771,
-      "sharpe": 0.231,
-      "cagr": 1.33,
+      "days": 1770,
+      "sharpe": 0.245,
+      "cagr": 1.42,
       "max_dd": -27.29,
-      "exposure": 0.257,
+      "exposure": 0.256,
       "ann_turnover": 11.0,
-      "hit": 0.188
+      "hit": 0.186
     },
     "in_sample": {
       "days": 1062,
-      "sharpe": -1.037,
-      "cagr": -6.16,
+      "sharpe": -1.013,
+      "cagr": -6.02,
       "max_dd": -25.29,
-      "exposure": 0.216,
+      "exposure": 0.214,
       "ann_turnover": 11.1,
-      "hit": 0.146
+      "hit": 0.143
     },
     "out_of_sample": {
-      "days": 709,
-      "sharpe": 1.744,
-      "cagr": 13.68,
+      "days": 708,
+      "sharpe": 1.745,
+      "cagr": 13.7,
       "max_dd": -7.56,
-      "exposure": 0.318,
+      "exposure": 0.319,
       "ann_turnover": 10.9,
       "hit": 0.251
     },
-    "equity_final": 1.097,
+    "equity_final": 1.104,
     "cost_bps": 10.0,
-    "period": "2019-09-12..2026-07-16"
+    "period": "2019-09-19..2026-07-23"
   },
   "verdict": {
     "branch": "REAL (MODEST) EDGE",
-    "oos_sharpe": 1.86,
-    "full_sharpe": 0.364,
-    "stress_oos_sharpe": 1.744,
+    "oos_sharpe": 1.861,
+    "full_sharpe": 0.378,
+    "stress_oos_sharpe": 1.745,
     "message": "Out-of-sample risk-adjusted return is positive AND survives 5x costs. This is a genuine, documented-style premium. Expect long flat stretches; size small and keep validating on new data."
   },
   "macro_filter_used": true

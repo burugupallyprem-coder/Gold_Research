@@ -1,11 +1,11 @@
 {
-  "updated": "2026-07-18T05:25:37.888328+00:00",
+  "updated": "2026-07-25T05:42:50.458907+00:00",
   "verdict": {
     "branch": "REAL (MODEST) EDGE",
-    "oos_sharpe": 1.86,
-    "full_sharpe": 0.364,
-    "stress_oos_sharpe": 1.744,
+    "oos_sharpe": 1.861,
+    "full_sharpe": 0.378,
+    "stress_oos_sharpe": 1.745,
     "message": "Out-of-sample risk-adjusted return is positive AND survives 5x costs. This is a genuine, documented-style premium. Expect long flat stretches; size small and keep validating on new data."
   },
-  "period": "2019-09-12..2026-07-16"
+  "period": "2019-09-19..2026-07-23"
 }
