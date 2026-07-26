@@ -1,0 +1,240 @@
+{
+  "universe_trades": 1587,
+  "router_trades": 786,
+  "HONEST_ROUTER": {
+    "selection_1x": {
+      "trades": 456,
+      "expectancy_R": 0.1027,
+      "win_rate": 0.272,
+      "profit_factor": 1.179,
+      "total_R": 46.8,
+      "sharpe": 0.549,
+      "maxdd": -0.189,
+      "q_pos_frac": 0.55,
+      "n_quarters": 20,
+      "label": "selection(train<2024) 1x"
+    },
+    "holdout_1x": {
+      "trades": 330,
+      "expectancy_R": 0.2134,
+      "win_rate": 0.291,
+      "profit_factor": 1.393,
+      "total_R": 70.4,
+      "sharpe": 1.44,
+      "maxdd": -0.11,
+      "q_pos_frac": 0.9,
+      "n_quarters": 10,
+      "label": "holdout(2024-2026 BULL) 1x"
+    },
+    "selection_3x": {
+      "trades": 456,
+      "expectancy_R": -0.0833,
+      "win_rate": 0.272,
+      "profit_factor": 0.882,
+      "total_R": -38.0,
+      "sharpe": -0.443,
+      "maxdd": -0.413,
+      "q_pos_frac": 0.35,
+      "n_quarters": 20,
+      "label": "selection(train<2024) 3x"
+    },
+    "holdout_3x": {
+      "trades": 330,
+      "expectancy_R": 0.1142,
+      "win_rate": 0.291,
+      "profit_factor": 1.185,
+      "total_R": 37.7,
+      "sharpe": 0.772,
+      "maxdd": -0.166,
+      "q_pos_frac": 0.6,
+      "n_quarters": 10,
+      "label": "holdout(2024-2026 BULL) 3x"
+    },
+    "selection_5x": {
+      "trades": 456,
+      "expectancy_R": -0.2694,
+      "win_rate": 0.272,
+      "profit_factor": 0.678,
+      "total_R": -122.8,
+      "sharpe": -1.386,
+      "maxdd": -0.736,
+      "q_pos_frac": 0.2,
+      "n_quarters": 20,
+      "label": "selection(train<2024) 5x"
+    },
+    "holdout_5x": {
+      "trades": 330,
+      "expectancy_R": 0.015,
+      "win_rate": 0.291,
+      "profit_factor": 1.022,
+      "total_R": 5.0,
+      "sharpe": 0.101,
+      "maxdd": -0.323,
+      "q_pos_frac": 0.5,
+      "n_quarters": 10,
+      "label": "holdout(2024-2026 BULL) 5x"
+    }
+  },
+  "GATE_validation_1x": {
+    "PASS": true,
+    "metrics": {
+      "trades": 330,
+      "expectancy_R": 0.2134,
+      "win_rate": 0.291,
+      "profit_factor": 1.393,
+      "total_R": 70.4,
+      "sharpe": 1.44,
+      "maxdd": -0.11,
+      "q_pos_frac": 0.9,
+      "n_quarters": 10,
+      "label": "holdout(2024-2026 BULL) 1x"
+    }
+  },
+  "long_short_split": {
+    "long": 686,
+    "short": 100
+  },
+  "BUY_HOLD_gold": {
+    "definition": "daily close pct-change, full compounding, no leverage/vol-target/cost/cash-drag",
+    "selection_window": [
+      "2019-02-20",
+      "2024-01-01"
+    ],
+    "holdout_window": [
+      "2024-01-01",
+      "2026-07-01"
+    ],
+    "selection": {
+      "total_ret_pct": 54.1,
+      "sharpe": 0.661,
+      "maxdd": -0.213
+    },
+    "holdout(BULL)": {
+      "total_ret_pct": 109.8,
+      "sharpe": 1.546,
+      "maxdd": -0.201
+    }
+  },
+  "router_total_ret_holdout_pct": 95.2,
+  "HINDSIGHT_bestof": {
+    "components": [
+      "trend",
+      "FVG",
+      "NY"
+    ],
+    "weekly_sharpe_full": 5.37,
+    "weekly_sharpe_holdout": 7.3,
+    "total_ret_full_pct": 8704.6,
+    "weeks_positive_pct": 57.0,
+    "honest_avg_component_weekly_sharpe": 0.81,
+    "isolation": "router metrics computed BEFORE this block; hindsight reads component R streams only, never mutates router"
+  },
+  "RANDOM_side_benchmark_holdout": {
+    "method": "SAME entry timestamps as router; SAME per-trade risk_price; SAME RR by setup (FVG 2.5, NY 3.0); SAME cost 0.40; SAME simplified bracket (stop=risk, target=RR*risk, hold cap H=288 M15 bars ~3 trading days); ONLY the side is coin-flipped. 1000 seeds.",
+    "n_entries": 330,
+    "same_trade_count": true,
+    "router_sim_expectancy_R": 0.1809,
+    "router_engine_expectancy_R": 0.2134,
+    "note_engine_vs_sim": "engine R (0.213) vs sim R (this) differ because the sim omits BE moves/swing stops; both sides use the SAME sim so the percentile is apples-to-apples",
+    "random_mean_R": -0.0867,
+    "random_p05_R": -0.2098,
+    "random_p95_R": 0.0403,
+    "router_percentile_vs_random": 100.0
+  },
+  "VERIFICATION": {
+    "1_report_artifacts": {
+      "trade_log": "router_trade_log.csv",
+      "equity_curves": [
+        "eq_router.csv",
+        "eq_buyhold.csv",
+        "eq_hindsight.csv"
+      ],
+      "chart": "reports/router_vs_hindsight_2026-07-25.png",
+      "all_metrics": "analysis.json"
+    },
+    "2_random_benchmark": {
+      "method": "SAME entry timestamps as router; SAME per-trade risk_price; SAME RR by setup (FVG 2.5, NY 3.0); SAME cost 0.40; SAME simplified bracket (stop=risk, target=RR*risk, hold cap H=288 M15 bars ~3 trading days); ONLY the side is coin-flipped. 1000 seeds.",
+      "n_entries": 330,
+      "same_trade_count": true,
+      "router_sim_expectancy_R": 0.1809,
+      "router_engine_expectancy_R": 0.2134,
+      "note_engine_vs_sim": "engine R (0.213) vs sim R (this) differ because the sim omits BE moves/swing stops; both sides use the SAME sim so the percentile is apples-to-apples",
+      "random_mean_R": -0.0867,
+      "random_p05_R": -0.2098,
+      "random_p95_R": 0.0403,
+      "router_percentile_vs_random": 100.0
+    },
+    "3_sharpe": {
+      "formula": "mean(daily_equity_return)/std(daily_equity_return)*sqrt(252)",
+      "risk_free": 0.0,
+      "frequency": "DAILY equity returns (RISK*R summed by trade EXIT date)",
+      "annualization": "sqrt(252)",
+      "hindsight_uses": "WEEKLY returns * sqrt(52) (labelled separately)"
+    },
+    "4_buy_hold": {
+      "definition": "daily close pct-change, full compounding, no leverage/vol-target/cost/cash-drag",
+      "selection_window": [
+        "2019-02-20",
+        "2024-01-01"
+      ],
+      "holdout_window": [
+        "2024-01-01",
+        "2026-07-01"
+      ],
+      "selection": {
+        "total_ret_pct": 54.1,
+        "sharpe": 0.661,
+        "maxdd": -0.213
+      },
+      "holdout(BULL)": {
+        "total_ret_pct": 109.8,
+        "sharpe": 1.546,
+        "maxdd": -0.201
+      }
+    },
+    "5_momentum_no_lookahead": {
+      "rule": "allowed_side = sign(pos_dir).shift(1) => uses PRIOR daily close",
+      "mom_lookback": "px/px.shift(252)-1 (all past)",
+      "emas": "causal ewm(adjust=False)",
+      "samples": [
+        {
+          "entry_day": "2019-02-19",
+          "side_source_daily_bar": "2019-02-18",
+          "allowed_side_used": 1,
+          "equals_sign_of_prior_posdir": true
+        },
+        {
+          "entry_day": "2019-02-20",
+          "side_source_daily_bar": "2019-02-19",
+          "allowed_side_used": 1,
+          "equals_sign_of_prior_posdir": true
+        },
+        {
+          "entry_day": "2019-02-20",
+          "side_source_daily_bar": "2019-02-19",
+          "allowed_side_used": 1,
+          "equals_sign_of_prior_posdir": true
+        },
+        {
+          "entry_day": "2019-02-25",
+          "side_source_daily_bar": "2019-02-24",
+          "allowed_side_used": 1,
+          "equals_sign_of_prior_posdir": true
+        },
+        {
+          "entry_day": "2019-02-25",
+          "side_source_daily_bar": "2019-02-24",
+          "allowed_side_used": 1,
+          "equals_sign_of_prior_posdir": true
+        },
+        {
+          "entry_day": "2019-04-29",
+          "side_source_daily_bar": "2019-04-28",
+          "allowed_side_used": -1,
+          "equals_sign_of_prior_posdir": true
+        }
+      ]
+    },
+    "6_hindsight_isolation": "router metrics computed BEFORE this block; hindsight reads component R streams only, never mutates router"
+  }
+}

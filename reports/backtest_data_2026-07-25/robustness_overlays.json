@@ -1,0 +1,271 @@
+{
+  "exits_holdout": {
+    "fixed": {
+      "n": 330,
+      "exp": 0.18,
+      "pf": 1.26,
+      "win": 0.33
+    },
+    "be1": {
+      "n": 330,
+      "exp": 0.016,
+      "pf": 1.03,
+      "win": 0.194
+    },
+    "be15": {
+      "n": 330,
+      "exp": 0.127,
+      "pf": 1.22,
+      "win": 0.264
+    },
+    "be2": {
+      "n": 330,
+      "exp": 0.115,
+      "pf": 1.18,
+      "win": 0.291
+    },
+    "atr_fixed": {
+      "n": 330,
+      "exp": -0.011,
+      "pf": 0.99,
+      "win": 0.285
+    },
+    "atr_trail": {
+      "n": 330,
+      "exp": -0.048,
+      "pf": 0.84,
+      "win": 0.376
+    },
+    "partial_trail": {
+      "n": 330,
+      "exp": -0.071,
+      "pf": 0.76,
+      "win": 0.394
+    },
+    "time12": {
+      "n": 330,
+      "exp": 0.032,
+      "pf": 1.07,
+      "win": 0.458
+    },
+    "time24": {
+      "n": 330,
+      "exp": 0.028,
+      "pf": 1.05,
+      "win": 0.43
+    },
+    "ENGINE_r1x(ref)": {
+      "n": 330,
+      "exp": 0.213,
+      "pf": 1.39,
+      "win": 0.291
+    }
+  },
+  "atr_buckets_holdout": {
+    "low_atr(<33pct)": {
+      "n": 109,
+      "exp": 0.094,
+      "pf": 1.18
+    },
+    "mid_atr": {
+      "n": 109,
+      "exp": 0.193,
+      "pf": 1.33
+    },
+    "high_atr(66-90)": {
+      "n": 79,
+      "exp": 0.376,
+      "pf": 1.75
+    },
+    "extreme_atr(>90pct)": {
+      "n": 33,
+      "exp": 0.283,
+      "pf": 1.54
+    }
+  },
+  "session_buckets_holdout(ET hour)": {
+    "08:00-08:30": {
+      "n": 0,
+      "exp": NaN,
+      "pf": null
+    },
+    "08:30-09:00": {
+      "n": 79,
+      "exp": 0.049,
+      "pf": 1.08
+    },
+    "09:00-09:30": {
+      "n": 55,
+      "exp": 0.166,
+      "pf": 1.32
+    },
+    "09:30-11:00": {
+      "n": 108,
+      "exp": 0.444,
+      "pf": 1.83
+    },
+    "rest_of_day": {
+      "n": 37,
+      "exp": 0.181,
+      "pf": 1.4
+    }
+  },
+  "NY_first_minutes_holdout": {
+    "first30(8-8.5)": {
+      "n": 0,
+      "exp": NaN,
+      "pf": null
+    },
+    "first60(8-9)": {
+      "n": 54,
+      "exp": -0.059,
+      "pf": 0.91
+    },
+    "first90(8-9.5)": {
+      "n": 64,
+      "exp": 0.08,
+      "pf": 1.13
+    }
+  },
+  "loser_analysis_full": {
+    "by_weekday(n,expR)": {
+      "Friday": [
+        143,
+        0.096
+      ],
+      "Monday": [
+        149,
+        -0.039
+      ],
+      "Thursday": [
+        159,
+        0.436
+      ],
+      "Tuesday": [
+        193,
+        0.262
+      ],
+      "Wednesday": [
+        142,
+        -0.074
+      ]
+    },
+    "by_ET_hour(n,expR)": {
+      "0": [
+        1,
+        -0.06
+      ],
+      "5": [
+        48,
+        0.165
+      ],
+      "6": [
+        31,
+        0.312
+      ],
+      "8": [
+        202,
+        0.014
+      ],
+      "9": [
+        207,
+        0.076
+      ],
+      "10": [
+        182,
+        0.402
+      ],
+      "11": [
+        26,
+        0.066
+      ],
+      "12": [
+        15,
+        -0.239
+      ],
+      "13": [
+        14,
+        0.16
+      ],
+      "14": [
+        8,
+        0.66
+      ],
+      "15": [
+        8,
+        0.788
+      ],
+      "16": [
+        3,
+        0.271
+      ],
+      "18": [
+        10,
+        0.104
+      ],
+      "19": [
+        2,
+        0.983
+      ],
+      "20": [
+        8,
+        0.249
+      ],
+      "21": [
+        7,
+        -0.038
+      ],
+      "22": [
+        5,
+        -0.654
+      ],
+      "23": [
+        9,
+        -0.682
+      ]
+    },
+    "by_setup": {
+      "FVG": [
+        409,
+        0.175
+      ],
+      "NY": [
+        377,
+        0.121
+      ]
+    }
+  },
+  "risk_overlays_holdout": {
+    "baseline(no overlay)": {
+      "n": 330,
+      "totR": 70.4,
+      "exp": 0.213,
+      "maxdd_R": -12.5
+    },
+    "max_daily_loss_-2R": {
+      "n": 322,
+      "totR": 63.9,
+      "exp": 0.198,
+      "maxdd_R": -12.5
+    },
+    "max_3_consec_losses": {
+      "n": 286,
+      "totR": 38.0,
+      "exp": 0.133,
+      "maxdd_R": -12.5
+    },
+    "max_3_trades_per_day": {
+      "n": 330,
+      "totR": 70.4,
+      "exp": 0.213,
+      "maxdd_R": -12.5
+    },
+    "max_daily_-2R + 3/day": {
+      "n": 322,
+      "totR": 63.9,
+      "exp": 0.198,
+      "maxdd_R": -12.5
+    }
+  },
+  "confidence_note": "engine confidence = 30(trigger)+20(HTF)+15(vol)+10(NY)+/-25(macro,default 0). With macro=0, every trade scores 65 (non-NY) or 75 (NY) \u2014 all >= gate 60. So the gate is NEAR-INERT on this data (it filters almost nothing). To make confidence predictive we'd need to (a) turn on the macro component or (b) save per-trade FVG size / sweep / structure and correlate \u2014 an engine change. Flagged, not faked."
+}
