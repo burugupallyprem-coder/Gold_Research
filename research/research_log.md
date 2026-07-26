@@ -97,3 +97,17 @@
     - ry_120: -0.042 / 2.916
     - mom_126: 0.014 / 1.651
     - no_macro: -0.011 / 1.52
+
+## Research cycle -- 2026-07-26 06:40 UTC
+- Champion: **baseline** (sel -0.021 / holdout 1.619, 5x-cost Sharpe)
+- Best challenger: **mom_126** (sel 0.123 / holdout 1.596)
+- Decision: hold
+- All candidates (selection / holdout Sharpe):
+    - baseline: -0.021 / 1.619
+    - fast_trend: 0.032 / 1.619
+    - slow_trend: -0.045 / 1.619
+    - vol_15: -0.021 / 1.619
+    - vol_07: -0.021 / 1.619
+    - ry_120: -0.01 / 2.946
+    - mom_126: 0.123 / 1.596
+    - no_macro: 0.022 / 1.501
