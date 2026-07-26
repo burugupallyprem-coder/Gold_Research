@@ -8,11 +8,18 @@ name: oanda-research-lab
 
 on:
   schedule:
-    - cron: "0 4 * * 0"        # Sunday 04:00 UTC — weekly research cycle
+    # GitHub cron is best-effort; stagger several triggers (all before learn @05:00).
+    - cron: "7 4 * * 0"        # Sunday 04:07 UTC (primary)
+    - cron: "27 4 * * 0"       # Sunday 04:27 UTC (backup)
+    - cron: "47 4 * * 0"       # Sunday 04:47 UTC (backup)
   workflow_dispatch: {}
 
 permissions:
   contents: write
+
+concurrency:
+  group: research-lab
+  cancel-in-progress: false
 
 jobs:
   research:
@@ -34,11 +41,12 @@ jobs:
         env:
           SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
           SLACK_CHANNEL_ID: ${{ secrets.SLACK_CHANNEL_ID }}
-        run: python research_lab.py
+        run: python ops/run_once.py --slot research --period week -- python research_lab.py
       - name: Commit research state
         run: |
           git config user.name  "oanda-backtest-bot"
           git config user.email "bot@users.noreply.github.com"
           git add research reports memory || true
           git commit -m "research: $(date -u '+%Y-%m-%d %H:%M') UTC" || echo "nothing to commit"
+          git pull --rebase origin main || true
           git push || echo "push skipped"

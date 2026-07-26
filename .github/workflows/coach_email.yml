@@ -4,15 +4,33 @@ name: quant-coach-email
 # drill each evening — fully in the cloud, so it works with your laptop closed.
 # No Slack. Requires three GitHub Secrets: GMAIL_ADDRESS, GMAIL_APP_PASSWORD,
 # and (optional) COACH_TO_EMAIL.
+#
+# RELIABILITY: GitHub cron is best-effort. Each of the two daily sends fires on
+# several staggered triggers. The send is wrapped in ops/run_once.py with a
+# per-day slot (separate slots for lesson vs drill, matching coach_email.py's own
+# 6–18 UTC = lesson rule) so redundant triggers never send a duplicate email or
+# double-advance the day counter — but a failed send is retried by the next one.
 
 on:
   schedule:
-    - cron: "0 12 * * *"     # 12:00 UTC  ~ 8:00 AM US Eastern (EDT): the lesson
-    - cron: "0 0 * * *"      # 00:00 UTC  ~ 8:00 PM US Eastern (EDT): the drill
-  workflow_dispatch: {}       # lets you trigger a test run from the Actions tab
+    # Morning LESSON (~8 AM ET). All triggers fall inside 06–18 UTC (lesson window).
+    - cron: "7 12 * * *"
+    - cron: "37 12 * * *"
+    - cron: "7 13 * * *"
+    - cron: "37 13 * * *"
+    # Evening DRILL (~8 PM ET). All triggers fall inside 00–06 UTC (drill window).
+    - cron: "7 0 * * *"
+    - cron: "37 0 * * *"
+    - cron: "7 1 * * *"
+    - cron: "37 1 * * *"
+  workflow_dispatch: {}
 
 permissions:
   contents: write             # so it can commit the advancing day counter
+
+concurrency:
+  group: quant-coach          # one at a time; backups queue behind the primary
+  cancel-in-progress: false
 
 jobs:
   coach:
@@ -25,16 +43,20 @@ jobs:
           python-version: "3.11"
       - name: Install dependencies
         run: pip install -r quant_coach/requirements.txt
-      - name: Send today's lesson / drill by email
+      - name: Send today's lesson / drill by email (once per slot)
         env:
           GMAIL_ADDRESS: ${{ secrets.GMAIL_ADDRESS }}
           GMAIL_APP_PASSWORD: ${{ secrets.GMAIL_APP_PASSWORD }}
           COACH_TO_EMAIL: ${{ secrets.COACH_TO_EMAIL }}
-        run: python quant_coach/coach_email.py
+        run: |
+          H=$(date -u +%H)
+          if [ "$H" -ge 6 ] && [ "$H" -lt 18 ]; then SLOT=coach-lesson; else SLOT=coach-drill; fi
+          python ops/run_once.py --slot "$SLOT" --period date -- python quant_coach/coach_email.py
       - name: Save progress (day counter)
         run: |
           git config user.name  "quant-coach"
           git config user.email "bot@users.noreply.github.com"
-          git add quant_coach/memory/coach_state.json || true
+          git add quant_coach/memory/coach_state.json memory/run_slots.json || true
           git commit -m "coach: $(date -u '+%Y-%m-%d %H:%M') UTC" || echo "nothing to commit"
+          git pull --rebase origin main || true
           git push || echo "push skipped"

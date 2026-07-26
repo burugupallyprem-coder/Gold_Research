@@ -7,11 +7,18 @@ name: oanda-validate
 
 on:
   schedule:
-    - cron: "0 2 * * 6"        # Saturday 02:00 UTC — weekly validation verdict
+    # Best-effort cron: stagger several triggers, all before macro @03:00.
+    - cron: "7 2 * * 6"        # Saturday 02:07 UTC (primary)
+    - cron: "27 2 * * 6"       # Saturday 02:27 UTC (backup)
+    - cron: "47 2 * * 6"       # Saturday 02:47 UTC (backup)
   workflow_dispatch: {}
 
 permissions:
   contents: write
+
+concurrency:
+  group: oanda-validate
+  cancel-in-progress: false
 
 jobs:
   validate:
@@ -37,11 +44,12 @@ jobs:
           WF_FOLDS: "10"
           WF_TRAIN: "12000"
           WF_TEST: "8000"
-        run: python validate_run.py
+        run: python ops/run_once.py --slot validate --period week -- python validate_run.py
       - name: Commit verdict
         run: |
           git config user.name  "oanda-backtest-bot"
           git config user.email "bot@users.noreply.github.com"
           git add memory reports || true
           git commit -m "validate: $(date -u '+%Y-%m-%d %H:%M') UTC" || echo "nothing to commit"
+          git pull --rebase origin main || true
           git push || echo "push skipped"

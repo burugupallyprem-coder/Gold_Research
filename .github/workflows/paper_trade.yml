@@ -7,17 +7,30 @@ name: oanda-paper-trader
 #
 # Requires GitHub Secret OANDA_ACCOUNT_ID (the practice account to trade).
 # To forward-test without placing orders first, set repo variable DRY_RUN=true.
+#
+# RELIABILITY: GitHub cron is best-effort and often late/dropped. So this fires
+# on SEVERAL staggered triggers spanning ~3h. The reconcile step is wrapped in
+# ops/run_once.py with a per-trading-day slot (anchored at now-6h so post-midnight
+# backups map to the SAME slot): the first trigger that succeeds does the work,
+# the rest no-op, and a failure is retried by the next trigger.
 
 on:
   schedule:
-    # Gold halts daily 5–6pm New York (21:00–22:00 UTC summer, 22:00–23:00 UTC
-    # winter). 23:15 UTC is after the reopen year-round, and after the daily
-    # bar (5pm NY close) has formed.
-    - cron: "15 23 * * 1-5"     # Mon–Fri 23:15 UTC
+    # Gold reopens after the 5pm-NY daily halt; 23:11 UTC is safely after the
+    # daily bar forms. Backups run into the early UTC morning (same trading day).
+    - cron: "11 23 * * 1-5"     # Mon–Fri 23:11 UTC  (primary)
+    - cron: "41 23 * * 1-5"     # Mon–Fri 23:41 UTC  (backup)
+    - cron: "41 0 * * 2-6"      # 00:41 UTC next day  (backup)
+    - cron: "41 1 * * 2-6"      # 01:41 UTC next day  (backup)
+    - cron: "41 2 * * 2-6"      # 02:41 UTC next day  (last-resort backup)
   workflow_dispatch: {}
 
 permissions:
   contents: write
+
+concurrency:
+  group: paper-trader              # only one paper run at a time; backups queue
+  cancel-in-progress: false
 
 jobs:
   paper:
@@ -35,7 +48,7 @@ jobs:
           OANDA_API_KEY: ${{ secrets.OANDA_API_KEY }}
           OANDA_ENV: practice
         run: python data/fetch_daily.py --days 800
-      - name: Reconcile paper position
+      - name: Reconcile paper position (once per trading day)
         env:
           OANDA_API_KEY: ${{ secrets.OANDA_API_KEY }}
           OANDA_ACCOUNT_ID: ${{ secrets.OANDA_ACCOUNT_ID }}
@@ -43,16 +56,14 @@ jobs:
           SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
           SLACK_CHANNEL_ID: ${{ secrets.SLACK_CHANNEL_ID }}
           DRY_RUN: ${{ vars.DRY_RUN }}      # set repo variable DRY_RUN=true to simulate only
-          # SimBroker: real OANDA prices, simulated fills. Required because
-          # US-division OANDA accounts reject all XAU_USD orders (HTTP 400).
-          # State persists in memory/sim_account.json (committed below).
           PAPER_BROKER: "sim"
           PAPER_MAX_LEVERAGE: "1.0"
-        run: python paper_trader.py
+        run: python ops/run_once.py --slot paper --period paper-day -- python paper_trader.py
       - name: Commit paper log
         run: |
           git config user.name  "oanda-backtest-bot"
           git config user.email "bot@users.noreply.github.com"
           git add reports memory || true
           git commit -m "paper: $(date -u '+%Y-%m-%d %H:%M') UTC" || echo "nothing to commit"
+          git pull --rebase origin main || true
           git push || echo "push skipped"

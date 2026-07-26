@@ -7,11 +7,18 @@ name: oanda-learn
 
 on:
   schedule:
-    - cron: "0 5 * * 0"        # Sunday 05:00 UTC — right after the research cycle
+    # Best-effort cron: stagger several triggers, all after the research cycle.
+    - cron: "7 5 * * 0"        # Sunday 05:07 UTC (primary)
+    - cron: "37 5 * * 0"       # Sunday 05:37 UTC (backup)
+    - cron: "7 6 * * 0"        # Sunday 06:07 UTC (backup)
   workflow_dispatch: {}
 
 permissions:
   contents: write
+
+concurrency:
+  group: oanda-learn
+  cancel-in-progress: false
 
 jobs:
   learn:
@@ -41,11 +48,12 @@ jobs:
           COACH_TO_EMAIL: ${{ secrets.COACH_TO_EMAIL }}
           MIN_DAYS_TO_LEARN: ${{ vars.MIN_DAYS_TO_LEARN }}
           MAX_LIVE_DD: ${{ vars.MAX_LIVE_DD }}
-        run: python -m learning.monitor
+        run: python ops/run_once.py --slot learn --period week -- python -m learning.monitor
       - name: Commit stats + proposals
         run: |
           git config user.name  "oanda-learn-bot"
           git config user.email "bot@users.noreply.github.com"
           git add memory reports || true
           git commit -m "learn: $(date -u '+%Y-%m-%d %H:%M') UTC" || echo "nothing to commit"
+          git pull --rebase origin main || true
           git push || echo "push skipped"

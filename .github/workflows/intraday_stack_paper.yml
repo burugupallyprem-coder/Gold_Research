@@ -10,7 +10,10 @@ name: oanda-intraday-stack-paper
 
 on:
   schedule:
-    - cron: "37 1,5,9,13,17,21 * * 1-5"   # every 4h, weekdays (UTC), offset from smc_paper
+    # Self-deduplicating (reports only NEW closed trades since last run), so more
+    # frequent runs = more resilience to GitHub's late/dropped cron, zero downside.
+    - cron: "43 */2 * * 1-5"    # every 2h, weekdays (UTC), offset from smc_paper
+    - cron: "13 3,7,11,15,19,23 * * 1-5"  # extra offset backups
   workflow_dispatch: {}
 
 permissions:

@@ -7,7 +7,10 @@ name: oanda-smc-paper
 
 on:
   schedule:
-    - cron: "17 1,5,9,13,17,21 * * 1-5"   # every 4h, weekdays (UTC)
+    # Self-deduplicating (reports only NEW closed trades since last run), so more
+    # frequent runs = more resilience to GitHub's late/dropped cron, zero downside.
+    - cron: "13 */2 * * 1-5"    # every 2h, weekdays (UTC)
+    - cron: "43 1,5,9,13,17,21 * * 1-5"   # extra offset backups
   workflow_dispatch: {}
 
 permissions:
