@@ -281,8 +281,9 @@ def slack_text(out):
 
     L.append("")
     L.append("Note: the high holdout Sharpes (>1) are almost certainly inflated by "
-             "gold's 2023-2026 bull market. Treat the selection-period Sharpe (~0.5) "
-             "as the honest expectation. Paper/backtest track only -- this loop never "
+             "gold's 2023-2026 bull market. Treat the selection-period Sharpe (the "
+             f"champion's honest number this week was {out['champion_selection_sharpe']}) "
+             "as the real expectation. Paper/backtest track only -- this loop never "
              "trades real capital; a human approves anything that would.")
     return "\n".join(L)
 
