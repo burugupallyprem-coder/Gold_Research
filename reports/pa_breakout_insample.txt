@@ -1,0 +1,48 @@
+
+ADVANCED PRICE ACTION -- breakout+retest engine | XAU_USD M15
+  cost 0.40/side (0.80 round-trip) | w6/brk0.5/rt20/tol0.5/tgt2R/hold40
+IN-SAMPLE: 2019-01-15 -> 2025-06-04  (150,928 bars)
+
+================================================================================
+1. HEADLINE
+--------------------------------------------------------------------------------
+  PA breakout+retest                 n=3217  win= 36.1%  avgR=-0.270  totR=  -867.6  PF= 0.66  Sharpe= -3.57  DD=-100.0%
+  buy-and-hold gold                  Sharpe= +0.94  DD= -21.4%  CAGR= 13.0%
+
+  exits: target 918 | stop 1911 | max-hold 388
+  gross totR +70.4 -> net totR -867.6   (costs ate 938.0R)
+  median R = 3.36 pts;  round-trip 0.80 = 23.8% of R
+
+  funnel: {'breakouts': 4562, 'retested': 3941, 'reclaimed': 3219, 'SETUP': 3217, 'failed_break': 833}
+================================================================================
+2. RANDOM-ENTRY CONTROL (300 seeds) -- decisive
+--------------------------------------------------------------------------------
+  total_r   PA= -867.62 | random mean= -894.84 p5=-991.81 p95=-806.64 | PA pct  66.3
+  sharpe    PA=   -3.57 | random mean=   -3.73 p5=  -4.19 p95=  -3.34 | PA pct  74.3
+
+  VERDICT: PA sits INSIDE the random-entry distribution -- the retest timing
+           adds nothing over a random entry after the same breakout.
+================================================================================
+3. SENSITIVITY (context only -- NOT for picking a winner)
+--------------------------------------------------------------------------------
+  w6/brk0.5/rt20/tol0.5/tgt2R/hold40 n=3217  win= 36.1%  avgR=-0.270  totR=  -867.6  PF= 0.66  Sharpe= -3.57  DD=-100.0%
+  w6/brk0.5/rt20/tol0.5/tgt1R/hold40 n=3217  win= 48.8%  avgR=-0.298  totR=  -960.2  PF= 0.53  Sharpe= -5.46  DD=-100.0%
+  w6/brk0.5/rt20/tol0.5/tgt1.5R/hold40 n=3217  win= 40.6%  avgR=-0.289  totR=  -929.2  PF= 0.61  Sharpe= -4.34  DD=-100.0%
+  w6/brk0.5/rt20/tol0.5/tgt3R/hold40 n=3217  win= 30.9%  avgR=-0.253  totR=  -815.4  PF= 0.71  Sharpe= -2.75  DD=-100.0%
+  w6/brk0.25/rt20/tol0.5/tgt2R/hold40 n=4886  win= 35.7%  avgR=-0.287  totR= -1401.3  PF= 0.64  Sharpe= -4.40  DD=-100.0%
+  w6/brk1/rt20/tol0.5/tgt2R/hold40   n=1201  win= 37.6%  avgR=-0.214  totR=  -257.2  PF= 0.72  Sharpe= -1.85  DD= -93.6%
+  w6/brk0.5/rt10/tol0.5/tgt2R/hold40 n=3146  win= 35.8%  avgR=-0.278  totR=  -874.8  PF= 0.65  Sharpe= -3.67  DD=-100.0%
+  w6/brk0.5/rt40/tol0.5/tgt2R/hold40 n=3195  win= 36.7%  avgR=-0.251  totR=  -802.0  PF= 0.68  Sharpe= -3.32  DD=-100.0%
+  w3/brk0.5/rt20/tol0.5/tgt2R/hold40 n=4674  win= 35.8%  avgR=-0.285  totR= -1330.5  PF= 0.65  Sharpe= -4.52  DD=-100.0%
+  w10/brk0.5/rt20/tol0.5/tgt2R/hold40 n=2223  win= 35.7%  avgR=-0.276  totR=  -613.9  PF= 0.65  Sharpe= -3.13  DD= -99.8%
+  w6/brk0.5/rt20/tol0.5/tgt2R/hold40 n=3886  win= 34.7%  avgR=-0.408  totR= -1586.2  PF= 0.55  Sharpe= -5.51  DD=-100.0%
+================================================================================
+4. COST STRESS
+--------------------------------------------------------------------------------
+  1x cost (0.40/side)                n=3217  win= 36.1%  avgR=-0.270  totR=  -867.6  PF= 0.66  Sharpe= -3.57  DD=-100.0%
+  3x cost (1.20/side)                n=3217  win= 32.1%  avgR=-0.853  totR= -2743.7  PF= 0.28  Sharpe= -8.92  DD=-100.0%
+  5x cost (2.00/side)                n=3217  win= 25.5%  avgR=-1.436  totR= -4619.7  PF= 0.12  Sharpe=-11.25  DD=-100.0%
+================================================================================
+Reminder: one instrument, gold's 2019-2026 bull regime. Beating buy-hold is not
+sufficient -- clearing the random-entry control is. Paper-only, human-in-the-loop.
+================================================================================
