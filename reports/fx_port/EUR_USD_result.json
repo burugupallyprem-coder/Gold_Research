@@ -1,0 +1,146 @@
+{
+  "instrument": "EUR_USD",
+  "cost": {
+    "spread": 0.0001,
+    "slippage": 2.5e-05,
+    "round_trip": 0.00015000000000000001
+  },
+  "n_bars": 124363,
+  "window": [
+    "2021-07-30",
+    "2026-07-29"
+  ],
+  "RAW_FVG_NY": {
+    "all": {
+      "trades": 951,
+      "exp": 0.0726,
+      "win": 0.27,
+      "pf": 1.121,
+      "sharpe": 0.563,
+      "maxdd": -0.353,
+      "qpos": 0.62,
+      "label": "all",
+      "gate": false
+    },
+    "selection(<=70pct date)": {
+      "trades": 666,
+      "exp": 0.0457,
+      "win": 0.26,
+      "pf": 1.076,
+      "sharpe": 0.365,
+      "maxdd": -0.353,
+      "qpos": 0.53,
+      "label": "sel",
+      "gate": false
+    },
+    "holdout(last30pct)": {
+      "trades": 285,
+      "exp": 0.1354,
+      "win": 0.295,
+      "pf": 1.224,
+      "sharpe": 0.983,
+      "maxdd": -0.149,
+      "qpos": 0.71,
+      "label": "hold",
+      "gate": true
+    },
+    "per_year": {
+      "2021": {
+        "n": 94,
+        "exp": -0.276,
+        "pf": 0.61
+      },
+      "2022": {
+        "n": 191,
+        "exp": -0.014,
+        "pf": 0.98
+      },
+      "2023": {
+        "n": 190,
+        "exp": 0.279,
+        "pf": 1.5
+      },
+      "2024": {
+        "n": 190,
+        "exp": 0.037,
+        "pf": 1.06
+      },
+      "2025": {
+        "n": 179,
+        "exp": 0.085,
+        "pf": 1.14
+      },
+      "2026": {
+        "n": 107,
+        "exp": 0.209,
+        "pf": 1.35
+      }
+    }
+  },
+  "PLUS_daily_trend_filter": {
+    "all": {
+      "trades": 331,
+      "exp": 0.0891,
+      "win": 0.284,
+      "pf": 1.145,
+      "sharpe": 0.409,
+      "maxdd": -0.216,
+      "qpos": 0.67,
+      "label": "all",
+      "gate": false
+    },
+    "selection": {
+      "trades": 204,
+      "exp": -0.0028,
+      "win": 0.25,
+      "pf": 0.995,
+      "sharpe": -0.013,
+      "maxdd": -0.207,
+      "qpos": 0.58,
+      "label": "sel",
+      "gate": false
+    },
+    "holdout": {
+      "trades": 127,
+      "exp": 0.2367,
+      "win": 0.339,
+      "pf": 1.392,
+      "sharpe": 1.039,
+      "maxdd": -0.1,
+      "qpos": 0.71,
+      "label": "hold",
+      "gate": true
+    },
+    "per_year": {
+      "2022": {
+        "n": 58,
+        "exp": 0.037,
+        "pf": 1.06
+      },
+      "2023": {
+        "n": 60,
+        "exp": 0.169,
+        "pf": 1.28
+      },
+      "2024": {
+        "n": 85,
+        "exp": -0.139,
+        "pf": 0.79
+      },
+      "2025": {
+        "n": 84,
+        "exp": 0.197,
+        "pf": 1.32
+      },
+      "2026": {
+        "n": 44,
+        "exp": 0.283,
+        "pf": 1.47
+      }
+    },
+    "long_short": {
+      "long": 182,
+      "short": 149
+    }
+  }
+}

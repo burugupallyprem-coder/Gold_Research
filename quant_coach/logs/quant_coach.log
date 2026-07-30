@@ -969,3 +969,19 @@ Traceback (most recent call last):
   File "C:\Users\Prem\anaconda3\Lib\site-packages\requests\adapters.py", line 622, in send
     raise ConnectionError(e, request=request)
 requests.exceptions.ConnectionError: HTTPSConnectionPool(host='slack.com', port=443): Max retries exceeded with url: /api/chat.postMessage (Caused by NameResolutionError("<urllib3.connection.HTTPSConnection object at 0x00000247C5CFEC00>: Failed to resolve 'slack.com' ([Errno 11001] getaddrinfo failed)"))
+2026-07-22 00:25:31,097 INFO Quant Coach | Hour=0 | Day topic #1 | Session=1
+2026-07-22 00:25:33,391 ERROR Slack error: not_in_channel
+2026-07-23 08:00:03,600 INFO Quant Coach | Hour=8 | Day topic #1 | Session=2
+2026-07-23 08:00:04,243 ERROR Slack error: not_in_channel
+2026-07-24 08:00:04,314 INFO Quant Coach | Hour=8 | Day topic #1 | Session=3
+2026-07-24 08:00:04,649 ERROR Slack error: not_in_channel
+2026-07-28 00:26:26,560 INFO Quant Coach | Hour=0 | Day topic #1 | Session=4
+2026-07-28 00:26:31,488 ERROR Slack error: not_in_channel
+2026-07-28 00:28:04,597 INFO Quant Coach | Hour=0 | Day topic #1 | Session=5
+2026-07-28 00:28:05,012 ERROR Slack error: not_in_channel
+2026-07-28 08:00:02,054 INFO Quant Coach | Hour=8 | Day topic #1 | Session=6
+2026-07-28 08:00:02,358 ERROR Slack error: not_in_channel
+2026-07-29 00:27:39,990 INFO Quant Coach | Hour=0 | Day topic #1 | Session=7
+2026-07-29 00:27:40,624 ERROR Slack error: not_in_channel
+2026-07-29 10:02:51,847 INFO Quant Coach | Hour=10 | Day topic #1 | Session=8
+2026-07-29 10:02:52,263 ERROR Slack error: not_in_channel
