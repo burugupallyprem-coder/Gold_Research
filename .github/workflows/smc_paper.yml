@@ -6,11 +6,6 @@ name: oanda-smc-paper
 # the champion: touches only memory/smc_paper_state.json and reports/.
 
 on:
-  schedule:
-    # Self-deduplicating (reports only NEW closed trades since last run), so more
-    # frequent runs = more resilience to GitHub's late/dropped cron, zero downside.
-    - cron: "13 */2 * * 1-5"    # every 2h, weekdays (UTC)
-    - cron: "43 1,5,9,13,17,21 * * 1-5"   # extra offset backups
   workflow_dispatch: {}
 
 permissions:

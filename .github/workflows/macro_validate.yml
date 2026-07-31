@@ -6,11 +6,6 @@ name: oanda-macro-trend
 # to Slack, and commits reports/macro_validation.json.
 
 on:
-  schedule:
-    # Best-effort cron: stagger several triggers (after validate @02:xx).
-    - cron: "7 3 * * 6"        # Saturday 03:07 UTC (primary)
-    - cron: "37 3 * * 6"       # Saturday 03:37 UTC (backup)
-    - cron: "7 4 * * 6"        # Saturday 04:07 UTC (backup)
   workflow_dispatch: {}
 
 permissions:

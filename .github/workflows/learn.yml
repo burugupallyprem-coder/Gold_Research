@@ -6,11 +6,6 @@ name: oanda-learn
 # Laptop-off, cloud-only.
 
 on:
-  schedule:
-    # Best-effort cron: stagger several triggers, all after the research cycle.
-    - cron: "7 5 * * 0"        # Sunday 05:07 UTC (primary)
-    - cron: "37 5 * * 0"       # Sunday 05:37 UTC (backup)
-    - cron: "7 6 * * 0"        # Sunday 06:07 UTC (backup)
   workflow_dispatch: {}
 
 permissions:

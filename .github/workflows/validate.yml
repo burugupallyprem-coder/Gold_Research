@@ -6,11 +6,6 @@ name: oanda-validate
 # and on demand (Actions tab -> Run workflow, or: gh workflow run validate.yml).
 
 on:
-  schedule:
-    # Best-effort cron: stagger several triggers, all before macro @03:00.
-    - cron: "7 2 * * 6"        # Saturday 02:07 UTC (primary)
-    - cron: "27 2 * * 6"       # Saturday 02:27 UTC (backup)
-    - cron: "47 2 * * 6"       # Saturday 02:47 UTC (backup)
   workflow_dispatch: {}
 
 permissions:

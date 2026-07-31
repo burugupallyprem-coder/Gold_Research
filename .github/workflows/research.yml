@@ -7,11 +7,6 @@ name: oanda-research-lab
 # NEVER trades real capital.
 
 on:
-  schedule:
-    # GitHub cron is best-effort; stagger several triggers (all before learn @05:00).
-    - cron: "7 4 * * 0"        # Sunday 04:07 UTC (primary)
-    - cron: "27 4 * * 0"       # Sunday 04:27 UTC (backup)
-    - cron: "47 4 * * 0"       # Sunday 04:47 UTC (backup)
   workflow_dispatch: {}
 
 permissions:

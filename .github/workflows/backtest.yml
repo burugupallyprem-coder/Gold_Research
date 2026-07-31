@@ -5,12 +5,6 @@ name: oanda-backtest-bot
 # review. Data lives in GitHub Secrets; nothing secret is committed.
 
 on:
-  schedule:
-    # Best-effort cron: stagger several triggers per weekday (same UTC date so the
-    # per-day slot guard treats them as one). Friday's run also does the weekly review.
-    - cron: "7 22 * * 1-5"     # Mon–Fri 22:07 UTC (primary)
-    - cron: "37 22 * * 1-5"    # Mon–Fri 22:37 UTC (backup)
-    - cron: "7 23 * * 1-5"     # Mon–Fri 23:07 UTC (backup)
   workflow_dispatch: {}         # allow manual runs from the Actions tab
 
 permissions:

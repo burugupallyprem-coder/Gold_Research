@@ -12,17 +12,6 @@ name: quant-coach-email
 # double-advance the day counter — but a failed send is retried by the next one.
 
 on:
-  schedule:
-    # Morning LESSON (~8 AM ET). All triggers fall inside 06–18 UTC (lesson window).
-    - cron: "7 12 * * *"
-    - cron: "37 12 * * *"
-    - cron: "7 13 * * *"
-    - cron: "37 13 * * *"
-    # Evening DRILL (~8 PM ET). All triggers fall inside 00–06 UTC (drill window).
-    - cron: "7 0 * * *"
-    - cron: "37 0 * * *"
-    - cron: "7 1 * * *"
-    - cron: "37 1 * * *"
   workflow_dispatch: {}
 
 permissions:

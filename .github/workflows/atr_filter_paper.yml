@@ -11,9 +11,6 @@ name: oanda-atr-filter-paper
 # runs just add resilience to GitHub's late/dropped cron.
 
 on:
-  schedule:
-    - cron: "53 */2 * * 1-5"              # every 2h, weekdays (UTC), offset from the others
-    - cron: "23 3,7,11,15,19,23 * * 1-5"  # extra offset backups
   workflow_dispatch: {}
 
 permissions:
