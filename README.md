@@ -27,6 +27,10 @@ Its defining feature is **what it rejects.** It conclusively falsified an intrad
 
 ---
 
+> **Current status (2026-07).** The validated **Macro-Trend champion** runs on the daily paper account -- the only scheduled job. Backtests, validation and the research loop are **on-demand** (run manually when I want them). The exploratory *intraday* paper tracks (SMC / ATR-gated / stack) and the daily coach email were **retired** -- they showed no edge after costs and only added alert noise. This repo keeps what works and nothing that doesn't.
+
+---
+
 ## What this project demonstrates (skills)
 
 - **Quant research methodology** -- walk-forward, in/out-of-sample separation, cost-stress, long/short attribution, permanent holdouts, multiple-testing discipline.
@@ -44,7 +48,7 @@ Its defining feature is **what it rejects.** It conclusively falsified an intrad
 2. **Honest test.** Event-driven backtest + walk-forward on 5 years / 534 out-of-sample trades -> **NO EDGE AFTER COSTS** (OOS expectancy -0.016R; 5x cost-stress profit factor < 1.0). The apparent profit was gold beta plus unrealistically cheap fills.
 3. **Pivot.** Replaced it with a documented premium: **time-series momentum + a real-yield (TIPS) macro filter + volatility targeting**, on daily bars.
 4. **Result.** **REAL (MODEST) EDGE** -- out-of-sample Sharpe that survives 5x costs; reported honestly, a ~0.5 full-sample Sharpe with a ~36% max drawdown, and recent strength flattered by gold's 2023-2026 bull run.
-5. **Autonomy.** A weekly loop tests challengers, confirms winners on a permanent holdout, and proposes a switch only after a 3-week streak -- paper track only, human-approved.
+5. **Autonomy.** An on-demand loop tests challengers, applies a **deflated-Sharpe** multiple-testing gate (Bailey & Lopez de Prado) so the best-of-N pick must beat luck-of-N, confirms winners on a permanent holdout, and proposes a switch only after a 3-week streak -- paper track only, human-approved.
 6. **Live paper.** A daily executor reconciles the validated champion's target position on an OANDA practice account, behind hard safety rails.
 7. **Self-learning.** The bot records its own trades, weekly reviews how the live paper account actually performed versus the backtest, and emails a warning proposing a de-risk or strategy change -- which a human approves before anything changes.
 
@@ -125,13 +129,14 @@ learning/                      Self-learning layer (human-in-the-loop)
   ledger.py                    Records the bot's own daily trades + features
   monitor.py                   Weekly live-vs-backtest review; proposes changes
   proposals.py                 Shared proposal store (pending / history)
-  emailer.py                   Gmail warning sender (reuses coach secrets)
-research_lab.py                Autonomous champion/challenger loop (proposes)
+  emailer.py                   Gmail warning sender (self-learning alerts)
+research_lab.py                Champion/challenger loop + deflated-Sharpe gate (proposes)
 paper_trader.py                Daily paper executor (locked to champion)
 apply_change.py                Human-approved apply step for proposals
 main.py, validate_run.py, macro_run.py     Orchestrators
 .github/workflows/             backtest, validate, macro_validate, research,
-                               paper_trade, learn, apply_change, coach_email
+                               paper_trade, learn, apply_change
+                               (paper_trade is the only scheduled job; the rest are on-demand)
 tests/                         Engine + paper unit tests, signal parity proof
 research/, memory/, reports/   Version-controlled state, logs and verdicts
 LEARNING.md                    How the self-learning loop works
@@ -152,7 +157,7 @@ python -m learning.monitor                 # weekly self-review (proposes only)
 python apply_change.py --list              # see pending proposals; run without --list to apply
 ```
 
-Unattended in the cloud, a suite of scheduled workflows handles data refresh, backtests, the validation verdict, weekly self-improvement, the self-learning review, and daily paper execution -- committing results and posting to Slack/email with no machine left running. Strategy changes wait for a human-triggered apply step.
+Unattended in the cloud, the champion's **daily paper execution** runs on a schedule; the backtests, validation verdict, research loop and self-learning review are kept as **on-demand** workflows (run manually) to conserve runtime and avoid alert noise. Results commit to git and post to Slack; strategy changes wait for a human-triggered apply step.
 
 ---
 

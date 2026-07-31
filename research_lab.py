@@ -45,6 +45,7 @@ sys.path.insert(0, str(ROOT))
 from config import SETTINGS                              # noqa: E402
 from strategy.macro_trend import MacroConfig, compute_weights, ANN  # noqa: E402
 from execution import notifier                           # noqa: E402
+from backtest.multiple_testing import deflated_sharpe_ratio, per_trade_sharpe  # noqa: E402
 
 DAILY = ROOT / "data" / "daily"
 RESEARCH = ROOT / "research"
@@ -57,6 +58,7 @@ CONSEC_WEEKS = 3            # weekly holdout wins required before promotion
 COST_BPS = 10.0             # stressed cost for all decisions
 MIN_HOLDOUT_SHARPE = 0.30   # challenger must clear this on the holdout
 SELECT_BEAT_MARGIN = 0.10   # and beat champion by this on the selection slice
+MIN_SELECTION_DSR = 0.90    # deflated-Sharpe: best-of-N pick must beat luck-of-N on selection
 
 # -- Pre-registered challenger set (small on purpose) ------------------------
 BASELINE = {"ema_fast": 50, "ema_slow": 200, "mom_lookback": 252,
@@ -138,11 +140,13 @@ def run_cycle():
     champ_params = state["champion"]["params"]
 
     rows = {}
+    sel_pp = {}   # per-period (daily) selection Sharpe + moments, for the deflated-Sharpe gate
     for name, params in CHALLENGERS.items():
         r = _pnl(prices, ry, _cfg(params), COST_BPS)
         sel = r.iloc[:-HOLDOUT_DAYS]
         hold = r.iloc[-HOLDOUT_DAYS:]
         rows[name] = {"selection_sharpe": _sharpe(sel), "holdout_sharpe": _sharpe(hold)}
+        sel_pp[name] = per_trade_sharpe(sel.dropna().tolist())
 
     champ_r = _pnl(prices, ry, _cfg(champ_params), COST_BPS)
     champ_sel = _sharpe(champ_r.iloc[:-HOLDOUT_DAYS])
@@ -150,6 +154,13 @@ def run_cycle():
 
     best = max(rows.items(), key=lambda kv: kv[1]["selection_sharpe"])
     best_name, best_scores = best
+
+    # Deflated Sharpe: how much of the best-of-N selection Sharpe is just luck-of-N?
+    b_sr, b_n, b_sk, b_ku = sel_pp[best_name]
+    trial_sharpes = [sel_pp[n][0] for n in rows]
+    selection_dsr, luck_bar = deflated_sharpe_ratio(b_sr, b_n, trial_sharpes, b_sk, b_ku)
+    selection_dsr = round(selection_dsr, 4)
+    dsr_ok = selection_dsr >= MIN_SELECTION_DSR
 
     decision = "hold"
     promoted = False
@@ -159,7 +170,7 @@ def run_cycle():
     holdout_confirms = (best_scores["holdout_sharpe"] >= MIN_HOLDOUT_SHARPE
                         and best_scores["holdout_sharpe"] > champ_hold)
 
-    if best_name != champ_name and selection_wins and holdout_confirms:
+    if best_name != champ_name and selection_wins and holdout_confirms and dsr_ok:
         if pending and pending.get("name") == best_name:
             pending["streak"] += 1
         else:
@@ -182,7 +193,10 @@ def run_cycle():
             decision = (f"READY: '{best_name}' passed all gates -- AWAITING HUMAN APPROVAL "
                         f"(nothing changed).")
     else:
-        if pending:
+        if best_name != champ_name and selection_wins and holdout_confirms and not dsr_ok:
+            decision = (f"challenger '{best_name}' beat champion but its selection edge is within "
+                        f"luck-of-{len(rows)} (DSR {selection_dsr} < {MIN_SELECTION_DSR}) -- not proposed")
+        elif pending:
             decision = "streak reset (no qualifying challenger this week)"
         pending = None
 
@@ -197,6 +211,10 @@ def run_cycle():
         "best_challenger": best_name,
         "best_selection_sharpe": best_scores["selection_sharpe"],
         "best_holdout_sharpe": best_scores["holdout_sharpe"],
+        "best_selection_dsr": selection_dsr,
+        "selection_luck_bar": round(luck_bar, 4),
+        "selection_dsr_threshold": MIN_SELECTION_DSR,
+        "n_variants": len(rows),
         "decision": decision,
         "promoted": promoted,
         "streak": (pending["streak"] if pending else 0),
@@ -216,6 +234,9 @@ def _append_log(out):
              f"holdout {out['champion_holdout_sharpe']}, 5x-cost Sharpe)",
              f"- Best challenger: **{out['best_challenger']}** (sel {out['best_selection_sharpe']} / "
              f"holdout {out['best_holdout_sharpe']})",
+             f"- Deflated Sharpe of the pick (vs {out.get('n_variants','?')} tried): "
+             f"{out.get('best_selection_dsr','n/a')} (luck bar {out.get('selection_luck_bar','n/a')}, "
+             f"need >= {out.get('selection_dsr_threshold','n/a')})",
              f"- Decision: {out['decision']}",
              "- All candidates (selection / holdout Sharpe):"]
     for n, s in out["candidates"].items():
@@ -249,6 +270,10 @@ def slack_text(out):
     L.append(f"  - Selection Sharpe (the honest, representative number): {out['best_selection_sharpe']}")
     L.append(f"  - Holdout Sharpe (recent year, likely flattered by gold's bull run): "
              f"{out['best_holdout_sharpe']}")
+    L.append(f"  - Deflated Sharpe (chance this beats the luckiest of {len(out['candidates'])} "
+             f"random tries): {out.get('best_selection_dsr','n/a')} -- must clear "
+             f"{out.get('selection_dsr_threshold','n/a')} to be proposed. This is the new "
+             f"multiple-testing gate: it stops a variant that only looks best because we tried several.")
     L.append("")
 
     if out["promoted"]:
