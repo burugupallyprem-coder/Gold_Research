@@ -50,7 +50,7 @@ def main():
         import sys as _sys
         _sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
         from execution import notifier
-        notifier.send(out)
+        notifier.post(out)
     except Exception:
         pass
 

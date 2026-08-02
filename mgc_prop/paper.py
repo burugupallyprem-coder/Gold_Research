@@ -57,7 +57,7 @@ def run(prefer_mgc=True):
     print(line)
     try:
         from execution import notifier
-        notifier.send(line)
+        notifier.post(line)
     except Exception:
         pass
     return s
