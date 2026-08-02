@@ -7,7 +7,15 @@ on:
         required: false
         default: "no"
   schedule:
-    - cron: "0 23 * * 1-5"   # weekdays 23:00 UTC, after the gold daily bar settles
+    # GitHub cron is best-effort and often 1-3h late; fire several staggered triggers
+    # so at least one lands. Dedup in paper.py ensures only the FIRST per new daily bar
+    # actually posts + commits; the rest exit as no-ops.
+    - cron: "0 23 * * 1-5"    # 23:00 UTC (primary, after gold daily settle)
+    - cron: "30 23 * * 1-5"   # 23:30 UTC (backup)
+    - cron: "0 0 * * 2-6"     # 00:00 UTC next day (backup)
+    - cron: "30 0 * * 2-6"    # 00:30 UTC (backup)
+    - cron: "0 1 * * 2-6"     # 01:00 UTC (backup)
+    - cron: "0 2 * * 2-6"     # 02:00 UTC (last-resort backup)
 jobs:
   paper:
     runs-on: ubuntu-latest

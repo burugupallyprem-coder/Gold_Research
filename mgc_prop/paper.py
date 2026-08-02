@@ -33,6 +33,13 @@ def run(prefer_mgc=True):
     cfg = {**DEFAULTS, **st.get("cfg", {})}
     ohlc, source = load_prices(prefer_mgc=prefer_mgc)
     dates = list(ohlc.index)
+    latest_bar = str(pd.to_datetime(dates[-1]).date())
+    # DEDUP: many staggered triggers fire (GitHub cron is late); only the FIRST run per
+    # new daily bar should act. Redundant same-bar runs exit without posting or committing.
+    if st.get("combine_start") is not None and st.get("last_bar_processed") == latest_bar:
+        print(f"[MGC-PAPER] dedup: bar {latest_bar} already processed this cycle - "
+              f"skipping (no Slack, no commit).")
+        return {"status": "dedup_skip", "bar": latest_bar}
     if st["combine_start"] is None:      # first run -> start a fresh combine at the latest bar
         st["combine_start"] = str(pd.to_datetime(dates[-1]).date())
     cstart = pd.to_datetime(st["combine_start"])
@@ -42,6 +49,7 @@ def run(prefer_mgc=True):
                     start_i, st["account"], cfg["stop_pts"], cfg["base_contracts"], cfg["safety"])
     ts = datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M UTC")
     st["last_run"] = ts; st["last_status"] = s; st["source"] = source
+    st["last_bar_processed"] = latest_bar
     st.setdefault("history", []).append({"utc": ts, "status": s["status"], "balance": s["balance"], "days": s["days"]})
     _save_state(st)
 
