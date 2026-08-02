@@ -283,3 +283,46 @@ We built a diversified 13-market trend portfolio (metals, energy, equity index, 
 - Genuine robustness requires **orthogonal factors** (carry, mean-reversion, volatility/carry premia) that pay when trend doesn't — a multi-*factor* program, deferred.
 - Single-gold's edge is partly that **gold happened to be one of the few markets where trend worked this window** — a mild winner's-curse caveat that should slightly *lower*, not raise, confidence in the gold strategy.
 - **Decision:** proceed with the modest single-gold trend as the honest edge, without overselling it.
+
+
+### 14.6 Vehicle ranking — which Apex micro is the best (real data, 2018–2026)
+Trend + adaptive-ATR-stop overlay run as an Apex $50k EOD combine on the four tradeable micros:
+
+| Micro | Market | Pass rate | Median days |
+|---|---|---|---|
+| **MGC** | **Gold** | **41.3%** | 26 |
+| MNQ | Nasdaq-100 | 32.0% | 26 |
+| MBT | Bitcoin | 28.7% | 37 |
+| MES | S&P 500 | 28.1% | 26 |
+
+**Gold wins — and it was the pre-committed choice, so this is confirmation, not cherry-picking.** Crypto disappointed: it trends hardest but its volatility fights the tight $2,500 drawdown, so the adaptive stop sizes it to near-nothing. Equity indices are real but weaker vehicles inside a short combine window. Conclusion: concentrate on gold. (The adaptive ATR stop also answers the review's "why not adaptive?" point.)
+
+### 14.7 Direction & regime dependence — the deepest caveat (please read)
+Question raised: is the 41% just gold's 2-year bull run, and does the algorithm catch DOWN-trends too? The signal is symmetric (long above trend, **short** below), so mechanically it trades both ways. But decomposing long vs short P&L on gold (2019–2026) is sobering:
+
+| Year | Gold move | Algo return | Regime | P&L while SHORT |
+|---|---|---|---|---|
+| 2020 | +24% | +13% | UP | −5.6% |
+| 2021 | −6% | **−11%** | DOWN | −4.2% |
+| 2022 | +1% | +7% | chop | +3.1% |
+| 2023 | +12% | +3% | UP | −5.0% |
+| 2024 | +27% | +25% | UP | 0 |
+| 2025 | +63% | +52% | UP | 0 |
+| 2026 | −6% | +15% | DOWN | +9.5% |
+
+**Whole period: LONG positions +105%, SHORT positions −3.2%.** Nearly all the profit came from riding gold UP; the short side is a **net loser** over the sample. In the one grinding downtrend (2021) the algo **lost 11%** and its shorts lost money (whipsawed); in a clean decline (2026) shorts worked (+9.5%).
+
+**Honest conclusion:** the 41% pass rate is **substantially bull-dependent.** If gold enters a multi-year bear, the algo flips short automatically — but the evidence says its short side is weak-to-unproven: it can profit from a *smooth* decline but gets whipsawed in a *choppy* one. Trend-following's true enemy is not direction, it is **sideways chop.** This is the single biggest risk in the strategy and materially qualifies every pass-rate number in this document.
+
+
+### 14.8 Can combining a filter add edge? (tested — no free lunch)
+Tested a trend-STRENGTH filter: only take the trend when the EMAs are meaningfully separated; stand flat when tangled (chop is the proven enemy, §14.7).
+
+| Variant | Pass rate | 2021 chop-year return | % days in market |
+|---|---|---|---|
+| Trend only (base) | 42.6% | −11.3% | 100% |
+| + strength > 0.015 | 42.6% | −10.8% | 69% |
+| + strength > 0.02 | 38.3% | −8.1% | 61% |
+| + strength > 0.03 | 40.7% | **−3.2%** | 47% |
+
+**Finding:** the filter **reduces the chop-year loss** (2021: −11.3% → −3.2%) but does **not** improve the combine pass rate — tighter filters lower it. It trades pass-rate for chop-robustness; there is **no free edge**. Consistent with the earlier indicator search (which found nothing): **no indicator combination adds net edge to this strategy.** A trend-strength filter is a legitimate *robustness* tool for the funded phase (if a gold bear/chop regime worries you), not an edge booster. The forward test runs the FROZEN base strategy; the filter is a documented candidate, not bolted on mid-test.

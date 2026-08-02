@@ -6,6 +6,8 @@ on:
         description: "Set to 'yes' to start a fresh combine"
         required: false
         default: "no"
+  schedule:
+    - cron: "0 23 * * 1-5"   # weekdays 23:00 UTC, after the gold daily bar settles
 jobs:
   paper:
     runs-on: ubuntu-latest
