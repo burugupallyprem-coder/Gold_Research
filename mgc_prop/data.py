@@ -19,7 +19,39 @@ def load_ohlc(path=SPOT_PROXY):
     return df[["open", "high", "low", "close"]].astype(float)
 
 
-def load_mgc_databento(*a, **k):   # seam for the real contract - intentionally not wired offline
-    raise NotImplementedError(
-        "Real MGC bars require Databento (GLBX.MDP3) + DATABENTO_API_KEY; run in CI. "
-        "The spot proxy (load_ohlc) is used for offline validation.")
+def load_mgc_databento(start="2020-01-01", end=None, max_cost_usd=5.0):
+    """Real Micro Gold (MGC) DAILY bars from Databento GLBX.MDP3 (CME). Needs
+    DATABENTO_API_KEY. Daily bars are cheap; a cost pre-flight still guards spend.
+    Returns the same [open, high, low, close] frame as load_ohlc, indexed by date."""
+    import os
+    from datetime import datetime, timezone, timedelta
+    import databento as db
+    key = os.environ.get("DATABENTO_API_KEY")
+    if not key:
+        raise RuntimeError("DATABENTO_API_KEY not set - run in CI or export the key.")
+    if not end:   # GLBX has a short embargo on the most recent day
+        end = (datetime.now(timezone.utc) - timedelta(days=1)).strftime("%Y-%m-%d")
+    client = db.Historical(key)
+    sym = ["MGC.v.0"]           # continuous front-month micro gold
+    kw = dict(dataset="GLBX.MDP3", symbols=sym, stype_in="continuous",
+              schema="ohlcv-1d", start=start, end=end)
+    cost = float(client.metadata.get_cost(**kw))
+    if cost > max_cost_usd:
+        raise RuntimeError(f"Databento cost ${cost:.2f} > cap ${max_cost_usd:.2f}; raise the cap to proceed.")
+    df = client.timeseries.get_range(**kw).to_df().reset_index()
+    ts = "ts_event" if "ts_event" in df.columns else df.columns[0]
+    df["date"] = pd.to_datetime(df[ts], utc=True).dt.date
+    out = df.set_index("date")[["open", "high", "low", "close"]].astype(float).sort_index()
+    out.index = pd.to_datetime(out.index)
+    return out
+
+
+def load_prices(prefer_mgc=True, **kw):
+    """Prefer real MGC bars; fall back to the free spot proxy if Databento is unavailable
+    (no key / offline). Returns (ohlc, source_label) so the report can state which it used."""
+    if prefer_mgc:
+        try:
+            return load_mgc_databento(**kw), "MGC (Databento GLBX.MDP3)"
+        except Exception as e:
+            print(f"[mgc_prop] real MGC unavailable ({e}); using spot proxy.", flush=True)
+    return load_ohlc(), "XAU_USD spot proxy"

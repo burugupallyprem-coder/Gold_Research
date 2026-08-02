@@ -54,3 +54,45 @@ def simulate_combine(close, high, low, signal, start_i, account,
         if bal >= target:
             return (True, k - start_i + 1, "hit_profit_target")
     return (False, end - start_i, "horizon_expired")
+
+
+def run_forward(close, high, low, signal, start_i, account,
+                stop_pts, base, safety):
+    """Like simulate_combine but runs to the LAST bar and reports the CURRENT account
+    status (passed / failed / in_progress) - for tracking one ongoing paper combine."""
+    a = ACCOUNTS[account]
+    target, trail, cap = a["target"], a["trail"], a["cap"]
+    bal = 0.0; peak = 0.0; floor = -trail; locked = False
+    status = "in_progress"; days = 0; today_c = 0; today_sig = 0.0
+    for k in range(max(1, start_i), len(close)):
+        days = k - start_i + 1
+        p = signal[k]; today_sig = float(p)
+        room = bal - floor
+        c = overlay_contracts(room, stop_pts, base, safety, cap, DPP); today_c = c
+        if p == 0 or c == 0:
+            intraday_min = bal; realized = 0.0
+        else:
+            pc = close[k - 1]
+            if p > 0:
+                adverse = max(pc - low[k], 0.0); pclose = close[k] - pc
+            else:
+                adverse = max(high[k] - pc, 0.0); pclose = pc - close[k]
+            stopped = adverse >= stop_pts
+            realized = ((-stop_pts if stopped else pclose) * DPP - ROUND_TRIP) * c
+            intraday_min = bal + (-min(adverse, stop_pts) * DPP - ROUND_TRIP) * c
+        if intraday_min < floor:
+            return dict(status="failed", reason="breach_trailing_drawdown", days=days,
+                        balance=round(bal, 2), floor=round(floor, 2), peak=round(peak, 2),
+                        locked=locked, today_contracts=c, today_signal=today_sig)
+        bal += realized
+        if not locked:
+            peak = max(peak, bal); floor = peak - trail
+            if peak >= trail + 100:
+                locked = True; floor = 100.0
+        if bal >= target:
+            return dict(status="passed", reason="hit_profit_target", days=days,
+                        balance=round(bal, 2), floor=round(floor, 2), peak=round(peak, 2),
+                        locked=locked, today_contracts=today_c, today_signal=today_sig)
+    return dict(status="in_progress", reason="", days=days, balance=round(bal, 2),
+                floor=round(floor, 2), peak=round(peak, 2), locked=locked,
+                target=target, today_contracts=today_c, today_signal=today_sig)

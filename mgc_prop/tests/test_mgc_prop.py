@@ -64,6 +64,29 @@ def test_backtest_runs_and_reports_sane_numbers():
     assert 0 <= r["pass_rate"] <= 100 and r["attempts"] > 0
 
 
+
+def test_run_forward_reports_in_progress_then_pass():
+    from mgc_prop.apex import run_forward
+    up = list(np.linspace(1800, 2100, 300))
+    o = _ohlc(up)
+    sig = trend_signal(o["close"]).shift(1).fillna(0.0).values
+    # early window -> still climbing to target
+    mid = run_forward(o["close"].values, o["high"].values, o["low"].values, sig, 150, "50k", 12, 3, 1.5)
+    assert mid["status"] in ("in_progress", "passed")
+    # full window on a strong uptrend -> should reach passed
+    full = run_forward(o["close"].values, o["high"].values, o["low"].values, sig, 120, "50k", 12, 3, 1.5)
+    assert full["status"] == "passed" and "balance" in full
+
+
+def test_run_forward_status_fields_present():
+    from mgc_prop.apex import run_forward
+    o = _ohlc(list(2000 + 50*np.sin(np.linspace(0, 8, 250))))
+    sig = trend_signal(o["close"]).shift(1).fillna(0.0).values
+    st = run_forward(o["close"].values, o["high"].values, o["low"].values, sig, 120, "50k", 12, 3, 1.5)
+    for f in ("status", "days", "balance", "floor", "locked", "today_contracts", "today_signal"):
+        assert f in st, f
+
+
 if __name__ == "__main__":
     import traceback
     fns = [v for k, v in sorted(globals().items()) if k.startswith("test_")]

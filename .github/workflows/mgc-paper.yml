@@ -1,0 +1,36 @@
+name: mgc-paper
+on:
+  workflow_dispatch:
+    inputs:
+      reset:
+        description: "Set to 'yes' to start a fresh combine"
+        required: false
+        default: "no"
+jobs:
+  paper:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.11" }
+      - run: pip install -r requirements.txt databento
+      - name: Optional reset
+        if: ${{ github.event.inputs.reset == 'yes' }}
+        run: rm -f mgc_prop/state/mgc_paper.json
+      - name: Run MGC paper combine (SIMULATION - no real money)
+        env:
+          DATABENTO_API_KEY: ${{ secrets.DATABENTO_API_KEY }}
+          SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
+          SLACK_CHANNEL_ID: ${{ secrets.SLACK_CHANNEL_ID }}
+        run: python -m mgc_prop.paper
+      - name: Commit paper state
+        run: |
+          git config user.name "mgc-paper-bot"; git config user.email "bot@users.noreply.github.com"
+          for i in 1 2 3; do
+            git fetch origin main; git reset --soft origin/main; git add mgc_prop/state
+            if git diff --cached --quiet; then echo nothing; break; fi
+            git commit -m "mgc paper combine update $(date -u +%Y%m%dT%H%M%SZ)"
+            if git push origin HEAD:main; then break; fi; sleep $((RANDOM%8+4)); done
