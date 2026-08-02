@@ -24,10 +24,36 @@ def run_backtest(ohlc, account="50k", step=10, horizon=180, cfg=None):
                 median_days=int(np.median(days)) if days else None, reasons=reasons, cfg=cfg)
 
 
-if __name__ == "__main__":
-    from .data import load_ohlc
-    ohlc = load_ohlc()
+def main():
+    from datetime import datetime, timezone
+    from pathlib import Path
+    from .data import load_prices
+    ohlc, source = load_prices(prefer_mgc=True)
+    ts = datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M UTC")
+    span = f"{ohlc.index[0].date()}..{ohlc.index[-1].date()} ({len(ohlc)} bars)"
+    lines = [f"[MGC-BACKTEST] {ts} - RESEARCH ONLY (no real money)",
+             f"data source: {source} | {span}",
+             "rolling Apex combine attempts (fresh start every 10 trading days):"]
     for acct in ("50k", "100k"):
         r = run_backtest(ohlc, acct)
-        print(f"Apex {acct}: pass {r['pass_rate']}%  median {r['median_days']}d  "
-              f"over {r['attempts']} attempts  | {r['reasons']}")
+        lines.append(f"  Apex {acct}: pass {r['pass_rate']}%  median {r['median_days']}d  "
+                     f"over {r['attempts']} attempts")
+    haircut = ("NOTE: even on real MGC this is optimistic (daily bars can't see every intraday "
+               "spike; stops assumed to fill). Treat it as a ceiling, not a promise.")
+    lines.append(haircut)
+    out = "\n".join(lines)
+    print(out)
+    rep = Path(__file__).resolve().parent / "reports"
+    rep.mkdir(exist_ok=True)
+    (rep / f"mgc_backtest_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M')}.md").write_text(out, encoding="utf-8")
+    try:
+        import sys as _sys
+        _sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
+        from execution import notifier
+        notifier.send(out)
+    except Exception:
+        pass
+
+
+if __name__ == "__main__":
+    main()
