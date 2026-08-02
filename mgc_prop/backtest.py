@@ -8,7 +8,8 @@ from .strategy import trend_signal, DEFAULTS
 from .apex import simulate_combine
 
 
-def run_backtest(ohlc, account="50k", step=10, horizon=180, cfg=None):
+def run_backtest(ohlc, account="50k", step=10, horizon=180, cfg=None,
+                 slippage_pts=0.0, stop_slip_pts=0.0):
     cfg = {**DEFAULTS, **(cfg or {})}
     close = ohlc["close"].values; high = ohlc["high"].values; low = ohlc["low"].values
     sig = trend_signal(ohlc["close"], cfg["ema_fast"], cfg["ema_slow"]).shift(1).fillna(0.0).values
@@ -16,7 +17,8 @@ def run_backtest(ohlc, account="50k", step=10, horizon=180, cfg=None):
     for s in range(0, len(close) - 30, step):
         ok, d, why = simulate_combine(close, high, low, sig, s, account,
                                       cfg["stop_pts"], cfg["base_contracts"],
-                                      cfg["safety"], horizon)
+                                      cfg["safety"], horizon,
+                                      slippage_pts, stop_slip_pts)
         total += 1; passes += ok
         if ok: days.append(d)
         reasons[why] = reasons.get(why, 0) + 1
@@ -34,10 +36,15 @@ def main():
     lines = [f"[MGC-BACKTEST] {ts} - RESEARCH ONLY (no real money)",
              f"data source: {source} | {span}",
              "rolling Apex combine attempts (fresh start every 10 trading days):"]
+    # realistic MGC friction: ~0.4pt round-trip slippage, +1.0pt worse fills on stop-outs
+    SLIP, STOP_SLIP = 0.4, 1.0
     for acct in ("50k", "100k"):
-        r = run_backtest(ohlc, acct)
-        lines.append(f"  Apex {acct}: pass {r['pass_rate']}%  median {r['median_days']}d  "
-                     f"over {r['attempts']} attempts")
+        clean = run_backtest(ohlc, acct)
+        stressed = run_backtest(ohlc, acct, slippage_pts=SLIP, stop_slip_pts=STOP_SLIP)
+        lines.append(f"  Apex {acct}: pass {clean['pass_rate']}% clean  ->  "
+                     f"{stressed['pass_rate']}% with real fills  "
+                     f"(median {stressed['median_days']}d, {clean['attempts']} attempts)")
+    lines.append(f"friction modelled: {SLIP}pt round-trip slippage + {STOP_SLIP}pt extra on stop-outs")
     haircut = ("NOTE: even on real MGC this is optimistic (daily bars can't see every intraday "
                "spike; stops assumed to fill). Treat it as a ceiling, not a promise.")
     lines.append(haircut)
