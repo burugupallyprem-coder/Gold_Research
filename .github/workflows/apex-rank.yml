@@ -1,0 +1,28 @@
+name: apex-rank
+on:
+  workflow_dispatch:
+jobs:
+  rank:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.11" }
+      - run: pip install -r requirements.txt databento
+      - name: Rank Apex micro futures (RESEARCH ONLY)
+        env:
+          DATABENTO_API_KEY: ${{ secrets.DATABENTO_API_KEY }}
+          SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
+          SLACK_CHANNEL_ID: ${{ secrets.SLACK_CHANNEL_ID }}
+        run: python -m cta_multimarket.apex_rank
+      - name: Commit report
+        run: |
+          git config user.name "cta-bot"; git config user.email "bot@users.noreply.github.com"
+          for i in 1 2 3; do
+            git fetch origin main; git reset --soft origin/main; git add cta_multimarket/reports
+            if git diff --cached --quiet; then echo nothing; break; fi
+            git commit -m "apex-rank $(date -u +%Y%m%dT%H%M%SZ)"
+            if git push origin HEAD:main; then break; fi; sleep $((RANDOM%8+4)); done

@@ -17,6 +17,7 @@ BASKET = [
     ("6J", "fx",      "Yen"),
     ("ZC", "ags",     "Corn"),
     ("ZS", "ags",     "Soybeans"),
+    ("BTC","crypto",  "Bitcoin"),
 ]
 ROOTS = [b[0] for b in BASKET]
 SECTOR = {b[0]: b[1] for b in BASKET}
