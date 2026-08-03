@@ -21,6 +21,8 @@ APEX_MICROS = {
     "ES":  (5.0,   "MES Micro S&P 500",  "equity"),
     "NQ":  (2.0,   "MNQ Micro Nasdaq",   "equity"),
     "BTC": (0.10,  "MBT Micro Bitcoin",  "crypto"),
+    "CL":  (100.0, "MCL Micro Crude",    "energy"),
+    "6E":  (12500.0, "M6E Micro EUR/USD","fx"),
 }
 
 
@@ -70,8 +72,9 @@ def combine(close, high, low, sig, atr, start_i, dpp, atr_mult=1.5, safety=1.5,
 
 def rank_market(ohlc, dpp, step=10):
     close = ohlc["close"]; high = ohlc["high"]; low = ohlc["low"]
+    # LONG-ONLY trend (clip short side) - the honest validated config. Causal: shift(1).
     sig = np.sign(close.ewm(span=20, adjust=False).mean()
-                  - close.ewm(span=100, adjust=False).mean()).shift(1).fillna(0.0).values
+                  - close.ewm(span=100, adjust=False).mean()).clip(lower=0).shift(1).fillna(0.0).values
     atr = _atr(high, low, close).shift(1).values
     cv, hv, lv = close.values, high.values, low.values
     outs = [combine(cv, hv, lv, sig, atr, s, dpp) for s in range(120, len(cv) - 30, step)]
@@ -85,7 +88,7 @@ def rank_market(ohlc, dpp, step=10):
 def build_report(ohlc_by_root):
     ts = datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M UTC")
     L = [f"[APEX-RANK] {ts} - RESEARCH ONLY (no real money)",
-         "Trend + adaptive-ATR-stop overlay, Apex $50k EOD, per micro contract:",
+         "LONG-ONLY trend + adaptive-ATR-stop overlay, Apex $50k EOD, per micro contract:",
          ""]
     rows = []
     for root, (dpp, name, sec) in APEX_MICROS.items():
