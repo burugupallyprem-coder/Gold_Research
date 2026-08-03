@@ -35,3 +35,34 @@ real next frontier — and it needs different data than the daily OHLC we've use
 
 **Status:** trend strategy frozen + forward-testing (unchanged). Price-based diversification exhausted. Next
 research direction = a non-price orthogonal signal (macro/carry/positioning), pending data + boss's steer.
+
+
+## Strategy #4 — macro (real-yield momentum): the first NON-PRICE source
+Long gold when the 10y TIPS real yield is falling.
+
+| Signal | Sharpe | Max DD | Ann return | Corr w/ trend |
+|---|---|---|---|---|
+| RealYield-mom 20d | 0.15 | −25% | 1.6% | **+0.24** |
+| RealYield-mom 60d | −0.23 | −38% | −2.6% | +0.24 |
+| 50/50 Trend + RealYield | 0.68 | −11% | 5.8% | — |
+
+**Result:** the MOST orthogonal source yet (corr +0.24) and it paid in 2021 (+0.65 while trend lost) — but it is
+**not profitable standalone** (~0 Sharpe) and missed the 2024–25 rally (gold decoupled from real yields on
+central-bank buying / geopolitics). Blending reduces drawdown but lowers Sharpe — a hedge, not an alpha. Same
+story as mean-reversion.
+
+## FINAL CONCLUSION of the orthogonal-source search
+| Source | Orthogonal? | Profitable standalone? |
+|---|---|---|
+| Trend (price) | — | Yes (0.92) |
+| Mean-reversion (price) | Yes (−0.58) | No (−0.53) |
+| Vol-expansion (price) | No (+0.61) | Yes (0.54) |
+| Real-yield (macro) | Yes-ish (+0.24) | No (~0) |
+
+**Across four strategies and a non-price source, the tradeoff is robust: orthogonality XOR profitability, never
+both.** On gold, with constructible signals + available data, there is NO second profitable orthogonal source —
+only drawdown *hedges*. A genuine second profit-stream would require sources we cannot currently build/test
+(COT positioning, futures term structure, options surfaces) and is a lower-probability, higher-effort bet.
+
+**Honest state:** one modest, real, forward-tested edge (gold trend). Orthogonal PROFIT source: not found.
+Drawdown HEDGE (small MR or real-yield sleeve): available, and prop-relevant since drawdown fails combines.
