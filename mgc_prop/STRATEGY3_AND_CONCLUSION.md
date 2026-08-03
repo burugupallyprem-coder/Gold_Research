@@ -93,11 +93,19 @@ the prop combine.**
 | COT-momentum | positioning | ~ (+0.14) | No (−0.49) |
 | COT-contrarian | positioning | Yes (−0.24) | No (−0.08) |
 
-**Across price, macro, AND positioning, the orthogonality-XOR-profitability wall is absolute.** Gold has exactly
-ONE profitable edge (trend). Every orthogonal source is a *drawdown hedge*, not an alpha — and hedges HURT the
-prop combine. Untested sources (futures term structure, options surfaces) need data we don't have; given five
-consistent results, they are very likely the same.
+**Across the specific constructions we tested (a finite subset of the hypothesis space), the pattern is
+consistent: orthogonality XOR profitability — never both.** IMPORTANT (per boss correction): this does NOT prove
+a second profitable orthogonal source cannot exist. The correct claim is *"we have not yet found one using the
+specific signal constructions tested."* Among what we tested, gold has one profitable edge (trend); every
+orthogonal source was a drawdown hedge, and hedges HURT the prop combine.
 
-**Honest end state:** one modest, real, forward-tested edge (gold trend), plus a rigorous, documented proof that
-there is no easy second profitable source. That proof *is* the deliverable — it's what separates disciplined
-research from indefinite tinkering.
+**Explicitly NOT yet tested (could still contain a profitable orthogonal source):** options-implied vol term
+structure, ETF flows, gold lease rates, cross-asset relative strength, DXY-regime interactions, real-yield +
+dollar *combinations* (one macro variable isn't enough), vol-of-vol, seasonal/calendar/time-of-day effects,
+intraday microstructure, central-bank-purchase proxies, and **richer COT constructions** (commercials vs large
+specs vs small traders, positioning percentile, extremes, position/OI changes, divergence — only momentum &
+contrarian were tested, so *first-generation* COT is dead, not COT itself).
+
+**Honest end state:** one modest, real, forward-tested edge (gold trend), plus a rigorous, documented map of
+which *specific* constructions failed and why. We stopped because the tested ideas failed — not because the
+hypothesis space is exhausted. That discipline (test, fail, stop; don't overfit) is itself the deliverable.
