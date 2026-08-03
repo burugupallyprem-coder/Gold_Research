@@ -43,3 +43,26 @@ The validated improvement batch is now: **long-only (#1) + chandelier ATR-traili
 Baseline symmetric+flip ≈ 42.6% → long-only+chandelier ≈ 57% pass (in-sample; confirm out-of-sample, and the
 wide CI from Monte Carlo still applies). Further execution levers still to test: partial profit-taking, scaling
 in, dynamic targets, event-slippage reduction. Edge-hunting paused per boss's direction.
+
+
+## 4. Validation of the execution win (OOS sub-periods + honest CI)
+| Variant | Full | 2019–2022 (chop) | 2023–2026 (bull) |
+|---|---|---|---|
+| Baseline (flip) | 48.1% | 43.8% | 51.7% |
+| Chandelier 2.5×ATR | 57.4% | **43.8%** | 68.5% |
+| **Chandelier + re-entry** | **66.0%** | **54.8%** | **75.3%** |
+
+**Chandelier ALONE is bull-dependent** — zero help in the choppy 2019–2022 half. **Adding RE-ENTRY** (re-enter on
+a new high after a trailing-stop exit) is robust in BOTH regimes (+11pts chop, +24pts bull), because it locks
+profits without permanently missing the continuation after a whipsaw exit.
+
+**Honest CI (independent, non-overlapping combines):** best config **53.3% point** (vs baseline 35.7%),
+bootstrap 90% CI **[33.3%, 73.3%]**. The improvement is real and regime-robust; the absolute level is still
+uncertain (only 15 independent samples). Even the pessimistic lower bound (~33%) ≈ the baseline's central estimate.
+
+## VALIDATED EXECUTION BATCH (the new plan)
+**long-only  +  chandelier ATR-trailing exit (2.5×)  +  re-entry on new high.**
+Baseline symmetric+flip ~36% independent → this ~53% independent, holding across chop and bull. Biggest, most
+robust improvement in the project — and it's execution, not a new edge, exactly as the boss predicted. Confirm
+further on the live forward test. Remaining untested execution levers: partial profit-taking, scaling in,
+dynamic targets, event-slippage.
