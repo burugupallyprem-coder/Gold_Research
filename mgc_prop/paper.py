@@ -9,7 +9,7 @@ from pathlib import Path
 
 import pandas as pd
 
-from .strategy import trend_signal, DEFAULTS
+from .strategy import trend_signal, trend_position, DEFAULTS
 from .apex import run_forward
 from .data import load_prices
 
@@ -44,7 +44,9 @@ def run(prefer_mgc=True):
         st["combine_start"] = str(pd.to_datetime(dates[-1]).date())
     cstart = pd.to_datetime(st["combine_start"])
     start_i = next((i for i, d in enumerate(dates) if pd.to_datetime(d) >= cstart), len(dates) - 1)
-    sig = trend_signal(ohlc["close"], cfg["ema_fast"], cfg["ema_slow"]).shift(1).fillna(0.0).values
+    # LONG-ONLY trend, exit on flip. (Chandelier + re-entry were tested and did NOT survive
+    # causal validation - the earlier gain was a look-ahead artifact; see MENTOR docs.)
+    sig = trend_signal(ohlc["close"], cfg["ema_fast"], cfg["ema_slow"]).clip(lower=0).shift(1).fillna(0.0).values
     s = run_forward(ohlc["close"].values, ohlc["high"].values, ohlc["low"].values, sig,
                     start_i, st["account"], cfg["stop_pts"], cfg["base_contracts"], cfg["safety"])
     ts = datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M UTC")

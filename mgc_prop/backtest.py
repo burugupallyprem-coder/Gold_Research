@@ -4,7 +4,7 @@ days-to-pass. Numbers are OPTIMISTIC (spot proxy, daily bars, perfect stop fills
 haircut to real expectations before risking an eval fee."""
 
 import numpy as np
-from .strategy import trend_signal, DEFAULTS
+from .strategy import trend_signal, trend_position, DEFAULTS
 from .apex import simulate_combine
 
 
@@ -12,7 +12,9 @@ def run_backtest(ohlc, account="50k", step=10, horizon=180, cfg=None,
                  slippage_pts=0.0, stop_slip_pts=0.0):
     cfg = {**DEFAULTS, **(cfg or {})}
     close = ohlc["close"].values; high = ohlc["high"].values; low = ohlc["low"].values
-    sig = trend_signal(ohlc["close"], cfg["ema_fast"], cfg["ema_slow"]).shift(1).fillna(0.0).values
+    # LONG-ONLY trend, exit on flip. (Chandelier + re-entry were tested and did NOT survive
+    # causal validation - the earlier gain was a look-ahead artifact; see MENTOR docs.)
+    sig = trend_signal(ohlc["close"], cfg["ema_fast"], cfg["ema_slow"]).clip(lower=0).shift(1).fillna(0.0).values
     passes = 0; total = 0; days = []; reasons = {}
     for s in range(0, len(close) - 30, step):
         ok, d, why = simulate_combine(close, high, low, sig, s, account,
