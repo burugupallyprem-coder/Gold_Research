@@ -1,1 +1,28 @@
-{"account":"50k","combine_start":null,"cfg":{},"history":[]}
+{
+  "account": "50k",
+  "combine_start": "2026-08-02",
+  "cfg": {},
+  "history": [
+    {
+      "utc": "2026-08-04 00:21 UTC",
+      "status": "in_progress",
+      "balance": 0.0,
+      "days": 1
+    }
+  ],
+  "last_run": "2026-08-04 00:21 UTC",
+  "last_status": {
+    "status": "in_progress",
+    "reason": "",
+    "days": 1,
+    "balance": 0.0,
+    "floor": -2500.0,
+    "peak": 0.0,
+    "locked": false,
+    "target": 3000,
+    "today_contracts": 3,
+    "today_signal": 0.0
+  },
+  "source": "MGC (Databento GLBX.MDP3)",
+  "last_bar_processed": "2026-08-02"
+}
