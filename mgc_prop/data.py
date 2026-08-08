@@ -33,6 +33,19 @@ def load_mgc_databento(start="2020-01-01", end=None, max_cost_usd=5.0):
         end = (datetime.now(timezone.utc) - timedelta(days=1)).strftime("%Y-%m-%d")
     client = db.Historical(key)
     sym = ["MGC.v.0"]           # continuous front-month micro gold
+    # GLBX embargoes the most recent 1-2 days; asking past the dataset's available end
+    # returns HTTP 422 (data_end_after_available_end) - which then fell through to a
+    # spot-proxy CSV that is gitignored/absent in CI and crashed the run. Clamp `end`
+    # to what is actually available so the real-MGC path just works.
+    try:
+        rng = client.metadata.get_dataset_range(dataset="GLBX.MDP3")
+        avail_end = rng.get("end") or rng.get("available_end") or rng.get("end_date")
+        if avail_end is not None:
+            avail_end = str(pd.to_datetime(avail_end).date())
+            if end > avail_end:
+                end = avail_end
+    except Exception:
+        pass
     kw = dict(dataset="GLBX.MDP3", symbols=sym, stype_in="continuous",
               schema="ohlcv-1d", start=start, end=end)
     cost = float(client.metadata.get_cost(**kw))
@@ -53,5 +66,11 @@ def load_prices(prefer_mgc=True, **kw):
         try:
             return load_mgc_databento(**kw), "MGC (Databento GLBX.MDP3)"
         except Exception as e:
-            print(f"[mgc_prop] real MGC unavailable ({e}); using spot proxy.", flush=True)
-    return load_ohlc(), "XAU_USD spot proxy"
+            print(f"[mgc_prop] real MGC unavailable ({e}); trying spot proxy.", flush=True)
+    try:
+        return load_ohlc(), "XAU_USD spot proxy"
+    except Exception as e:
+        # The spot-proxy CSV (data/daily/XAU_USD_D.csv) is gitignored and absent in a
+        # fresh CI checkout. If BOTH sources are unavailable, signal 'no data' so the
+        # caller can skip cleanly instead of crashing the whole job.
+        raise RuntimeError(f"no price data available (MGC failed and spot-proxy CSV missing: {e})")

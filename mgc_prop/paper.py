@@ -31,7 +31,14 @@ def _save_state(st):
 def run(prefer_mgc=True):
     st = _load_state()
     cfg = {**DEFAULTS, **st.get("cfg", {})}
-    ohlc, source = load_prices(prefer_mgc=prefer_mgc)
+    try:
+        ohlc, source = load_prices(prefer_mgc=prefer_mgc)
+    except Exception as e:
+        print(f"[MGC-PAPER] no data this run - skipping cleanly, no state change: {e}")
+        return {"status": "no_data_skip", "reason": str(e)}
+    if ohlc is None or len(ohlc.index) == 0:
+        print("[MGC-PAPER] empty price data - skipping cleanly, no state change.")
+        return {"status": "no_data_skip", "reason": "empty"}
     dates = list(ohlc.index)
     latest_bar = str(pd.to_datetime(dates[-1]).date())
     # DEDUP: many staggered triggers fire (GitHub cron is late); only the FIRST run per
