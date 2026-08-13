@@ -88,6 +88,45 @@ flowchart LR
 
 ---
 
+## Full research log -- every strategy tested, and its honest verdict
+
+Beyond the headline SMC-vs-Macro story, the lab ran a wide, deliberately skeptical sweep across
+strategies, timeframes and markets. Listing the failures is the point: **rejecting** ideas
+cheaply, before any capital, is the product. Full, reproducible write-ups live in [`reports/`](reports/).
+
+| Strategy tested | Market / TF | Honest (selection-period) result | Verdict | Write-up |
+|---|---|---|---|---|
+| Gold SMC v8 (displacement / FVG / NY) | Gold M15 | -0.016R OOS, PF < 1 at 5x cost | **NO edge** | falsified (see story) |
+| Macro-Trend (TSMOM + real-yield + vol-target) | Gold daily | ~0.5 full-sample Sharpe, survives 5x | **Modest edge (champion)** | [bake-off](reports/strategy_bakeoff_2026-07-22.md) |
+| FVG+NY + daily-trend "honest router" | Gold M15 | selection Sharpe 0.55, **negative at 3x cost**, 87% long | thin, cost-fragile, loses to buy-and-hold | [rigorous](reports/rigorous_backtest_2026-07-22.md) |
+| ATR-volatility-gated stack | Gold M15 | the *only* change that improved validation **and** survived 5x | promising; forward-test only | [robustness](reports/robustness_study_2026-07-25.md) |
+| Opening-Range Breakout (ORB) | Gold M15 | negative even frictionless | **NO edge** (doesn't port from stocks) | [ORB verdict](reports/orb_gold_verdict_2026-07-22.md) |
+| "Advanced Price Action" (3-drives + wedge) | Gold M15/H1 | flat at scale; a hand-picked-chart mirage | **NO edge** | [APA verdict](reports/apa_verdict_2026-07-23.md) |
+| Intraday stack ported to EUR/USD | FX M15 | selection -0.003R, fails the gate | **NO edge** (doesn't port to FX majors) | [FX verdict](reports/fx_port/EUR_USD_verdict_2026-07-26.md) |
+| 84 CTA combos x instruments (deflated) | Futures / crypto daily | best deflates to 0.51 < 0.95 | consistent with luck; **deploy nothing** | strat-scan |
+
+**Two discipline artifacts worth calling out:**
+
+- **Honest router vs. the hindsight mirage** -- a deliberately-cheating "best-of-each-week" curve
+  (weekly Sharpe ~5, +8,700%) was built *beside* the honest router to show exactly how an overfit
+  combination looks, and to prove the honest number can't be contaminated by it. [Report](reports/honest_router_vs_hindsight_2026-07-25.md).
+- **Independent verification pass** -- answered a skeptical professional trader's six audit
+  questions with reproducible code, a per-trade log, and machine-checked no-look-ahead proofs.
+  [Methodology](reports/verification_methodology_2026-07-25.md) - code in [`research/router_audit/`](research/router_audit/), FX port in [`research/fx_port/`](research/fx_port/).
+
+### Deployment readiness (honest, as of 2026-08)
+
+**No strategy has cleared the bar for real capital -- gold, FX, or futures.** The daily
+Macro-Trend champion is the one modest, cost-surviving edge, and it forward-trades on **paper
+only**; it is currently flat (the signal says stay out). The MGC / Apex combine runs as a
+**paper** prop-account simulation on real Databento futures data and has **not yet built a track
+record** (it has been flat, taking no trades). Nothing here justifies funding an Apex 50k/100k
+account or going live on FX today. Real-money funding stays gated behind: months of forward paper
+matching expectations, an explicit human decision, and -- for the operator -- the documented
+F-1 / legal clearance steps. **Paper only. Not financial advice.**
+
+---
+
 ## Safety model (live paper)
 
 The paper executor is the only component that places orders, and only on the **practice** account. Before any order it enforces: a `STOP` kill-switch file, a stale-data guard, a notional cap (default **1x NAV -- no leverage**), a human-approved guards file, dry-run mode, and try/except around every broker call (errors -> stand down, never act on bad data). It is **locked to the validated champion** and will never trade the research lab's unconfirmed challengers. The self-learning loop can only *propose* changes; **a human applies them.** Real-capital trading is intentionally **not** implemented -- that step requires months of paper results matching expectations and an explicit human decision.
