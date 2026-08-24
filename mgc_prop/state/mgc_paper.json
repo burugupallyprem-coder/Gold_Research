@@ -92,14 +92,20 @@
       "status": "in_progress",
       "balance": -364.5,
       "days": 17
+    },
+    {
+      "utc": "2026-08-24 23:28 UTC",
+      "status": "in_progress",
+      "balance": -729.0,
+      "days": 18
     }
   ],
-  "last_run": "2026-08-22 01:56 UTC",
+  "last_run": "2026-08-24 23:28 UTC",
   "last_status": {
     "status": "in_progress",
     "reason": "",
-    "days": 17,
-    "balance": -364.5,
+    "days": 18,
+    "balance": -729.0,
     "floor": -2500.0,
     "peak": 0.0,
     "locked": false,
@@ -108,5 +114,5 @@
     "today_signal": 1.0
   },
   "source": "MGC (Databento GLBX.MDP3)",
-  "last_bar_processed": "2026-08-20"
+  "last_bar_processed": "2026-08-21"
 }
