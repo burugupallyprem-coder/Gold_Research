@@ -1,7 +1,7 @@
 {
-  "cash": 148591.54499999998,
+  "cash": 100382.26499999998,
   "positions": {
-    "XAU_USD": -12
+    "XAU_USD": 0
   },
   "fills": [
     {
@@ -75,6 +75,15 @@
       "mark_price": 3995.81,
       "cash_after": 148591.54,
       "units_after": -12
+    },
+    {
+      "ts": "2026-10-27T02:04:15.030162+00:00",
+      "instrument": "XAU_USD",
+      "units": 12,
+      "fill_price": 4017.44,
+      "mark_price": 4017.19,
+      "cash_after": 100382.26,
+      "units_after": 0
     }
   ]
 }
