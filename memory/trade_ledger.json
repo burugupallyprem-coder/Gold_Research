@@ -2088,5 +2088,24 @@
       "ry_mom": 0.2599999999999998,
       "realized_vol": 0.16721657030705095
     }
+  },
+  {
+    "ts": "2026-10-31T06:13:31.113892+00:00",
+    "date": "2026-10-31",
+    "instrument": "XAU_USD",
+    "price": 3875.645,
+    "nav": 100382.26499999998,
+    "weight": -0.48606123092822984,
+    "prev_units": 0.0,
+    "delta": -13.0,
+    "held_units": -13.0,
+    "champion": "baseline",
+    "mode": "SIM-paper",
+    "features": {
+      "direction": -1.0,
+      "pos_dir": -1.0,
+      "ry_mom": 0.19999999999999973,
+      "realized_vol": 0.20573539635948804
+    }
   }
 ]
