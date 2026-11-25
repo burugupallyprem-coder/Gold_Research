@@ -1,17 +1,24 @@
 {
-  "ts": "2026-11-25T09:03:24.078876+00:00",
+  "ts": "2026-11-24T06:56:56.409834+00:00",
   "mode": "SIM-paper",
   "champion": "baseline",
-  "weight": -0.31511303621618064,
-  "price": 3556.365,
-  "nav": 101540.35499999998,
-  "current_units": -9.0,
+  "weight": -0.31486269700728636,
+  "price": 3634.795,
+  "nav": 100834.735,
+  "current_units": -10.0,
   "order": {
     "target_units": -9,
-    "delta": 0,
-    "reason": "within tolerance"
+    "delta": 1,
+    "reason": "rebalance"
   },
   "result": {
-    "status": "no change"
+    "status": "sim_filled",
+    "ts": "2026-11-24T06:56:56.176901+00:00",
+    "instrument": "XAU_USD",
+    "units": 1,
+    "fill_price": 3635.045,
+    "mark_price": 3634.795,
+    "cash_after": 133547.64,
+    "units_after": -9
   }
 }
